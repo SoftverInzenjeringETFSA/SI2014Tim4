@@ -11,7 +11,7 @@ public class PocetniEkran {
 	private JFrame frmPoetniEkran;
 
 	/**
-	 * Launch the application.
+	 * Launch the application from here.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
