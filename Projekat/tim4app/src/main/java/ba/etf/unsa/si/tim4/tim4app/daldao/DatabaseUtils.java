@@ -2,6 +2,8 @@ package ba.etf.unsa.si.tim4.tim4app.daldao;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -26,6 +28,7 @@ public class DatabaseUtils {
 		}
 		catch(Exception e){ 
 			System.out.println(e.getMessage() + " metoda getConnection()");
+			logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}
@@ -44,6 +47,7 @@ public class DatabaseUtils {
 			catch(SQLException e)
 			{
 				printExceptionMessage(e.getMessage(), "getPreparedStatement()");
+				logException(Level.SEVERE, e.getMessage(), e);
 				return null;
 			}
 		}
@@ -67,6 +71,10 @@ public class DatabaseUtils {
 		System.out.println(message + " metoda " + methodName);
 	}
 	
-	
+	public void logException(Level level, String message, Throwable t)
+	{
+		Logger l = Logger.getAnonymousLogger();
+		l.log(level, message, t);
+	}
 	
 }

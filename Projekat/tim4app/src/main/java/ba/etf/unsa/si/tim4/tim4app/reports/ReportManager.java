@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -54,6 +55,7 @@ public class ReportManager {
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "printParameterlessReport");
 			e.printStackTrace();
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -84,6 +86,7 @@ public class ReportManager {
 			catch(JRException e)
 			{
 				dbUtils.printExceptionMessage(e.getMessage(), "printParameterReport case 1");
+				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		else if(reportPath.equals("Reports/izvjestajTrenutnogStanjaZaKomitenta.jrxml"))

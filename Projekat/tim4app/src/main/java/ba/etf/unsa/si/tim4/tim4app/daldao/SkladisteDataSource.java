@@ -4,6 +4,7 @@ package ba.etf.unsa.si.tim4.tim4app.daldao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 
@@ -33,6 +34,7 @@ public class SkladisteDataSource {
 		catch(SQLException e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca insert");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -52,6 +54,7 @@ public class SkladisteDataSource {
 		catch(SQLException e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca update");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -67,6 +70,7 @@ public class SkladisteDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste_plinskih_boca delete");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -94,6 +98,7 @@ public class SkladisteDataSource {
 		catch(SQLException e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}
@@ -116,6 +121,7 @@ public class SkladisteDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "getCount()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return -1;
 		}
 	}

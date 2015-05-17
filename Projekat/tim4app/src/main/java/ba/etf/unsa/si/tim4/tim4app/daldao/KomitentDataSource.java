@@ -3,6 +3,7 @@ package ba.etf.unsa.si.tim4.tim4app.daldao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
@@ -147,6 +148,7 @@ public class KomitentDataSource {
 					return toRet;
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentById()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}
@@ -182,6 +184,7 @@ public class KomitentDataSource {
 
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentByJMB()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}
@@ -217,6 +220,7 @@ public class KomitentDataSource {
 
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentByJMB()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}
@@ -252,6 +256,7 @@ public class KomitentDataSource {
 
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentByJMB()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}
@@ -290,6 +295,7 @@ public class KomitentDataSource {
 			return toRet;
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
 	}

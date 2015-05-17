@@ -2,7 +2,11 @@ package ba.etf.unsa.si.tim4.tim4app.daldao;
 
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.mysql.jdbc.PreparedStatement;
+
 import ba.etf.unsa.si.tim4.tim4app.classes.Izvjestaj;
 
 public class IzvjestajiDataSource {
@@ -32,6 +36,7 @@ public class IzvjestajiDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj insert");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -52,6 +57,7 @@ public class IzvjestajiDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj update");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -67,6 +73,7 @@ public class IzvjestajiDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj delete");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -88,7 +95,9 @@ public class IzvjestajiDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "getMaxId()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			return -1;
 		}
 	}
+	
 }

@@ -1,5 +1,8 @@
 package ba.etf.unsa.si.tim4.tim4app.daldao;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -8,8 +11,10 @@ public class HibernateUtil {
 	static {
 		try {
 			sessionFactory = new Configuration().configure().buildSessionFactory();
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			System.err.println("Initial SessionFactory creation failed." + ex);
+			Logger l = Logger.getAnonymousLogger();
+			l.log(Level.SEVERE, ex.getMessage(), ex);
 			throw new ExceptionInInitializerError(ex);
 		}
 	}
