@@ -1,6 +1,7 @@
 package ba.etf.unsa.si.tim4.tim4app.reports;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,15 +15,24 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.Izvjestaj;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.daldao.DatabaseUtils;
+import ba.etf.unsa.si.tim4.tim4app.daldao.IzvjestajiDataSource;
+import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
 
 import com.mysql.jdbc.Connection;
 
 public class ReportManager {
 	
-	public ReportManager() { }
+	private boolean isSkladisteEmpty = false;
+	
+	public ReportManager() 
+	{
+		SkladisteDataSource sd = new SkladisteDataSource();
+		isSkladisteEmpty = sd.getCount() == 0 ? true : false;
+	}
 	
 	// metoda prima put do .jrxml filea
 	// izvjestaji bez parametara
@@ -66,6 +76,10 @@ public class ReportManager {
 			JasperExportManager.exportReportToPdfFile(jasperPrint,
 	                  "C://Users//Granulo//" + reportName + "-" + date + ".pdf");
 			JasperViewer.viewReport(jasperPrint, false);
+			IzvjestajiDataSource ids = new IzvjestajiDataSource();
+			int maxId = ids.getMaxId();
+			Izvjestaj toInsert = new Izvjestaj(formBrojIzvjestaja(maxId, currentDate), currentDate, serijskiBroj, "Izvjestaj za pojedinacni plinski rezervoar");
+			ids.insert(toInsert);
 			}
 			catch(JRException e)
 			{
@@ -123,4 +137,18 @@ public class ReportManager {
 			if(reportCase == 2 || reportCase == 3) printParameterReport(pathToPrint, parameter);
 		}
 	}
+	
+	public String formBrojIzvjestaja(int maxId, Date currentDate)
+	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(currentDate);
+		int year = c.get(Calendar.YEAR);
+		return maxId + "-" + year;
+	}
+	
+	public boolean getSkladisteEmpty()
+	{
+		return isSkladisteEmpty;
+	}
+	
 }

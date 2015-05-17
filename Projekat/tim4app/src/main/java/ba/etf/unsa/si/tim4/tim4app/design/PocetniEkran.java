@@ -135,6 +135,7 @@ public class PocetniEkran extends JFrame {
 		kreirajIzvjestajButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ReportManager rm = new ReportManager();
+				boolean empty = rm.getSkladisteEmpty();
 				int comboIndex = izborIzvjestajaComboBox.getSelectedIndex();
 				if(serijskiBrojTextField.isVisible() && !komitentIzvjestajComboBox.isVisible())
 				{
@@ -146,7 +147,11 @@ public class PocetniEkran extends JFrame {
 				{
 					rm.printReport(comboIndex, komitentIzvjestajComboBox.getSelectedItem());
 				}
-				else rm.printReport(comboIndex, null);
+				else 
+				{
+					if(!empty) rm.printReport(comboIndex, null);
+					else { showMessageBox("Na skladištu nema plinskih boca!", "Greška"); return; }
+				}
 			}
 		});
 		kreirajIzvjestajButton.setBounds(538, 224, 136, 23);

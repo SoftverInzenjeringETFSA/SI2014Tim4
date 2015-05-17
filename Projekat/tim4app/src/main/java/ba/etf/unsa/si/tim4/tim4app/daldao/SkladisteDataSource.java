@@ -97,4 +97,26 @@ public class SkladisteDataSource {
 			return null;
 		}
 	}
+	
+	public int getCount()
+	{
+		String query = "SELECT count(*) FROM skladiste_plinskih_boca";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return -1;
+		try
+		{
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				int count = rs.getInt(1);
+				return count;
+			}
+			return -1;
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "getCount()");
+			return -1;
+		}
+	}
 }
