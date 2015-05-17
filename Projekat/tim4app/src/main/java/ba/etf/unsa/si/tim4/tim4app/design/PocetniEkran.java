@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.border.LineBorder;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -26,6 +27,8 @@ import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
+import ba.etf.unsa.si.tim4.tim4app.reports.ReportManager;
+import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
 public class PocetniEkran extends JFrame {
 
@@ -43,6 +46,7 @@ public class PocetniEkran extends JFrame {
 	private JButton kreirajIzvjestajButton;
 	private JPanel parametriIzvjestajaPanel;
 	private JComboBox komitentIzvjestajComboBox;
+	private Validator validator;
 
 	/**
 	 * Launch the application.
@@ -71,6 +75,7 @@ public class PocetniEkran extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		validator = new Validator();
 		
 		comboBoxSelectionChangedListener = new ItemChangeListener();
 		
@@ -93,10 +98,11 @@ public class PocetniEkran extends JFrame {
 		panel.add(lblIzaberiteIzvjetaj);
 		
 		izborIzvjestajaComboBox = new JComboBox();
-		izborIzvjestajaComboBox.setModel(new DefaultComboBoxModel(new String[] {"Izvještaj za pojedinačni veliki plinski rezervoar", "Izvještaj o trenutnom stanju za komitenta", "Izvještaj o stanju plinskih boca na skladištu", "Izvještaj o stanju velikih plinskih rezervoara na skladištu"}));
+		izborIzvjestajaComboBox.setModel(new DefaultComboBoxModel(new String[] {"Izvještaj o stanju plinskih boca na skladištu", "Izvještaj o stanju velikih plinskih rezervoara na skladištu", "Izvještaj za pojedinačni veliki plinski rezervoar", "Izvještaj o trenutnom stanju za komitenta"}));
 		izborIzvjestajaComboBox.setBounds(10, 36, 345, 20);
 		izborIzvjestajaComboBox.addItemListener(comboBoxSelectionChangedListener);
 		panel.add(izborIzvjestajaComboBox);
+		izborIzvjestajaComboBox.setSelectedIndex(0);
 		
 		parametriIzvjestajaPanel = new JPanel();
 		parametriIzvjestajaPanel.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
@@ -107,21 +113,42 @@ public class PocetniEkran extends JFrame {
 		labelaParametriLabel = new JLabel("Unesite serijski broj:");
 		labelaParametriLabel.setBounds(10, 11, 165, 14);
 		parametriIzvjestajaPanel.add(labelaParametriLabel);
+		labelaParametriLabel.setText("Za ovaj izvještaj nisu potrebni parametri.");
+		labelaParametriLabel.setSize(labelaParametriLabel.getPreferredSize());
 		
 		serijskiBrojTextField = new JTextField();
 		serijskiBrojTextField.setBounds(10, 36, 165, 20);
 		parametriIzvjestajaPanel.add(serijskiBrojTextField);
 		serijskiBrojTextField.setColumns(10);
+		serijskiBrojTextField.setVisible(false);
 		
 		komitentIzvjestajComboBox = new JComboBox();
 		komitentIzvjestajComboBox.setBounds(10, 36, 165, 20);
 		parametriIzvjestajaPanel.add(komitentIzvjestajComboBox);
+		komitentIzvjestajComboBox.setVisible(false);
 		
 		JLabel lblParametriIzvjetaja = new JLabel("Parametri izvještaja:");
 		lblParametriIzvjetaja.setBounds(380, 11, 119, 14);
 		panel.add(lblParametriIzvjetaja);
 		
 		kreirajIzvjestajButton = new JButton("Kreiraj izvještaj");
+		kreirajIzvjestajButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReportManager rm = new ReportManager();
+				int comboIndex = izborIzvjestajaComboBox.getSelectedIndex();
+				if(serijskiBrojTextField.isVisible() && !komitentIzvjestajComboBox.isVisible())
+				{
+					String validation = validator.validateSerijskiBroj(serijskiBrojTextField.getText());
+					if(validation != ""){ showMessageBox(validation, "Greška"); return; }
+					rm.printReport(comboIndex, serijskiBrojTextField.getText());
+				}
+				else if(!serijskiBrojTextField.isVisible() && komitentIzvjestajComboBox.isVisible())
+				{
+					rm.printReport(comboIndex, komitentIzvjestajComboBox.getSelectedItem());
+				}
+				else rm.printReport(comboIndex, null);
+			}
+		});
 		kreirajIzvjestajButton.setBounds(538, 224, 136, 23);
 		panel.add(kreirajIzvjestajButton);
 		
@@ -307,6 +334,12 @@ public class PocetniEkran extends JFrame {
 		
 	}
 	
+	
+	private void showMessageBox(String message, String messageBoxTitle)
+	{
+		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
+	}
+	
 	class ItemChangeListener implements ItemListener
 	{
 	    public void itemStateChanged(ItemEvent event) {
@@ -314,7 +347,6 @@ public class PocetniEkran extends JFrame {
 	    	   
 	    	   // uzimamo objekat na kojem se desio događaj
 	    	   Object sourceObject = event.getSource();
-	    	   
 	    	   // određujemo koji je od objekata bio
 	    	   if(sourceObject == izborIzvjestajaComboBox)
 	    	   {
