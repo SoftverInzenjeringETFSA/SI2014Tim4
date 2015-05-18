@@ -62,6 +62,7 @@ public class DatabaseUtils {
 				if(!currentConnection.isClosed()) currentConnection.close();
 			} catch (SQLException e) {
 				printExceptionMessage(e.getMessage(), "closeCurrentConnection()");
+				logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 	}

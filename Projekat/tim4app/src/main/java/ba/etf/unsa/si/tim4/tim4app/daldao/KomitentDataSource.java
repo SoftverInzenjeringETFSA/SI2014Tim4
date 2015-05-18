@@ -59,6 +59,7 @@ public class KomitentDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "komitent insert");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -99,6 +100,7 @@ public class KomitentDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "komitent update");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
@@ -114,6 +116,7 @@ public class KomitentDataSource {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "komitent delete");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 	
