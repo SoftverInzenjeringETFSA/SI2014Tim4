@@ -53,6 +53,7 @@
 		</field>
 		<field name="Koli?ina" class="java.lang.Integer"/>
 	</subDataset>
+	<parameter name="P_LOGO_IMAGE" class="java.lang.Object"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT kapacitet, kolicina FROM skladiste_plinskih_boca]]>
 	</queryString>
@@ -81,7 +82,7 @@ Datum izvještaja:]]></text>
 			</staticText>
 			<image>
 				<reportElement x="401" y="0" width="154" height="114" uuid="1bd03206-7d27-4732-a98b-56fa7e809d47"/>
-				<imageExpression><![CDATA["C:\\Users\\Granulo\\Desktop\\SI screenovi\\LOGO.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{P_LOGO_IMAGE}]]></imageExpression>
 			</image>
 			<textField pattern="dd.MM.yyyy">
 				<reportElement x="102" y="83" width="100" height="20" uuid="554e976e-f083-4fd7-805b-669591f36511"/>

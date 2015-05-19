@@ -17,7 +17,7 @@ public class Korisnik {
 	public Korisnik(String mTipKorisnika, String mUsername, String mPassword,
 			String mIme, String mPrezime, String mBrojLicneKarte,
 			String mAdresa, String mBrojTelefona, String mDatumZaposlenja) {
-		super();
+
 		this.mTipKorisnika = mTipKorisnika;
 		this.mUsername = mUsername;
 		this.mPassword = mPassword;

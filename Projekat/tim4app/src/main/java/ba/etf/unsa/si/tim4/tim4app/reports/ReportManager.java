@@ -6,6 +6,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.prefs.Preferences;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -26,11 +30,16 @@ import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
 public class ReportManager {
 	
 	private boolean isSkladisteEmpty = false;
+	private String pathToFolder = "";
+	private PreferenceManager folderManager = new PreferenceManager();
+	private static final String LOGO_PATH = "Images/LOGO.jpg";
+
 	
 	public ReportManager() 
 	{
 		SkladisteDataSource sd = new SkladisteDataSource();
 		isSkladisteEmpty = sd.getCount() == 0 ? true : false;
+		pathToFolder = folderManager.getChosenPath();
 	}
 	
 	// metoda prima put do .jrxml filea
@@ -41,12 +50,13 @@ public class ReportManager {
 		try
 		{
 			HashMap hm = new HashMap();	
+			hm.put("P_LOGO_IMAGE", getReportLogoImage());
 			Date currentDate = new Date();
 			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, hm, dbUtils.getConnection());
 			String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 			JasperExportManager.exportReportToPdfFile(jasperPrint,
-	                  "C://Users//Granulo//" + reportName + "-" + date + ".pdf");
+	                  pathToFolder + reportName + "-" + date + ".pdf");
 			JasperViewer.viewReport(jasperPrint, false);
 		}
 		catch(Exception e)
@@ -68,13 +78,14 @@ public class ReportManager {
 			String reportName = "izvjestajZaPojedinacniPlinskiRezervoar" + serijskiBroj;
 			Map parametersMap = new HashMap();
 			parametersMap.put("P_SERIJSKI_BROJ", serijskiBroj);
+			parametersMap.put("P_LOGO_IMAGE", getReportLogoImage());
 			Date currentDate = new Date();
 			try{
 				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
 				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 				JasperExportManager.exportReportToPdfFile(jasperPrint,
-		                  "C://Users//Granulo//" + reportName + "-" + date + ".pdf");
+		                  pathToFolder + reportName + "-" + date + ".pdf");
 				JasperViewer.viewReport(jasperPrint, false);
 				IzvjestajiDataSource ids = new IzvjestajiDataSource();
 				int maxId = ids.getMaxId();
@@ -150,6 +161,12 @@ public class ReportManager {
 	public boolean getSkladisteEmpty()
 	{
 		return isSkladisteEmpty;
+	}
+	
+	private java.awt.Image getReportLogoImage()
+	{
+		ImageIcon icon = new ImageIcon(LOGO_PATH);
+		return icon.getImage();
 	}
 	
 }
