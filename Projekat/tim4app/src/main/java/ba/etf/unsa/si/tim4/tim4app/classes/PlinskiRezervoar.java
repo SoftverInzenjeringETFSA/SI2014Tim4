@@ -8,14 +8,14 @@ public class PlinskiRezervoar {
 	private String mSerijskiBroj;
 	private int mKapacitet;
 	private int mTezina;
-	private boolean mNapunjenost;
+	private int mNapunjenost;
 	private String mTipRezervoara;
 	private Date mDatumZadnjegBazdarenja;
 	private String mLokacija;
 	private String mTrenutniStatus;
 	
 	public PlinskiRezervoar(String mSerijskiBroj, int mKapacitet,
-			int mTezina, boolean mNapunjenost, String mTipRezervoara,
+			int mTezina, int mNapunjenost, String mTipRezervoara,
 			Date mDatumZadnjegBazdarenja, String mLokacija,
 			String mTrenutniStatus) {
 		this.mSerijskiBroj = mSerijskiBroj;
@@ -53,10 +53,10 @@ public class PlinskiRezervoar {
 	public void setTezina(int mTezina) {
 		this.mTezina = mTezina;
 	}
-	public boolean isNapunjenost() {
+	public int getNapunjenost() {
 		return mNapunjenost;
 	}
-	public void setNapunjenost(boolean mNapunjenost) {
+	public void setNapunjenost(int mNapunjenost) {
 		this.mNapunjenost = mNapunjenost;
 	}
 	public String getTipRezervoara() {

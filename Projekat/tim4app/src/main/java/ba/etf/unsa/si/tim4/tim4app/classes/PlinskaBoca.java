@@ -13,6 +13,13 @@ public class PlinskaBoca {
 		this.mCijena = cijena;
 		this.mKolicina = kolicina;
 	}
+	
+	// bitan samo za historiju izvjestaja
+	public PlinskaBoca(int kapacitet, int kolicina)
+	{
+		this.mKapacitet = kapacitet;
+		this.mKolicina = kolicina;
+	}
 
 	public int getKapacitet() {
 		return mKapacitet;

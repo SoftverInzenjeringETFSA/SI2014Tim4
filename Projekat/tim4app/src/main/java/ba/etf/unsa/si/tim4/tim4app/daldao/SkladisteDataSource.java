@@ -111,6 +111,38 @@ public class SkladisteDataSource {
 		}
 	}
 	
+	public PlinskaBoca getById(int id)
+	{
+		String query = "SELECT id, kapacitet, kolicina, cijena FROM skladiste_plinskih_boca WHERE id=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		PlinskaBoca toRet = null;
+		if(ps == null) return null;
+		try
+		{
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				int idValue = rs.getInt(1);
+				int kapacitet = rs.getInt(2);
+				int kolicina = rs.getInt(3);
+				double cijena = rs.getDouble(4);
+				PlinskaBoca pb = new PlinskaBoca(kapacitet, cijena, kolicina);
+				pb.setId(idValue);
+				toRet = pb;
+			}
+			dbUtils.closeCurrentConnection();
+			return toRet;
+		}
+		catch(SQLException e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return null;
+		}
+	}
+	
 	public int getCount()
 	{
 		String query = "SELECT count(*) FROM skladiste_plinskih_boca";

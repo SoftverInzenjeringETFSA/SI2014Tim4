@@ -1,6 +1,7 @@
 package ba.etf.unsa.si.tim4.tim4app.daldao;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.logging.Level;
 
@@ -85,14 +86,56 @@ public class IzvjestajiStanjaDataSource {
 	public LinkedList<PlinskiRezervoar> getStavkeIzvjestajaRezervoari(int izvjestaj_stanja)
 	{
 		LinkedList<PlinskiRezervoar> toRet = new LinkedList<PlinskiRezervoar>();
-		String query = "SELECT ";
-		return toRet;
+		String query = "SELECT rezervoar FROM izvjestaji_stanja_stavke WHERE izvjestaj=?";
+		PlinskiRezervoarDataSource prds = new PlinskiRezervoarDataSource();
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return toRet;
+		try
+		{
+			ps.setInt(1, izvjestaj_stanja);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				toRet.add(prds.getRezervoarById(rs.getInt(1)));
+			}
+			dbUtils.closeCurrentConnection();
+			return toRet;
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "GetStavkeIzvjestajaRezervoari()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return toRet;
+		}
 	}
 	
 	public LinkedList<PlinskaBoca> getStavkeIzvjestajaBoce(int izvjestaj_stanja)
 	{
 		LinkedList<PlinskaBoca> toRet = new LinkedList<PlinskaBoca>();
-		
-		return toRet;
+		String query = "SELECT kapacitet, kolicina FROM izvjestaji_stanja_stavke WHERE izvjestaj=? AND kapacitet IS NOT NULL AND kolicina IS NOT NULL";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return toRet;
+		try
+		{
+			ps.setInt(1, izvjestaj_stanja);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				int kapacitet = rs.getInt(1);
+				int kolicina = rs.getInt(2);
+				PlinskaBoca pb = new PlinskaBoca(kapacitet, kolicina);
+				toRet.add(pb);
+			}
+			dbUtils.closeCurrentConnection();
+			return toRet;
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "GetStavkeIzvjestajaRezervoari()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return toRet;
+		}
 	}
 }

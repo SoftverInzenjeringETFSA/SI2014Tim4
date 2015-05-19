@@ -3,8 +3,6 @@ package ba.etf.unsa.si.tim4.tim4app.daldao;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.mysql.jdbc.PreparedStatement;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.Izvjestaj;
