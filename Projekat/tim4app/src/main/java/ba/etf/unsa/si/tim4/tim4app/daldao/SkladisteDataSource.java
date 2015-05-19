@@ -30,11 +30,13 @@ public class SkladisteDataSource {
 			ps.setInt(2, pb.getKolicina());
 			ps.setDouble(3, pb.getCijena());
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(SQLException e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca insert");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -50,11 +52,13 @@ public class SkladisteDataSource {
 			ps.setDouble(3, pb.getCijena());
 			ps.setInt(4, pb.getId());
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(SQLException e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca update");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -66,11 +70,13 @@ public class SkladisteDataSource {
 		try{
 			ps.setInt(1, id);
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste_plinskih_boca delete");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -93,12 +99,14 @@ public class SkladisteDataSource {
 				pb.setId(id);
 				toRet.add(pb);
 			}
+			dbUtils.closeCurrentConnection();
 			return toRet;
 		}
 		catch(SQLException e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca getAll()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return null;
 		}
 	}
@@ -114,14 +122,17 @@ public class SkladisteDataSource {
 			while(rs.next())
 			{
 				int count = rs.getInt(1);
+				dbUtils.closeCurrentConnection();
 				return count;
 			}
+			dbUtils.closeCurrentConnection();
 			return -1;
 		}
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "getCount()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return -1;
 		}
 	}

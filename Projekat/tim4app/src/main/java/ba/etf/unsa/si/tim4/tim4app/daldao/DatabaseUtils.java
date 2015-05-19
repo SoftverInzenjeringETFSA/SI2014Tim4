@@ -41,6 +41,16 @@ public class DatabaseUtils {
 		{
 			try
 			{
+				if(currentConnection.isClosed()) currentConnection = getConnection();
+			}
+			catch(Exception e)
+			{
+				printExceptionMessage(e.getMessage(), "getPreparedStatement()");
+				logException(Level.SEVERE, e.getMessage(), e);
+				return null;
+			}
+			try
+			{
 				PreparedStatement ps = (PreparedStatement) currentConnection.prepareStatement(query);
 				return ps;
 			}
@@ -76,6 +86,11 @@ public class DatabaseUtils {
 	{
 		Logger l = Logger.getAnonymousLogger();
 		l.log(level, message, t);
+	}
+	
+	public java.sql.Date getSqlDate(java.util.Date date)
+	{
+		return new java.sql.Date(date.getTime());
 	}
 	
 }

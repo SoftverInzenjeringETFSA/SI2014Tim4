@@ -55,11 +55,13 @@ public class KomitentDataSource {
 				ps.setString(8, fk.getBrojLicneKarte());
 			}
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "komitent insert");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -96,11 +98,13 @@ public class KomitentDataSource {
 				ps.setString(8, fk.getBrojLicneKarte());
 			}
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "komitent update");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -112,11 +116,13 @@ public class KomitentDataSource {
 		try{
 			ps.setInt(1, id);
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "komitent delete");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -148,10 +154,12 @@ public class KomitentDataSource {
 						String brojLicneKarte = rs.getString(8);
 						toRet = new FizickiKomitent(ime, prezime, jmb, brojLicneKarte, id, tipKomitenta, adresa, brojTelefona, eMail);
 					}
+					dbUtils.closeCurrentConnection();
 					return toRet;
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentById()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return null;
 		}
 	}
@@ -174,6 +182,7 @@ public class KomitentDataSource {
 					{
 						String nazivFirme = rs.getString(9);
 						String pdvBroj = rs.getString(10);
+						dbUtils.closeCurrentConnection();
 						return new PravniKomitent(id, tipKomitenta, adresa, brojTelefona, eMail, nazivFirme, pdvBroj);
 					}
 					else
@@ -182,12 +191,14 @@ public class KomitentDataSource {
 						String prezime = rs.getString(6);
 						String jmbg = rs.getString(7);
 						String brojLicneKarte = rs.getString(8);
+						dbUtils.closeCurrentConnection();
 						return new FizickiKomitent(ime, prezime, jmbg, brojLicneKarte, id, tipKomitenta, adresa, brojTelefona, eMail);
 					}
 
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentByJMB()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return null;
 		}
 	}
@@ -224,6 +235,7 @@ public class KomitentDataSource {
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentByJMB()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return null;
 		}
 	}
@@ -260,6 +272,7 @@ public class KomitentDataSource {
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getKomitentByJMB()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return null;
 		}
 	}
@@ -295,10 +308,12 @@ public class KomitentDataSource {
 						
 					}
 				}
+			dbUtils.closeCurrentConnection();
 			return toRet;
 		} catch (SQLException e) {
 			dbUtils.printExceptionMessage(e.getMessage(), "getAll()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return null;
 		}
 	}

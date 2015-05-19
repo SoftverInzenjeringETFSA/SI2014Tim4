@@ -358,14 +358,14 @@ public class PocetniEkran extends JFrame {
 	    		   // selektovan je combobox na izvjestajima, sada mijenjamo parametre izvještaja na osnovu selekcije
 	    		   Object selectedItem = event.getItem();
 	    		   String selected = (String)selectedItem;
-	    		   if(selected == "Izvještaj za pojedinačni veliki plinski rezervoar")
+	    		   if(selected.equals("Izvještaj za pojedinačni veliki plinski rezervoar"))
 	    		   {
 	    			   serijskiBrojTextField.setVisible(true);
 	    			   komitentIzvjestajComboBox.setVisible(false);
 	    			   labelaParametriLabel.setText("Unesite serijski broj: ");
 	    			   labelaParametriLabel.setSize(labelaParametriLabel.getPreferredSize());
 	    		   }
-	    		   else if(selected == "Izvještaj o trenutnom stanju za komitenta")
+	    		   else if(selected.equals("Izvještaj o trenutnom stanju za komitenta"))
 	    		   {
 	    			   serijskiBrojTextField.setVisible(false);
 	    			   komitentIzvjestajComboBox.setVisible(true);
@@ -375,6 +375,7 @@ public class PocetniEkran extends JFrame {
 	    			   LinkedList<Komitent> komitenti = kds.getAll();
 	    			   if(komitenti != null)
 	    			   {
+	    				   komitentIzvjestajComboBox.removeAllItems();
 	    				   for(int i = 0; i < komitenti.size(); i++)
 	    				   {
 	    					   if(komitenti.get(i).getTipKomitenta().equals("Pravno lice"))
@@ -383,7 +384,7 @@ public class PocetniEkran extends JFrame {
 	    				   }
 	    			   }
 	    		   }
-	    		   else if(selected == "Izvještaj o stanju plinskih boca na skladištu")
+	    		   else if(selected.equals("Izvještaj o stanju plinskih boca na skladištu"))
 	    		   {
 	    			   serijskiBrojTextField.setVisible(false);
 	    			   komitentIzvjestajComboBox.setVisible(false);

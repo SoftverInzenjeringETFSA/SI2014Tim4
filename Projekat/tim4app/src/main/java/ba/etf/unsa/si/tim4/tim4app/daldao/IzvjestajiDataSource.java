@@ -29,14 +29,16 @@ public class IzvjestajiDataSource {
 		try{
 			ps.setString(1, toInsert.getTipIzvjestaja());
 			ps.setString(2, toInsert.getBrojIzvjestaja());
-			ps.setDate(3, new java.sql.Date(toInsert.getDatumIzvjestaja().getTime()));
+			ps.setDate(3, dbUtils.getSqlDate(toInsert.getDatumIzvjestaja()));
 			ps.setString(4, toInsert.getParametarIzvjestaja());
 			ps.execute();
+			dbUtils.closeCurrentConnection();
 		}
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj insert");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -58,6 +60,7 @@ public class IzvjestajiDataSource {
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj update");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -74,6 +77,7 @@ public class IzvjestajiDataSource {
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj delete");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 		}
 	}
 	
@@ -96,6 +100,7 @@ public class IzvjestajiDataSource {
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "getMaxId()");
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
 			return -1;
 		}
 	}

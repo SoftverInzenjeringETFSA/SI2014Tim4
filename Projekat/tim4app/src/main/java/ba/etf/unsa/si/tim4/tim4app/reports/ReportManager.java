@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -23,7 +22,6 @@ import ba.etf.unsa.si.tim4.tim4app.daldao.DatabaseUtils;
 import ba.etf.unsa.si.tim4.tim4app.daldao.IzvjestajiDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
 
-import com.mysql.jdbc.Connection;
 
 public class ReportManager {
 	
@@ -72,16 +70,16 @@ public class ReportManager {
 			parametersMap.put("P_SERIJSKI_BROJ", serijskiBroj);
 			Date currentDate = new Date();
 			try{
-			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
-			String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
-			JasperExportManager.exportReportToPdfFile(jasperPrint,
-	                  "C://Users//Granulo//" + reportName + "-" + date + ".pdf");
-			JasperViewer.viewReport(jasperPrint, false);
-			IzvjestajiDataSource ids = new IzvjestajiDataSource();
-			int maxId = ids.getMaxId();
-			Izvjestaj toInsert = new Izvjestaj(formBrojIzvjestaja(maxId, currentDate), currentDate, serijskiBroj, "Izvjestaj za pojedinacni plinski rezervoar");
-			ids.insert(toInsert);
+				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
+				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
+				JasperExportManager.exportReportToPdfFile(jasperPrint,
+		                  "C://Users//Granulo//" + reportName + "-" + date + ".pdf");
+				JasperViewer.viewReport(jasperPrint, false);
+				IzvjestajiDataSource ids = new IzvjestajiDataSource();
+				int maxId = ids.getMaxId();
+				Izvjestaj toInsert = new Izvjestaj(formBrojIzvjestaja(maxId, currentDate), currentDate, serijskiBroj, "Izvjestaj za pojedinacni plinski rezervoar");
+				ids.insert(toInsert);
 			}
 			catch(JRException e)
 			{
