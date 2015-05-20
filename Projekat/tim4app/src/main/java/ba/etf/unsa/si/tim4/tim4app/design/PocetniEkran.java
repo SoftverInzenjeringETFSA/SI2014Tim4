@@ -29,6 +29,11 @@ import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.reports.ReportManager;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
+import javax.swing.JRadioButton;
+import javax.swing.table.DefaultTableModel;
+import java.awt.ComponentOrientation;
+import java.awt.Component;
+import javax.swing.ListSelectionModel;
 
 public class PocetniEkran extends JFrame {
 
@@ -48,6 +53,10 @@ public class PocetniEkran extends JFrame {
 	private JPanel parametriIzvjestajaPanel;
 	private JComboBox komitentIzvjestajComboBox;
 	private Validator validator;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -168,6 +177,131 @@ public class PocetniEkran extends JFrame {
 		
 		JPanel fakturePanel = new JPanel();
 		tabbedPane.addTab("Fakture", null, fakturePanel, null);
+		fakturePanel.setLayout(null);
+		
+		JLabel lblPrijavljeniSteKao_1 = new JLabel("Prijavljeni ste kao:");
+		lblPrijavljeniSteKao_1.setBounds(30, 15, 94, 14);
+		fakturePanel.add(lblPrijavljeniSteKao_1);
+		
+		JButton btnOdjava_1 = new JButton("Odjava");
+		btnOdjava_1.setBounds(178, 11, 67, 23);
+		fakturePanel.add(btnOdjava_1);
+		
+		JLabel lblOdaberiteTipFakture = new JLabel("Odaberite tip fakture:");
+		lblOdaberiteTipFakture.setBounds(385, 16, 105, 14);
+		fakturePanel.add(lblOdaberiteTipFakture);
+		
+		JRadioButton rdbtnProdaja = new JRadioButton("Prodaja");
+		rdbtnProdaja.setBounds(511, 12, 67, 23);
+		fakturePanel.add(rdbtnProdaja);
+		
+		JRadioButton rdbtnIznajmljivajne = new JRadioButton("Iznajmljivajne");
+		rdbtnIznajmljivajne.setBounds(580, 12, 94, 23);
+		fakturePanel.add(rdbtnIznajmljivajne);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 40, 360, 253);
+		fakturePanel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblOdaberitePlinskiRezervoar = new JLabel("Odaberite plinski rezervoar");
+		lblOdaberitePlinskiRezervoar.setBounds(26, 11, 145, 14);
+		panel_1.add(lblOdaberitePlinskiRezervoar);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(166, 8, 165, 20);
+		panel_1.add(comboBox);
+		
+		JLabel lblDodajtePlinskeBoce = new JLabel("Dodajte plinske boce:");
+		lblDodajtePlinskeBoce.setBounds(26, 37, 126, 14);
+		panel_1.add(lblDodajtePlinskeBoce);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(26, 62, 305, 125);
+		panel_1.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel lblKapacitet = new JLabel("Kapacitet:");
+		lblKapacitet.setBounds(53, 11, 57, 14);
+		panel_2.add(lblKapacitet);
+		
+		JLabel lblBrojBoca = new JLabel("Broj boca:");
+		lblBrojBoca.setBounds(148, 11, 57, 14);
+		panel_2.add(lblBrojBoca);
+		
+		JLabel lbll_1 = new JLabel("5 (l)");
+		lbll_1.setBounds(81, 36, 29, 14);
+		panel_2.add(lbll_1);
+		
+		JLabel lbll_2 = new JLabel("10 (l)");
+		lbll_2.setBounds(81, 64, 29, 14);
+		panel_2.add(lbll_2);
+		
+		JLabel lbll = new JLabel("15 (l)");
+		lbll.setBounds(81, 97, 36, 14);
+		panel_2.add(lbll);
+		
+		textField = new JTextField();
+		textField.setBounds(140, 36, 86, 20);
+		panel_2.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(140, 61, 86, 20);
+		panel_2.add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(140, 94, 86, 20);
+		panel_2.add(textField_2);
+		textField_2.setColumns(10);
+		
+		JButton btnUnesiteRezervoare = new JButton("Unesite rezervoare");
+		btnUnesiteRezervoare.setBounds(187, 210, 126, 23);
+		panel_1.add(btnUnesiteRezervoare);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setAlignmentX(Component.LEFT_ALIGNMENT);
+		panel_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		panel_3.setBounds(385, 40, 309, 253);
+		fakturePanel.add(panel_3);
+		panel_3.setLayout(null);
+		
+		JLabel lblOdaberiteKomitenta = new JLabel("Odaberite komitenta:");
+		lblOdaberiteKomitenta.setBounds(10, 11, 110, 14);
+		panel_3.add(lblOdaberiteKomitenta);
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(130, 8, 169, 20);
+		panel_3.add(comboBox_1);
+		
+		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setRowHeight(25);
+		table.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		table.setFillsViewportHeight(true);
+		table.setBounds(22, 63, 277, 125);
+		panel_3.add(table);
+		table.setCellSelectionEnabled(true);
+		table.setColumnSelectionAllowed(true);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Red. br.", "Tip rezervoara", "Serijski broj", "Kapacitet", "Tezina", "Kolicina", "Cijena"
+			}
+		));
+		
+		JButton btnKreirajFaktru = new JButton("Kreiraj fakturu");
+		btnKreirajFaktru.setBounds(189, 211, 110, 31);
+		panel_3.add(btnKreirajFaktru);
+		table.getColumnModel().getColumn(0).setPreferredWidth(51);
+		table.getColumnModel().getColumn(1).setPreferredWidth(84);
 		
 		JPanel rezervoariPanel = new JPanel();
 		tabbedPane.addTab("Administracija rezervoara", null, rezervoariPanel, null);
