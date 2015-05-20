@@ -20,6 +20,7 @@ public class IzmjenaPodatakaFizickogKomitenta extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private JTextField textField_6;
 
 	/**
 	 * Launch the application.
@@ -43,11 +44,11 @@ public class IzmjenaPodatakaFizickogKomitenta extends JFrame {
 	public IzmjenaPodatakaFizickogKomitenta() {
 		setTitle("Izmjena podataka fizičkog komitenta");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 321);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[][][][][][][][][][][][grow][][]", "[][][][][][][][][][][][][][][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[][][][][grow][][][][][][][grow][][]", "[][][][][][][][][][][][][][][][][][][][][][]"));
 		
 		JLabel lblNewLabel = new JLabel("Ime:");
 		contentPane.add(lblNewLabel, "cell 3 1,alignx trailing");
@@ -80,22 +81,29 @@ public class IzmjenaPodatakaFizickogKomitenta extends JFrame {
 		contentPane.add(textField_3, "cell 4 7 5 1,growx");
 		textField_3.setColumns(10);
 		
-		JLabel lblTelefon = new JLabel("Telefon:");
+		JLabel lblTelefon = new JLabel("Adresa:");
 		contentPane.add(lblTelefon, "cell 3 9,alignx trailing");
 		
 		textField_4 = new JTextField();
 		contentPane.add(textField_4, "cell 4 9 5 1,growx");
 		textField_4.setColumns(10);
 		
-		JLabel lblEmail = new JLabel("E-mail:");
+		JLabel lblEmail = new JLabel("Telefon:");
 		contentPane.add(lblEmail, "cell 3 11,alignx trailing");
 		
 		textField_5 = new JTextField();
 		contentPane.add(textField_5, "cell 4 11 5 1,growx");
 		textField_5.setColumns(10);
 		
+		JLabel lblNewLabel_3 = new JLabel("E-mail:");
+		contentPane.add(lblNewLabel_3, "cell 3 14,alignx right,aligny baseline");
+		
+		textField_6 = new JTextField();
+		contentPane.add(textField_6, "cell 4 14 5 1,growx");
+		textField_6.setColumns(10);
+		
 		JButton btnNewButton = new JButton("Izmijeni");
-		contentPane.add(btnNewButton, "cell 8 14,alignx right");
+		contentPane.add(btnNewButton, "cell 8 19,alignx right");
 	}
 
 }
