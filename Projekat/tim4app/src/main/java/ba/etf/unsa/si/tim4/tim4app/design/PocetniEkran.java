@@ -32,6 +32,7 @@ import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
 public class PocetniEkran extends JFrame {
 
+
 	private JPanel contentPane;
 	private JTable pretragaKorisnikaTable;
 	private JTable pretragaKomitenataTable;
