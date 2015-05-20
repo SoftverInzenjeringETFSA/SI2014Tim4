@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginForma extends JFrame {
 
@@ -58,6 +60,13 @@ public class LoginForma extends JFrame {
 		usernameTextField.setColumns(10);
 		
 		JButton prijavaButton = new JButton("Prijava");
+		prijavaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) 
+			{
+				
+			}
+		});
 		prijavaButton.setBounds(170, 148, 125, 23);
 		panel.add(prijavaButton);
 		
