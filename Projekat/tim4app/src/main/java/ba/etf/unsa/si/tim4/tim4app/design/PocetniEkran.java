@@ -29,11 +29,17 @@ import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.reports.ReportManager;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
+
 import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.ComponentOrientation;
 import java.awt.Component;
+
 import javax.swing.ListSelectionModel;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class PocetniEkran extends JFrame {
 
@@ -88,7 +94,8 @@ public class PocetniEkran extends JFrame {
 		validator = new Validator();
 		
 		comboBoxSelectionChangedListener = new ItemChangeListener();
-		
+
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 709, 332);
 		contentPane.add(tabbedPane);
@@ -106,7 +113,7 @@ public class PocetniEkran extends JFrame {
 		lblIzaberiteIzvjetaj = new JLabel("Izaberite izvještaj:");
 		lblIzaberiteIzvjetaj.setBounds(10, 11, 158, 14);
 		panel.add(lblIzaberiteIzvjetaj);
-		
+
 		izborIzvjestajaComboBox = new JComboBox();
 		izborIzvjestajaComboBox.setModel(new DefaultComboBoxModel(new String[] {"Izvještaj o stanju plinskih boca na skladištu", "Izvještaj o stanju velikih plinskih rezervoara na skladištu", "Izvještaj za pojedinačni veliki plinski rezervoar", "Izvještaj o trenutnom stanju za komitenta"}));
 		izborIzvjestajaComboBox.setBounds(10, 36, 345, 20);
@@ -191,11 +198,12 @@ public class PocetniEkran extends JFrame {
 		lblOdaberiteTipFakture.setBounds(385, 16, 105, 14);
 		fakturePanel.add(lblOdaberiteTipFakture);
 		
+
 		JRadioButton rdbtnProdaja = new JRadioButton("Prodaja");
 		rdbtnProdaja.setBounds(511, 12, 67, 23);
 		fakturePanel.add(rdbtnProdaja);
 		
-		JRadioButton rdbtnIznajmljivajne = new JRadioButton("Iznajmljivajne");
+		JRadioButton rdbtnIznajmljivajne = new JRadioButton("Iznajmljivanje");
 		rdbtnIznajmljivajne.setBounds(580, 12, 94, 23);
 		fakturePanel.add(rdbtnIznajmljivajne);
 		
@@ -275,6 +283,7 @@ public class PocetniEkran extends JFrame {
 		comboBox_1.setBounds(130, 8, 169, 20);
 		panel_3.add(comboBox_1);
 		
+		
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setRowHeight(25);
@@ -322,18 +331,39 @@ public class PocetniEkran extends JFrame {
 		administracijaRezervoaraPanel.add(dodajVelikiRezervoarButton);
 		
 		JButton izmjenaPodatakaVelikiRezervoarButton = new JButton("Izmjena podataka velikih p. rezervoara");
+		izmjenaPodatakaVelikiRezervoarButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				IzmjenaPodatakaRezervoara i = new IzmjenaPodatakaRezervoara();
+				i.setVisible(true);
+			}
+		});
 		izmjenaPodatakaVelikiRezervoarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				UnosPlinskogRezervoara i = new UnosPlinskogRezervoara();
+				i.setVisible(true);
 			}
 		});
 		izmjenaPodatakaVelikiRezervoarButton.setBounds(10, 90, 211, 23);
 		administracijaRezervoaraPanel.add(izmjenaPodatakaVelikiRezervoarButton);
 		
 		JButton brisanjeVelikiRezervoarButton = new JButton("Brisanje velikog plinskog rezervoara");
+		brisanjeVelikiRezervoarButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		brisanjeVelikiRezervoarButton.setBounds(10, 134, 211, 23);
 		administracijaRezervoaraPanel.add(brisanjeVelikiRezervoarButton);
 		
 		JButton btnNewButton_1 = new JButton("Unos promjena na rezervoaru");
+		btnNewButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				UnosPromjeneRezervoara i = new UnosPromjeneRezervoara();
+				i.setVisible(true);
+			}
+		});
 		btnNewButton_1.setBounds(10, 173, 211, 23);
 		administracijaRezervoaraPanel.add(btnNewButton_1);
 		
@@ -377,6 +407,13 @@ public class PocetniEkran extends JFrame {
 		administracijaKomitenataPanel.add(lblFunkcijeZaAdministraciju);
 		
 		JButton dodajPravnogKomitentaButton = new JButton("Dodavanje pravnog komitenta");
+		dodajPravnogKomitentaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DodavanjePravnogKomitenta dpk = new DodavanjePravnogKomitenta();
+				dpk.setVisible(true);
+			}
+		});
 		dodajPravnogKomitentaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -385,14 +422,35 @@ public class PocetniEkran extends JFrame {
 		administracijaKomitenataPanel.add(dodajPravnogKomitentaButton);
 		
 		JButton dodajFizickogKomitentaButton = new JButton("Dodavanje fizičkog komitenta");
+		dodajFizickogKomitentaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				DodavanjeFizickogKomitenta dfk = new DodavanjeFizickogKomitenta();
+				dfk.setVisible(true);
+			}
+		});
 		dodajFizickogKomitentaButton.setBounds(26, 83, 181, 23);
 		administracijaKomitenataPanel.add(dodajFizickogKomitentaButton);
 		
 		JButton izmijeniKomitentaButton = new JButton("Izmjena podataka komitenta");
+		izmijeniKomitentaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				IzmjenaPodatakaFizickogKomitenta ipfk = new IzmjenaPodatakaFizickogKomitenta();
+				ipfk.setVisible(true);
+			}
+		});
 		izmijeniKomitentaButton.setBounds(26, 117, 181, 23);
 		administracijaKomitenataPanel.add(izmijeniKomitentaButton);
 		
 		JButton brisanjeKomitentaButton = new JButton("Brisanje komitenta");
+		brisanjeKomitentaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				BrisanjeKomitenta bk = new BrisanjeKomitenta();
+				bk.setVisible(true);
+			}
+		});
 		brisanjeKomitentaButton.setBounds(26, 151, 181, 23);
 		administracijaKomitenataPanel.add(brisanjeKomitentaButton);
 		
@@ -436,14 +494,39 @@ public class PocetniEkran extends JFrame {
 		adminFunkcijePanel.add(lblFunkcijeZaAdministriranje);
 		
 		JButton dodajKorisnikaButton = new JButton("Dodavanje korisnika");
+		dodajKorisnikaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				PocetniEkran.this.setVisible(false);
+				DodavanjeNovogKorisnika dodavanjeKorisnika = new DodavanjeNovogKorisnika();
+				dodavanjeKorisnika.setVisible(true);
+			}
+		});
 		dodajKorisnikaButton.setBounds(32, 49, 174, 23);
 		adminFunkcijePanel.add(dodajKorisnikaButton);
 		
 		JButton brisanjeKorisnikaButton = new JButton("Brisanje korisnika");
+		brisanjeKorisnikaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				PocetniEkran.this.setVisible(false);
+				BrisanjeKorisnika brisanjeKorisnika = new BrisanjeKorisnika();
+				brisanjeKorisnika.setVisible(true);
+				
+			}
+		});
 		brisanjeKorisnikaButton.setBounds(32, 102, 174, 23);
 		adminFunkcijePanel.add(brisanjeKorisnikaButton);
 		
 		JButton izmjenaKorisnikaButton = new JButton("Izmjena podataka korisnika");
+		izmjenaKorisnikaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				IzmjenaPodatakaKorisnika ipkf  = new IzmjenaPodatakaKorisnika();
+				ipkf.setVisible(true);
+			}
+		});
+	
 		izmjenaKorisnikaButton.setBounds(32, 153, 174, 23);
 		adminFunkcijePanel.add(izmjenaKorisnikaButton);
 		
