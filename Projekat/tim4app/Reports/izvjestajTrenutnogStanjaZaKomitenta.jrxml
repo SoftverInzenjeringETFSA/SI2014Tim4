@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="izvjestajTrenutnogStanjaZaKomitenta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9c501e-b442-4194-84a1-5208a2a818d7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="158"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tabela_prodaja" uuid="3e852575-d780-47ca-9ac9-7330cb2265d5">
+		<parameter name="P_KOMITENT_ID_TABELA_1" class="java.lang.Integer">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT lokacija "Lokacija", serijski_broj "Serijski broj", 'Veliki plinski rezervoar' Tip, datum_zadnjeg_bazdarenja "Datum zadnjeg bazdarenja",
+kapacitet "Kapacitet", 1 "Kolicina"
+FROM
+(
+select rezervoar "Rezervoar" from stavkefakture_prodaja where faktura = (SELECT x.id FROM fakture_prodaja x WHERE x.komitent = $P{P_KOMITENT_ID_TABELA_1}
+)
+) rezervoari_id, plinski_rezervoari
+WHERE serijski_broj = rezervoari_id.rezervoar
+;]]>
+		</queryString>
+		<field name="Lokacija" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Serijski broj" class="java.lang.String"/>
+		<field name="Tip" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Datum zadnjeg bazdarenja" class="java.sql.Date"/>
+		<field name="Kapacitet" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Kolicina" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="tabela_iznajmljivanje" uuid="07077275-33b9-4a61-962a-4085ec19fcc0">
+		<parameter name="P_KOMITENT_ID_IZNAJMI" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT lokacija "Lokacija", serijski_broj "Serijski broj", 'Veliki plinski rezervoar' Tip, datum_zadnjeg_bazdarenja "Datum zadnjeg bazdarenja",
+kapacitet "Kapacitet", 1 "Kolicina"
+FROM
+(
+select rezervoar "Rezervoar" from stavkefakture_iznajmljivanje where faktura = (SELECT x.id FROM fakture_iznajmljivanje x WHERE x.komitent = $P{P_KOMITENT_ID_IZNAJMI}
+)
+) rezervoari_id, plinski_rezervoari
+WHERE serijski_broj = rezervoari_id.rezervoar
+;]]>
+		</queryString>
+		<field name="Lokacija" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Serijski broj" class="java.lang.String"/>
+		<field name="Tip" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Datum zadnjeg bazdarenja" class="java.sql.Date"/>
+		<field name="Kapacitet" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Kolicina" class="java.lang.Long">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="tabela_prodaja_boce" uuid="2787c1cf-b8be-4257-81ab-115f964eb7a3">
+		<parameter name="P_TABELA_PRODAJA_BOCE" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT  (SELECT y.adresa FROM komitenti y WHERE id = $P{P_TABELA_PRODAJA_BOCE}) "Lokacija",
+'-' , 'Plinska boca','--', kapacitetBoce "Kapacitet", kolicina "Kolicina"
+FROM stavkefakture_prodaja WHERE faktura =
+(
+    SELECT x.id FROM fakture_prodaja x WHERE x.komitent = $P{P_TABELA_PRODAJA_BOCE}
+);]]>
+		</queryString>
+		<field name="Lokacija" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="-" class="java.lang.String"/>
+		<field name="Plinska boca" class="java.lang.String"/>
+		<field name="--" class="java.lang.String"/>
+		<field name="Kapacitet" class="java.lang.Integer"/>
+		<field name="Kolicina" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<subDataset name="tabela_iznajmljivanje_boce" uuid="1b9ec862-fc8d-4f87-8ec2-16cf7e21cc29">
+		<parameter name="P_TABELA_IZNAJMI_2" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT  (SELECT y.adresa FROM komitenti y WHERE id = 16) "Lokacija",
+'-' , 'Plinska boca', '-' , kapacitetBoce "Kapacitet", kolicina "Kolicina"
+FROM stavkefakture_iznajmljivanje WHERE faktura =
+(
+    SELECT x.id FROM fakture_iznajmljivanje x WHERE x.komitent = $P{P_TABELA_IZNAJMI_2}
+);]]>
+		</queryString>
+		<field name="Lokacija" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="-" class="java.lang.String"/>
+		<field name="Plinska boca" class="java.lang.String"/>
+		<field name="Kapacitet" class="java.lang.Integer"/>
+		<field name="Kolicina" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="P_LOGO_IMAGE" class="java.lang.Object"/>
+	<parameter name="P_NAZIV_KOMITENTA" class="java.lang.String"/>
+	<parameter name="P_KOMITENT_ID" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT kapacitet, kolicina FROM skladiste_plinskih_boca]]>
+	</queryString>
+	<field name="kapacitet" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kolicina" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="117" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="10" width="113" height="104" uuid="06fc4b68-d5b4-4010-9c54-3451e13570d9"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA["Plin - kom" d.o.o
+Meše Selimovića 23
+71000 Sarajevo
+
+
+Datum izvještaja:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="401" y="0" width="154" height="114" uuid="1bd03206-7d27-4732-a98b-56fa7e809d47"/>
+				<imageExpression><![CDATA[$P{P_LOGO_IMAGE}]]></imageExpression>
+			</image>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="102" y="83" width="100" height="20" uuid="554e976e-f083-4fd7-805b-669591f36511"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="97" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="1d6e2478-e5fb-4ba4-90ab-86a87e3af5c9"/>
+			</line>
+			<staticText>
+				<reportElement x="102" y="43" width="326" height="35" uuid="729097ab-605e-4079-8aaa-0f24cbea9a66"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Izvještaj trenutnog stanja
+za komitenta: ]]></text>
+			</staticText>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="305" y="58" width="144" height="20" uuid="c7ff0d11-cb2c-4180-ae9c-2a20375d5b1c"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_NAZIV_KOMITENTA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="280" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="10" y="17" width="360" height="50" uuid="3775d1e9-3d8d-46f6-bf10-9e4526d4b323"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabela_prodaja" uuid="a5d2b66c-a91d-4cfa-b7bf-b152d01547f4">
+						<datasetParameter name="P_KOMITENT_ID_TABELA_1">
+							<datasetParameterExpression><![CDATA[$P{P_KOMITENT_ID}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="103" uuid="ed5a3150-ac2a-4451-af70-0841590c9da6">
+						<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="103" height="30" uuid="58700ea0-a8fd-4b8e-b67b-d8ca0d1de51e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Lokacija]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="103" height="20" uuid="f5d6a6bf-140c-4a01-b842-aeba396deb28"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Lokacija}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="83" uuid="cd4b2acf-3270-4ba8-89e4-ddc31cd64f07">
+						<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="83" height="30" uuid="024209df-7a04-42cb-87ec-086619993f6a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Serijski broj]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="83" height="20" uuid="41e3e7ad-d560-4ff0-bdf6-3daf8e7224d0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Serijski broj}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120" uuid="0c05117b-8233-487b-a8e4-58eb3991b8ce">
+						<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="5f4a4532-47c0-4377-bf33-cf458fbbbcf9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tip rezervoara]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="120" height="20" uuid="81d9f3db-6dbb-4c69-83f4-1443088e0e25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Tip}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="71" uuid="959c3b21-497e-47f2-a10d-e94b449a641e">
+						<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="71" height="30" uuid="47564960-0bb1-41b5-8c68-a98827ef4bff"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Datum z.b]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="71" height="20" uuid="5812194d-6348-4eb0-b5b6-a3ffc98ff00a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Datum zadnjeg bazdarenja}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="2588ecf1-d117-4551-a3b1-bb07762be5b5">
+						<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="85" height="30" uuid="94acd97a-2997-4e98-80af-2bf69b080543"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Kapacitet u l]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="20" uuid="b805a1c1-e8cc-428d-b9de-66cde6692273"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kapacitet}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="87" uuid="81019b31-591b-441e-bb2e-26de07eaf45b">
+						<jr:tableHeader style="table 2_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="87" height="30" uuid="89a85ab2-1c1f-4d76-8bdc-8c857fbc9f62"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Kolicina(kom)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="87" height="20" uuid="34bee308-6a6b-4a36-b4dd-7bf9ae457cb5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kolicina}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 3" style="table 3" x="10" y="108" width="360" height="54" uuid="5e23c40c-2f11-497d-8105-991cd1f9855f"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabela_prodaja_boce" uuid="e7f5576a-9d00-456a-be4c-c890c556a462">
+						<datasetParameter name="P_TABELA_PRODAJA_BOCE">
+							<datasetParameterExpression><![CDATA[$P{P_KOMITENT_ID}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="103" uuid="0818a560-dccb-4f9f-9390-3ce342ce40dd">
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="2" y="0" width="101" height="20" uuid="1edbd780-c424-4034-9feb-58c1080e4c77"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Lokacija}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="82" uuid="0270535d-de0f-40b8-98f7-ecae44ee4c9e">
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="82" height="20" uuid="cdfa9aab-a46c-48ac-bbcc-ebda45ae5028"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{-}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="192" uuid="8417ce99-df27-4a1b-b704-3b5cad0d48c6">
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="192" height="20" uuid="a6623188-7d3d-467c-8507-5ebd088c6e40"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Plinska boca}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="0ef9c6dd-b3d5-4a68-8870-79655fde2681">
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="20" uuid="e36264ca-8433-4d23-a9cc-b02681d4fc35"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kapacitet}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="87" uuid="787d6563-4bc9-432e-8d2a-97db5ab0fe71">
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="87" height="20" uuid="c1c768be-bc24-4486-8a42-c8fbfc809955"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kolicina}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="10" y="148" width="360" height="53" uuid="8e7420b3-bb1c-4da8-ad96-07f20e19f223"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabela_iznajmljivanje_boce" uuid="bbfd8b45-2bbb-4626-9d8b-da44972d8c25">
+						<datasetParameter name="P_TABELA_IZNAJMI_2">
+							<datasetParameterExpression><![CDATA[$P{P_KOMITENT_ID}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="103" uuid="387e8c35-b971-454f-a6e9-332e344731e4">
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="103" height="20" uuid="f2286af4-9505-4b4c-8367-e6876d92c419"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Lokacija}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="82" uuid="cc124da1-f1f9-4a03-b2d9-e29f56a89d5c">
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="82" height="20" uuid="555f4244-f1d6-48fa-b982-3f4f72d8c2e9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{-}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="192" uuid="cf9dbf3c-c269-49f1-97ec-d0f0faf9a01f">
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="192" height="20" uuid="50cee097-5e4e-458d-a602-bd600d87b5fc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Plinska boca}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="86" uuid="3fbaead6-377b-4be5-a12b-16f084f2bb69">
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="86" height="20" uuid="593bf687-9ef9-417f-b537-7140f0147a98"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kapacitet}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="87" uuid="70b99eb6-a747-4379-b690-11ec5cb9c668">
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="87" height="20" uuid="cd896b14-219b-4c07-9b4d-ec99b1b4e0f6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kolicina}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<componentElement>
+				<reportElement key="table 5" style="table 5" x="10" y="88" width="360" height="54" uuid="e1f9e6fb-2494-44c6-aa3d-d2be6461f4ed"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabela_iznajmljivanje" uuid="5c1ffd0b-e64c-4f30-98ed-9b69b92d25c8">
+						<datasetParameter name="P_KOMITENT_ID_IZNAJMI">
+							<datasetParameterExpression><![CDATA[$P{P_KOMITENT_ID}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="103" uuid="d0767ff1-ef72-4365-82f5-b3772ed508de">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="103" height="20" uuid="3e4ea0a0-14aa-44e7-bf58-4ec369beb0e7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Lokacija}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="82" uuid="f7ab643f-1ac9-4d2e-bcc4-0ec2225947c7">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="82" height="20" uuid="92f1e19d-4c8c-4934-a669-601b34f4650f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Serijski broj}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="121" uuid="885c9c8f-11f4-497c-87ed-70cf8eea1ee7">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="121" height="20" uuid="7f392394-2c39-414c-99ea-9345e1c42d52"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Tip}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="71" uuid="e423fd75-4cba-40c0-ac6c-4515b8c5886a">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField pattern="dd/MM/yyyy">
+								<reportElement x="0" y="0" width="71" height="20" uuid="39202f46-84ce-4bce-ab4f-4926b4826e6c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Datum zadnjeg bazdarenja}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="4415f1c0-7110-4e73-a2f4-a8dfd4aea263">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="20" uuid="0eadf40b-0b06-4d74-8ac6-7fd85af27b20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kapacitet}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="87" uuid="ead5c6db-dcd3-4bd9-b194-fad320023d75">
+						<jr:detailCell style="table 5_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="87" height="20" uuid="41b24809-c952-4b8a-aed6-c9ce1fb5ecf9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kolicina}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

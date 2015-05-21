@@ -57,6 +57,8 @@ public class PocetniEkran extends JFrame {
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTable table;
+	private JComboBox comboBox;
+	private JButton btnOdjava_1;
 
 	/**
 	 * Launch the application.
@@ -183,7 +185,7 @@ public class PocetniEkran extends JFrame {
 		lblPrijavljeniSteKao_1.setBounds(30, 15, 94, 14);
 		fakturePanel.add(lblPrijavljeniSteKao_1);
 		
-		JButton btnOdjava_1 = new JButton("Odjava");
+		btnOdjava_1 = new JButton("Odjava");
 		btnOdjava_1.setBounds(178, 11, 67, 23);
 		fakturePanel.add(btnOdjava_1);
 		
@@ -208,7 +210,7 @@ public class PocetniEkran extends JFrame {
 		lblOdaberitePlinskiRezervoar.setBounds(26, 11, 145, 14);
 		panel_1.add(lblOdaberitePlinskiRezervoar);
 		
-		JComboBox comboBox = new JComboBox();
+		comboBox = new JComboBox();
 		comboBox.setBounds(166, 8, 165, 20);
 		panel_1.add(comboBox);
 		

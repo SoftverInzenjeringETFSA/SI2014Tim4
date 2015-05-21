@@ -21,7 +21,7 @@ public class DodavanjePravnogKomitenta extends JFrame {
 	private JTextField textField_4;
 
 	/**
-	 * Launch the application.
+	 * Launch the application. 
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

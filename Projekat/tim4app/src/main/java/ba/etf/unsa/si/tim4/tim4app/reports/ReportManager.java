@@ -101,13 +101,35 @@ public class ReportManager {
 			Komitent k = (Komitent) parameter;
 			PravniKomitent pk = null;
 			FizickiKomitent fk = null;
-			if(k.getTipKomitenta().equals("Pravno lice"))
-			{
-				pk = (PravniKomitent) k;
+			if(k.getTipKomitenta().equals("Pravno lice")) pk = (PravniKomitent) k;
+			else fk = (FizickiKomitent) k;
+			String nazivKomitenta = "";
+			int idKomitenta = 0;
+			idKomitenta = k.getId();
+			nazivKomitenta = (pk == null) ? fk.getIme() + " " + fk.getPrezime() : pk.getNazivFirme();
+			String reportName = "izvjestajTrenutnogStanjaZaKomitenta-" + nazivKomitenta;
+			Map parametersMap = new HashMap();
+			System.out.println(idKomitenta);
+			parametersMap.put("P_KOMITENT_ID", idKomitenta);
+			parametersMap.put("P_LOGO_IMAGE", getReportLogoImage());
+			parametersMap.put("P_NAZIV_KOMITENTA", nazivKomitenta);
+			Date currentDate = new Date();
+			try{
+				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
+				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
+				JasperExportManager.exportReportToPdfFile(jasperPrint,
+		                  pathToFolder + reportName + "-" + date + ".pdf");
+				JasperViewer.viewReport(jasperPrint, false);
+				IzvjestajiDataSource ids = new IzvjestajiDataSource();
+				int maxId = ids.getMaxId();
+				Izvjestaj toInsert = new Izvjestaj(formBrojIzvjestaja(maxId, currentDate), currentDate, nazivKomitenta, "Izvjestaj za pojedinacni plinski rezervoar");
+				ids.insert(toInsert);
 			}
-			else
+			catch(JRException e)
 			{
-				fk = (FizickiKomitent) k;
+				dbUtils.printExceptionMessage(e.getMessage(), "printParameterReport case 1");
+				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 	}
