@@ -17,8 +17,8 @@ import java.awt.event.MouseEvent;
 public class LoginForma extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField usernameTextField;
 	private JPasswordField passwordField;
+	private JTextField usernameTextField;
 
 	/**
 	 * Launch the application.
@@ -54,6 +54,7 @@ public class LoginForma extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+
 		usernameTextField = new JTextField();
 		usernameTextField.setBounds(170, 60, 125, 20);
 		panel.add(usernameTextField);
@@ -64,7 +65,9 @@ public class LoginForma extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				
+				LoginForma.this.setVisible(false);
+				PocetniEkran pocetniEkran = new PocetniEkran();
+				pocetniEkran.setVisible(true);
 			}
 		});
 		prijavaButton.setBounds(170, 148, 125, 23);
@@ -74,6 +77,8 @@ public class LoginForma extends JFrame {
 		passwordField.setBounds(170, 104, 125, 20);
 		panel.add(passwordField);
 		
+
+
 		JLabel lblKorisnikoIme = new JLabel("Korisničko ime:");
 		lblKorisnikoIme.setBounds(55, 63, 113, 14);
 		panel.add(lblKorisnikoIme);
