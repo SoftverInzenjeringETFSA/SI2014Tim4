@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTabbedPane;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.JTable;
@@ -25,8 +27,12 @@ import javax.swing.JTextField;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.Skladiste;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
+import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
+import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
 import ba.etf.unsa.si.tim4.tim4app.reports.ReportManager;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
@@ -40,6 +46,7 @@ import javax.swing.ListSelectionModel;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.SystemColor;
 
 public class PocetniEkran extends JFrame {
 
@@ -59,12 +66,26 @@ public class PocetniEkran extends JFrame {
 	private JPanel parametriIzvjestajaPanel;
 	private JComboBox komitentIzvjestajComboBox;
 	private Validator validator;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField petLitaraTextField;
+	private JTextField desetLitaraTextField;
+	private JTextField petnaestLitaraTextField;
 	private JTable table;
-	private JComboBox comboBox;
+	private JComboBox plinskiRezervoariComboBox;
 	private JButton btnOdjava_1;
+	private JLabel lblPrijavljeniSteKao_1;
+	private JButton btnUnesiteRezervoare;
+	private JComboBox komitentFaktureComboBox;
+	private JButton btnKreirajFaktru;
+	private JRadioButton rdbtnProdaja;
+	private JRadioButton rdbtnIznajmljivajne;
+	private JLabel lblOdaberiteTipFakture;
+	private JTabbedPane tabbedPane;
+	private JLabel lblDostupno;
+	private JLabel petLitaraLabel;
+	private JLabel desetLitaraLabel;
+	private JLabel petnaestLitaraLabel;
+	private JButton dodajBoceButton;
+	private Skladiste skladiste = new Skladiste();
 
 	/**
 	 * Launch the application.
@@ -96,11 +117,18 @@ public class PocetniEkran extends JFrame {
 		validator = new Validator();
 		
 		comboBoxSelectionChangedListener = new ItemChangeListener();
+		ChangeListener tabChangedListener = new ChangeListener() {
+		      public void stateChanged(ChangeEvent changeEvent) {
+		        JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+		        int index = sourceTabbedPane.getSelectedIndex();
+		    	fillComboBoxItemsOnTabChanged(index, sourceTabbedPane);
+		      }
+		    };
 
-
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 709, 332);
 		contentPane.add(tabbedPane);
+		tabbedPane.addChangeListener(tabChangedListener);
 		
 		JPanel izvjestajiPanel = new JPanel();
 		tabbedPane.addTab("Izvještaji", null, izvjestajiPanel, null);
@@ -188,89 +216,145 @@ public class PocetniEkran extends JFrame {
 		tabbedPane.addTab("Fakture", null, fakturePanel, null);
 		fakturePanel.setLayout(null);
 		
-		JLabel lblPrijavljeniSteKao_1 = new JLabel("Prijavljeni ste kao:");
-		lblPrijavljeniSteKao_1.setBounds(30, 15, 94, 14);
+		lblPrijavljeniSteKao_1 = new JLabel("Prijavljeni ste kao:");
+		lblPrijavljeniSteKao_1.setBounds(30, 15, 138, 14);
 		fakturePanel.add(lblPrijavljeniSteKao_1);
 		
 		btnOdjava_1 = new JButton("Odjava");
-		btnOdjava_1.setBounds(178, 11, 67, 23);
+		btnOdjava_1.setBounds(178, 11, 94, 23);
 		fakturePanel.add(btnOdjava_1);
 		
-		JLabel lblOdaberiteTipFakture = new JLabel("Odaberite tip fakture:");
-		lblOdaberiteTipFakture.setBounds(385, 16, 105, 14);
+		lblOdaberiteTipFakture = new JLabel("Odaberite tip fakture:");
+		lblOdaberiteTipFakture.setBounds(396, 15, 146, 14);
 		fakturePanel.add(lblOdaberiteTipFakture);
 		
 
-		JRadioButton rdbtnProdaja = new JRadioButton("Prodaja");
-		rdbtnProdaja.setBounds(511, 12, 67, 23);
+		rdbtnProdaja = new JRadioButton("Prodaja");
+		rdbtnProdaja.setBounds(520, 11, 67, 23);
 		fakturePanel.add(rdbtnProdaja);
 		
-		JRadioButton rdbtnIznajmljivajne = new JRadioButton("Iznajmljivanje");
-		rdbtnIznajmljivajne.setBounds(580, 12, 94, 23);
+		rdbtnIznajmljivajne = new JRadioButton("Iznajmljivanje");
+		rdbtnIznajmljivajne.setBounds(590, 11, 94, 23);
 		fakturePanel.add(rdbtnIznajmljivajne);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		panel_1.setBounds(10, 40, 360, 253);
 		fakturePanel.add(panel_1);
 		panel_1.setLayout(null);
 		
 		JLabel lblOdaberitePlinskiRezervoar = new JLabel("Odaberite plinski rezervoar");
-		lblOdaberitePlinskiRezervoar.setBounds(26, 11, 145, 14);
+		lblOdaberitePlinskiRezervoar.setBounds(26, 11, 191, 14);
 		panel_1.add(lblOdaberitePlinskiRezervoar);
 		
-		comboBox = new JComboBox();
-		comboBox.setBounds(166, 8, 165, 20);
-		panel_1.add(comboBox);
+		plinskiRezervoariComboBox = new JComboBox();
+		plinskiRezervoariComboBox.setBounds(205, 8, 126, 20);
+		panel_1.add(plinskiRezervoariComboBox);
 		
 		JLabel lblDodajtePlinskeBoce = new JLabel("Dodajte plinske boce:");
-		lblDodajtePlinskeBoce.setBounds(26, 37, 126, 14);
+		lblDodajtePlinskeBoce.setBounds(26, 37, 191, 14);
 		panel_1.add(lblDodajtePlinskeBoce);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		panel_2.setBounds(26, 62, 305, 125);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
 		
 		JLabel lblKapacitet = new JLabel("Kapacitet:");
-		lblKapacitet.setBounds(53, 11, 57, 14);
+		lblKapacitet.setBounds(10, 11, 85, 14);
 		panel_2.add(lblKapacitet);
 		
 		JLabel lblBrojBoca = new JLabel("Broj boca:");
-		lblBrojBoca.setBounds(148, 11, 57, 14);
+		lblBrojBoca.setBounds(105, 11, 86, 14);
 		panel_2.add(lblBrojBoca);
 		
 		JLabel lbll_1 = new JLabel("5 (l)");
-		lbll_1.setBounds(81, 36, 29, 14);
+		lbll_1.setBounds(10, 36, 29, 14);
 		panel_2.add(lbll_1);
 		
 		JLabel lbll_2 = new JLabel("10 (l)");
-		lbll_2.setBounds(81, 64, 29, 14);
+		lbll_2.setBounds(10, 61, 29, 14);
 		panel_2.add(lbll_2);
 		
 		JLabel lbll = new JLabel("15 (l)");
-		lbll.setBounds(81, 97, 36, 14);
+		lbll.setBounds(10, 86, 36, 14);
 		panel_2.add(lbll);
 		
-		textField = new JTextField();
-		textField.setBounds(140, 36, 86, 20);
-		panel_2.add(textField);
-		textField.setColumns(10);
+		petLitaraTextField = new JTextField();
+		petLitaraTextField.setBounds(105, 33, 86, 20);
+		panel_2.add(petLitaraTextField);
+		petLitaraTextField.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(140, 61, 86, 20);
-		panel_2.add(textField_1);
-		textField_1.setColumns(10);
+		desetLitaraTextField = new JTextField();
+		desetLitaraTextField.setBounds(105, 58, 86, 20);
+		panel_2.add(desetLitaraTextField);
+		desetLitaraTextField.setColumns(10);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(140, 94, 86, 20);
-		panel_2.add(textField_2);
-		textField_2.setColumns(10);
+		petnaestLitaraTextField = new JTextField();
+		petnaestLitaraTextField.setBounds(105, 83, 86, 20);
+		panel_2.add(petnaestLitaraTextField);
+		petnaestLitaraTextField.setColumns(10);
 		
-		JButton btnUnesiteRezervoare = new JButton("Unesite rezervoare");
-		btnUnesiteRezervoare.setBounds(187, 210, 126, 23);
+		lblDostupno = new JLabel("Dostupno:");
+		lblDostupno.setBounds(218, 11, 77, 14);
+		panel_2.add(lblDostupno);
+		
+		petLitaraLabel = new JLabel("");
+		petLitaraLabel.setBounds(228, 36, 46, 14);
+		panel_2.add(petLitaraLabel);
+		
+		desetLitaraLabel = new JLabel("");
+		desetLitaraLabel.setBounds(228, 61, 46, 14);
+		panel_2.add(desetLitaraLabel);
+		
+		petnaestLitaraLabel = new JLabel("");
+		petnaestLitaraLabel.setBounds(228, 86, 46, 14);
+		panel_2.add(petnaestLitaraLabel);
+		
+		btnUnesiteRezervoare = new JButton("Unesite rezervoare");
+		btnUnesiteRezervoare.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PlinskiRezervoar pr = (PlinskiRezervoar) plinskiRezervoariComboBox.getSelectedItem();
+				boolean success = skladiste.addPlinskiRezervoar(pr);
+				if(!success) showMessageBox("Već ste dodali ovaj plinski rezervoar!", "Greška");
+			}
+		});
+		btnUnesiteRezervoare.setBounds(187, 219, 144, 23);
 		panel_1.add(btnUnesiteRezervoare);
 		
+		dodajBoceButton = new JButton("Dodaj boce");
+		dodajBoceButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			String petLitara = petLitaraTextField.getText();
+			String desetLitara = desetLitaraTextField.getText();
+			String petnaestLitara = petnaestLitaraTextField.getText();
+			if(petLitara.equals("") && desetLitara.equals("") && petnaestLitara.equals("")) return;
+			String errorMessagePetLitara = "";
+			String errorMessageDesetLitara = "";
+			String errorMessagePetnaestLitara = "";
+			if(!petLitara.equals(""))errorMessagePetLitara = validator.validateQuantity(petLitara, Integer.valueOf(petLitaraLabel.getText()));
+			if(!desetLitara.equals(""))errorMessageDesetLitara = validator.validateQuantity(desetLitara, Integer.valueOf(desetLitaraLabel.getText()));
+			if(!petnaestLitara.equals("")) errorMessagePetnaestLitara = validator.validateQuantity(petnaestLitara, Integer.valueOf(petnaestLitaraLabel.getText()));
+				if(!errorMessagePetLitara.equals("")){ showMessageBox(errorMessagePetLitara, "Greška");  return;}
+				else if(!errorMessageDesetLitara.equals("")){ showMessageBox(errorMessageDesetLitara, "Greška");  return;}
+				else if(!errorMessagePetnaestLitara.equals("")){ showMessageBox(errorMessagePetnaestLitara, "Greška");  return;}
+			if(!petLitara.equals(""))	skladiste.addPetLitarske(Integer.valueOf(petLitara));
+			if(!desetLitara.equals("")) skladiste.addDesetLitarske(Integer.valueOf(desetLitara));
+		    if(!petnaestLitara.equals(""))skladiste.addPetnaestLitarske(Integer.valueOf(petnaestLitara));
+				int oldPet = Integer.valueOf(petLitaraLabel.getText());
+				int oldDeset = Integer.valueOf(desetLitaraLabel.getText());
+				int oldPetnaest = Integer.valueOf(petnaestLitaraLabel.getText());
+				if(!petLitara.equals(""))	petLitaraLabel.setText(oldPet - Integer.valueOf(petLitara) + "");
+				if(!desetLitara.equals(""))desetLitaraLabel.setText(oldDeset - Integer.valueOf(desetLitara) + "");
+				if(!petnaestLitara.equals(""))petnaestLitaraLabel.setText(oldPetnaest - Integer.valueOf(petnaestLitara) + "");
+			}
+		});
+		dodajBoceButton.setBounds(27, 219, 150, 23);
+		panel_1.add(dodajBoceButton);
+		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		panel_3.setAlignmentX(Component.LEFT_ALIGNMENT);
 		panel_3.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		panel_3.setBounds(385, 40, 309, 253);
@@ -278,15 +362,16 @@ public class PocetniEkran extends JFrame {
 		panel_3.setLayout(null);
 		
 		JLabel lblOdaberiteKomitenta = new JLabel("Odaberite komitenta:");
-		lblOdaberiteKomitenta.setBounds(10, 11, 110, 14);
+		lblOdaberiteKomitenta.setBounds(10, 11, 140, 14);
 		panel_3.add(lblOdaberiteKomitenta);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(130, 8, 169, 20);
-		panel_3.add(comboBox_1);
+		komitentFaktureComboBox = new JComboBox();
+		komitentFaktureComboBox.setBounds(159, 8, 140, 20);
+		panel_3.add(komitentFaktureComboBox);
 		
 		
 		table = new JTable();
+		table.setBorder(new LineBorder(SystemColor.inactiveCaption));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setRowHeight(25);
 		table.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -308,8 +393,8 @@ public class PocetniEkran extends JFrame {
 			}
 		));
 		
-		JButton btnKreirajFaktru = new JButton("Kreiraj fakturu");
-		btnKreirajFaktru.setBounds(189, 211, 110, 31);
+		btnKreirajFaktru = new JButton("Kreiraj fakturu");
+		btnKreirajFaktru.setBounds(159, 219, 140, 23);
 		panel_3.add(btnKreirajFaktru);
 		table.getColumnModel().getColumn(0).setPreferredWidth(51);
 		table.getColumnModel().getColumn(1).setPreferredWidth(84);
@@ -420,7 +505,7 @@ public class PocetniEkran extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		dodajPravnogKomitentaButton.setBounds(26, 49, 181, 23);
+		dodajPravnogKomitentaButton.setBounds(10, 49, 211, 23);
 		administracijaKomitenataPanel.add(dodajPravnogKomitentaButton);
 		
 		JButton dodajFizickogKomitentaButton = new JButton("Dodavanje fizičkog komitenta");
@@ -431,7 +516,7 @@ public class PocetniEkran extends JFrame {
 				dfk.setVisible(true);
 			}
 		});
-		dodajFizickogKomitentaButton.setBounds(26, 83, 181, 23);
+		dodajFizickogKomitentaButton.setBounds(10, 83, 211, 23);
 		administracijaKomitenataPanel.add(dodajFizickogKomitentaButton);
 		
 		JButton izmijeniKomitentaButton = new JButton("Izmjena podataka komitenta");
@@ -442,7 +527,7 @@ public class PocetniEkran extends JFrame {
 				ipfk.setVisible(true);
 			}
 		});
-		izmijeniKomitentaButton.setBounds(26, 117, 181, 23);
+		izmijeniKomitentaButton.setBounds(10, 117, 211, 23);
 		administracijaKomitenataPanel.add(izmijeniKomitentaButton);
 		
 		JButton brisanjeKomitentaButton = new JButton("Brisanje komitenta");
@@ -453,7 +538,7 @@ public class PocetniEkran extends JFrame {
 				bk.setVisible(true);
 			}
 		});
-		brisanjeKomitentaButton.setBounds(26, 151, 181, 23);
+		brisanjeKomitentaButton.setBounds(10, 151, 211, 23);
 		administracijaKomitenataPanel.add(brisanjeKomitentaButton);
 		
 		pretragaKomitenataTable = new JTable();
@@ -504,7 +589,7 @@ public class PocetniEkran extends JFrame {
 				dodavanjeKorisnika.setVisible(true);
 			}
 		});
-		dodajKorisnikaButton.setBounds(32, 49, 174, 23);
+		dodajKorisnikaButton.setBounds(20, 49, 198, 23);
 		adminFunkcijePanel.add(dodajKorisnikaButton);
 		
 		JButton brisanjeKorisnikaButton = new JButton("Brisanje korisnika");
@@ -517,7 +602,7 @@ public class PocetniEkran extends JFrame {
 				
 			}
 		});
-		brisanjeKorisnikaButton.setBounds(32, 102, 174, 23);
+		brisanjeKorisnikaButton.setBounds(20, 102, 198, 23);
 		adminFunkcijePanel.add(brisanjeKorisnikaButton);
 		
 		JButton izmjenaKorisnikaButton = new JButton("Izmjena podataka korisnika");
@@ -529,7 +614,7 @@ public class PocetniEkran extends JFrame {
 			}
 		});
 	
-		izmjenaKorisnikaButton.setBounds(32, 153, 174, 23);
+		izmjenaKorisnikaButton.setBounds(20, 153, 198, 23);
 		adminFunkcijePanel.add(izmjenaKorisnikaButton);
 		
 		pretragaKorisnikaTable = new JTable();
@@ -563,6 +648,67 @@ public class PocetniEkran extends JFrame {
 	private void showMessageBox(String message, String messageBoxTitle)
 	{
 		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void fillComboBoxItemsOnTabChanged(int tabIndex, JTabbedPane jPane)
+	{
+		switch(tabIndex)
+		{
+		case 0:
+			skladiste.clearSkladiste();
+			break;
+		case 1:
+			KomitentDataSource kds = new KomitentDataSource();
+			   LinkedList<Komitent> komitenti = kds.getAll();
+			   if(komitenti != null)
+			   {
+				   komitentFaktureComboBox.removeAllItems();
+				   for(int i = 0; i < komitenti.size(); i++)
+				   {
+					   if(komitenti.get(i).getTipKomitenta().equals("Pravno lice"))
+					   komitentFaktureComboBox.addItem((PravniKomitent)komitenti.get(i));
+					   else komitentFaktureComboBox.addItem((FizickiKomitent)komitenti.get(i)); 
+				   }
+			   }
+			PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
+				LinkedList<PlinskiRezervoar> rezervoari = pds.getAll();
+				if(rezervoari != null)
+				{
+					plinskiRezervoariComboBox.removeAllItems();
+					for(int i = 0; i < rezervoari.size(); i++)
+					{
+						if(rezervoari.get(i).getNapunjenost() == 1) plinskiRezervoariComboBox.addItem(rezervoari.get(i));
+					}
+				}
+			// Setovanje labela
+			SkladisteDataSource sd = new SkladisteDataSource();
+			int petLitara = sd.getQuantityByCapacity(5);
+			int desetLitara = sd.getQuantityByCapacity(10);
+			int petnaestLitara = sd.getQuantityByCapacity(15);
+			petLitaraLabel.setText((petLitara != -1 ? petLitara : 0) + "");
+			petLitaraLabel.setSize(petLitaraLabel.getPreferredSize());
+			desetLitaraLabel.setText((desetLitara != -1 ? desetLitara : 0) + "");
+			desetLitaraLabel.setSize(desetLitaraLabel.getPreferredSize());
+			petnaestLitaraLabel.setText((petnaestLitara != -1 ? petnaestLitara : 0) + "");
+			petnaestLitaraLabel.setSize(petLitaraLabel.getPreferredSize());
+			break;
+		case 2:
+			skladiste.clearSkladiste();
+			break;
+		case 3:
+			skladiste.clearSkladiste();
+			break;
+		case 4:
+			skladiste.clearSkladiste();
+			break;
+		}
+	}
+	
+	private void clearFaktureControls()
+	{
+		petLitaraTextField.setText("");
+		desetLitaraTextField.setText("");
+		petnaestLitaraTextField.setText("");
 	}
 	
 	class ItemChangeListener implements ItemListener

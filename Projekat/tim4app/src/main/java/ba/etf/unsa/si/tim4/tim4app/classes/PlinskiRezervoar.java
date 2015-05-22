@@ -83,6 +83,12 @@ public class PlinskiRezervoar {
 	public void setTrenutniStatus(String mTrenutniStatus) {
 		this.mTrenutniStatus = mTrenutniStatus;
 	}
+
+
+	@Override
+	public String toString() {
+		return mSerijskiBroj;
+	}
 	
 	
 }

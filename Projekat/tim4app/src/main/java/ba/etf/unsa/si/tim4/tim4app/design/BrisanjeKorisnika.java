@@ -1,6 +1,6 @@
 package ba.etf.unsa.si.tim4.tim4app.design;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;

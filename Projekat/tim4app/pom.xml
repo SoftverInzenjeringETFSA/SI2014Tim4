@@ -36,10 +36,16 @@
 	<artifactId>jasperreports</artifactId>
 	<version>6.0.4</version>
 </dependency>
-    <dependency>
+<dependency>
 	<groupId>com.miglayout</groupId>
 	<artifactId>miglayout</artifactId>
 	<version>3.7.4</version>
+</dependency>
+<dependency>
+        <groupId>org.javatuples</groupId>
+        <artifactId>javatuples</artifactId>
+        <version>1.2</version>
+        <scope>compile</scope>
 </dependency>
   </dependencies>
   <build>

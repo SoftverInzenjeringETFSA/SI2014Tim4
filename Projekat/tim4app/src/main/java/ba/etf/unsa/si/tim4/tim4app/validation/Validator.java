@@ -15,4 +15,21 @@ public class Validator {
 		return errorMessage;
 	}
 	
+	public String validateQuantity(String quantityExpression, int maxQuantity)
+	{
+		String errorMessage = "";
+		int quantity = 0;
+		boolean isNumber = true;
+		if(quantityExpression.equals("")) return "Morate unijeti količinu!";
+		for(char c : quantityExpression.toCharArray())
+		{
+			if(!Character.isDigit(c)) isNumber = false;
+		}
+		if(!isNumber) return "Količina mora biti broj!";
+		quantity = Integer.parseInt(quantityExpression);
+		if(quantity < 0) errorMessage = "Količina ne može biti negativna!";
+		else if(quantity > maxQuantity) errorMessage = "Količina ne može biti veća od maksimalne!";
+		return errorMessage;
+	}
+	
 }

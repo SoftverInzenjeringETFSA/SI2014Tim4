@@ -1,0 +1,61 @@
+package ba.etf.unsa.si.tim4.tim4app.classes;
+
+import java.util.LinkedList;
+
+public class Skladiste {
+
+	private int mPetoLitarskeBoce = 0;
+	private int mDesetLitarskeBoce = 0;
+	private int mPetnaestLitarskeBoce = 0;
+	private LinkedList<PlinskiRezervoar> mPlinskiRezervoari = new LinkedList<PlinskiRezervoar>();
+	
+	public Skladiste() { }
+	
+	public void addPetLitarske(int quantity)
+	{
+		mPetoLitarskeBoce += quantity;
+	}
+	
+	public void addDesetLitarske(int quantity)
+	{
+		mDesetLitarskeBoce += quantity;
+	}
+	
+	public void addPetnaestLitarske(int quantity)
+	{
+		mPetnaestLitarskeBoce += quantity;
+	}
+	
+	public boolean addPlinskiRezervoar(PlinskiRezervoar pr)
+	{
+		if(mPlinskiRezervoari.contains(pr)) return false;
+		mPlinskiRezervoari.add(pr);
+		return true;
+	}
+	
+	public int getPetLitarske()
+	{
+		return mPetoLitarskeBoce;
+	}
+	
+	public int getDesetLitarske()
+	{
+		return mDesetLitarskeBoce;
+	}
+	
+	public int getPetnaestLitarske()
+	{
+		return mPetnaestLitarskeBoce;
+	}
+	
+	public void clearSkladiste()
+	{
+		mPetoLitarskeBoce = 0;
+		mDesetLitarskeBoce = 0;
+		mPetnaestLitarskeBoce = 0;
+		for(int i = 0; i < mPlinskiRezervoari.size(); i++)
+		{
+			mPlinskiRezervoari.remove();
+		}
+	}
+}
