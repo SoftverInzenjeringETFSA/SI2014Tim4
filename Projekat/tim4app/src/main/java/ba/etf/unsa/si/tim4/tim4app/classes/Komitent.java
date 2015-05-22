@@ -17,6 +17,14 @@ public abstract class Komitent {
 		this.mEmail = eMail;
 	}
 	
+	protected Komitent(String tipKomitenta, String adresa, String brojTelefona, String eMail)
+	{
+		this.mTipKomitenta = tipKomitenta;
+		this.mAdresa = adresa;
+		this.mBrojTelefona = brojTelefona;
+		this.mEmail = eMail;
+	}
+	
 	public int getId() {
 		return mId;
 	}

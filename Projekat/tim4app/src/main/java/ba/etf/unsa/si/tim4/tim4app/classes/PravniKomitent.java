@@ -13,6 +13,15 @@ public class PravniKomitent extends Komitent {
 		this.mNazivFirme = mNazivFirme;
 		this.mPDVbroj = mPDVbroj;
 	}
+	
+	public PravniKomitent(String tipKomitenta, String adresa,
+			String brojTelefona, String eMail, String mNazivFirme,
+			String mPDVbroj) 
+	{
+		super(tipKomitenta, adresa, brojTelefona, eMail);
+		this.mNazivFirme = mNazivFirme;
+		this.mPDVbroj = mPDVbroj;
+	}
 
 	public String getNazivFirme() {
 		return mNazivFirme;
