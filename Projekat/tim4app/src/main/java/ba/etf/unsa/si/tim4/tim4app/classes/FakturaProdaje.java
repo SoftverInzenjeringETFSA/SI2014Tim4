@@ -25,6 +25,15 @@ public class FakturaProdaje {
 		this.mPlinskeBoceStavke = mPlinskeBoceStavke;
 		this.mPlinskiRezervoarStavke = mPlinskiRezervoarStavke;
 	}
+	
+	public FakturaProdaje(
+			Komitent mKomitent,
+			LinkedList<Triplet<PlinskaBoca, Date, Double>> mPlinskeBoceStavke,
+			LinkedList<Triplet<PlinskiRezervoar, Date, Double>> mPlinskiRezervoarStavke) {
+		this.mKomitent = mKomitent;
+		this.mPlinskeBoceStavke = mPlinskeBoceStavke;
+		this.mPlinskiRezervoarStavke = mPlinskiRezervoarStavke;
+	}
 
 	public int getId() {
 		return mId;

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FakturaProdaje" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9c501e-b442-4194-84a1-5208a2a818d7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="214"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 5_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 6_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tabela_stavke" uuid="f5b1c191-dade-42c1-b37c-1c277034dfa7">
+		<parameter name="P_FAKTURA" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT tip_rezervoara "Tip rezervoara", ifNull((SELECT x.serijski_broj FROM plinski_rezervoari x WHERE x.serijski_broj = rezervoar), '-') "Serijski broj",
+kapacitetBoce "Kapacitet", kapacitetBoce "Tezina", kolicina "Broj boca/rezervoara", kolicina * cijena "Cijena"
+FROM stavkefakture_prodaja
+WHERE faktura = $P{P_FAKTURA}]]>
+		</queryString>
+		<field name="Tip rezervoara" class="java.lang.String"/>
+		<field name="Serijski broj" class="java.lang.String"/>
+		<field name="Kapacitet" class="java.lang.Integer"/>
+		<field name="Tezina" class="java.lang.Integer"/>
+		<field name="Broj boca/rezervoara" class="java.lang.Integer"/>
+		<field name="Cijena" class="java.lang.Double">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="P_FAKTURA_ID" class="java.lang.Integer">
+		<parameterDescription><![CDATA[Primljeni serijski broj]]></parameterDescription>
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_LOGO_IMAGE" class="java.lang.Object"/>
+	<parameter name="P_KOMITENT_NAZIV" class="java.lang.String"/>
+	<parameter name="P_BROJ_FAKTURE" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT serijski_broj "Serijski broj", tip "Tip",  date(datum_zadnjeg_bazdarenja) "Datum zadnjeg bazdarenja", kapacitet "Kapacitet rezervoara u l"
+FROM plinski_rezervoari WHERE trenutni_status = 'Skladiste';]]>
+	</queryString>
+	<field name="Serijski broj" class="java.lang.String"/>
+	<field name="Tip" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Datum zadnjeg bazdarenja" class="java.sql.Date"/>
+	<field name="Kapacitet rezervoara u l" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="117" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="10" width="113" height="104" uuid="06fc4b68-d5b4-4010-9c54-3451e13570d9"/>
+				<textElement>
+					<font fontName="Calibri" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA["Plin - kom" d.o.o
+Meše Selimovića 23
+71000 Sarajevo
+
+
+Datum izvještaja:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="401" y="0" width="154" height="114" uuid="1bd03206-7d27-4732-a98b-56fa7e809d47"/>
+				<imageExpression><![CDATA[$P{P_LOGO_IMAGE}]]></imageExpression>
+			</image>
+			<textField pattern="dd.MM.yyyy">
+				<reportElement x="102" y="83" width="100" height="20" uuid="554e976e-f083-4fd7-805b-669591f36511"/>
+				<textElement>
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="115" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="1d6e2478-e5fb-4ba4-90ab-86a87e3af5c9"/>
+			</line>
+			<staticText>
+				<reportElement x="73" y="41" width="441" height="74" uuid="729097ab-605e-4079-8aaa-0f24cbea9a66"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12"/>
+				</textElement>
+				<text><![CDATA[Faktura prodaje za komitenta
+
+broj]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="226" y="56" width="137" height="20" uuid="c7ff0d11-cb2c-4180-ae9c-2a20375d5b1c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12" isBold="true" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_KOMITENT_NAZIV}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="227" y="85" width="137" height="20" uuid="b8fa65e7-3080-4163-bdaa-476cf2883898"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="12" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{P_BROJ_FAKTURE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="36" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="273">
+			<componentElement>
+				<reportElement key="table 6" style="table 6" x="28" y="14" width="373" height="50" uuid="a122555f-0de9-4065-badb-580f7740a02e"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabela_stavke" uuid="1f023298-5a8e-4a0f-a25d-c57681c14bc5">
+						<datasetParameter name="P_FAKTURA">
+							<datasetParameterExpression><![CDATA[$P{P_FAKTURA_ID}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="120" uuid="63b6c0d8-62a6-44f7-9154-7ffeb3c6b1cc">
+						<jr:tableHeader style="table 6_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="120" height="30" uuid="15b13389-0bec-413e-aa98-fb0e1d63bd20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tip rezervoara]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 6_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="120" height="35" uuid="dcf9e475-e163-47cd-92a3-f121e670469f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Tip rezervoara}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="78" uuid="a8a5deca-1240-4ccc-9de9-40df4c82e93f">
+						<jr:tableHeader style="table 6_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="78" height="30" uuid="01dcaef3-89e8-474a-befb-17ccefd88690"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Serijski broj]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 6_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="78" height="35" uuid="789f8c84-5c2e-495e-9f23-950ea531d333"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Serijski broj}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="74" uuid="c13c3726-a93c-490d-9673-07697ac80980">
+						<jr:tableHeader style="table 6_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="74" height="30" uuid="efc71fe5-5aad-43ff-b123-8f026c7304d7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Kapacitet]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 6_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="74" height="35" uuid="e232c91a-2ef1-4987-80e6-650ab25217ed"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Kapacitet}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="77" uuid="68c1299f-4bf2-49f7-845e-77d84624ac44">
+						<jr:tableHeader style="table 6_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="77" height="30" uuid="7a8acd3d-9824-439e-b078-c57c839f5e70"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Tezina]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 6_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="77" height="35" uuid="7def1d60-e4d7-4e97-9e40-5a74f34a5904"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Tezina}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="83" uuid="db29f126-b80d-4e58-9b6c-99930cd02d55">
+						<jr:tableHeader style="table 6_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="83" height="30" uuid="798ced0c-6a33-4a95-9c39-3adaa9cd8f3e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Kolicina]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 6_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="83" height="35" uuid="2eb84f28-3061-45a2-bca5-e4c0eeaad6f6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Broj boca/rezervoara}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="76" uuid="af464089-997f-4b08-95a0-4b05bdd4d2ad">
+						<jr:tableHeader style="table 6_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="76" height="30" uuid="be8216cf-f185-4cb0-9182-037331784b88"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Cijena]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 6_TD" height="35" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="76" height="35" uuid="9d28fb2f-3a6e-4bcb-91cb-6ce5fe50fecd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="Calibri" size="12"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Cijena}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="69" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

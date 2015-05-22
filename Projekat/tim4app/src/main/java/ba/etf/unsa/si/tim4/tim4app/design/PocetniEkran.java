@@ -20,16 +20,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
+import ba.etf.unsa.si.tim4.tim4app.classes.FakturaProdaje;
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Skladiste;
+import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureProdajeDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
@@ -43,6 +47,8 @@ import java.awt.ComponentOrientation;
 import java.awt.Component;
 
 import javax.swing.ListSelectionModel;
+
+import org.javatuples.Triplet;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -76,8 +82,8 @@ public class PocetniEkran extends JFrame {
 	private JButton btnUnesiteRezervoare;
 	private JComboBox komitentFaktureComboBox;
 	private JButton btnKreirajFaktru;
-	private JRadioButton rdbtnProdaja;
-	private JRadioButton rdbtnIznajmljivajne;
+	private JRadioButton prodajaRadioButton;
+	private JRadioButton iznajmiRadioButton;
 	private JLabel lblOdaberiteTipFakture;
 	private JTabbedPane tabbedPane;
 	private JLabel lblDostupno;
@@ -229,13 +235,13 @@ public class PocetniEkran extends JFrame {
 		fakturePanel.add(lblOdaberiteTipFakture);
 		
 
-		rdbtnProdaja = new JRadioButton("Prodaja");
-		rdbtnProdaja.setBounds(520, 11, 67, 23);
-		fakturePanel.add(rdbtnProdaja);
+		prodajaRadioButton = new JRadioButton("Prodaja");
+		prodajaRadioButton.setBounds(520, 11, 67, 23);
+		fakturePanel.add(prodajaRadioButton);
 		
-		rdbtnIznajmljivajne = new JRadioButton("Iznajmljivanje");
-		rdbtnIznajmljivajne.setBounds(590, 11, 94, 23);
-		fakturePanel.add(rdbtnIznajmljivajne);
+		iznajmiRadioButton = new JRadioButton("Iznajmljivanje");
+		iznajmiRadioButton.setBounds(590, 11, 94, 23);
+		fakturePanel.add(iznajmiRadioButton);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(SystemColor.inactiveCaption));
@@ -346,8 +352,8 @@ public class PocetniEkran extends JFrame {
 				int oldDeset = Integer.valueOf(desetLitaraLabel.getText());
 				int oldPetnaest = Integer.valueOf(petnaestLitaraLabel.getText());
 				if(!petLitara.equals(""))	petLitaraLabel.setText(oldPet - Integer.valueOf(petLitara) + "");
-				if(!desetLitara.equals(""))desetLitaraLabel.setText(oldDeset - Integer.valueOf(desetLitara) + "");
-				if(!petnaestLitara.equals(""))petnaestLitaraLabel.setText(oldPetnaest - Integer.valueOf(petnaestLitara) + "");
+				if(!desetLitara.equals("")) desetLitaraLabel.setText(oldDeset - Integer.valueOf(desetLitara) + "");
+				if(!petnaestLitara.equals("")) petnaestLitaraLabel.setText(oldPetnaest - Integer.valueOf(petnaestLitara) + "");
 			}
 		});
 		dodajBoceButton.setBounds(27, 219, 150, 23);
@@ -394,6 +400,29 @@ public class PocetniEkran extends JFrame {
 		));
 		
 		btnKreirajFaktru = new JButton("Kreiraj fakturu");
+		btnKreirajFaktru.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(skladiste.isEmpty()) { showMessageBox("Niste izabrali nijedan rezervoar ili bocu!", "Greška"); return; }
+				LinkedList<Triplet<PlinskaBoca, Date, Double>> boceStavke = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+				LinkedList<Triplet<PlinskiRezervoar, Date, Double>> rezervoariStavke = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
+				Komitent k = (Komitent) komitentFaktureComboBox.getSelectedItem();
+				if(prodajaRadioButton.isSelected()){
+					FaktureProdajeDataSource fds = new FaktureProdajeDataSource();
+					if(skladiste.getPetLitarske() != 0) boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), new Date(), (double) 10));
+					if(skladiste.getDesetLitarske() != 0) boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), new Date(), (double) 20));
+					if(skladiste.getPetnaestLitarske() != 0) boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), new Date(), (double) 30));
+					LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
+					for(int i = 0; i < rezervoari.size(); i++)
+					{
+						rezervoariStavke.add(new Triplet<PlinskiRezervoar, Date, Double>(rezervoari.get(i), new Date(), (double) rezervoari.get(i).getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT));
+					}
+					FakturaProdaje fp = new FakturaProdaje(k, boceStavke, rezervoariStavke);
+					fds.insert(fp);
+					ReportManager rm = new ReportManager();
+					rm.printReport(4, new Triplet<String, String, Integer>(k.toString(), fds.formBrojFakture(), fds.getMaxId()));
+				}
+			}
+		});
 		btnKreirajFaktru.setBounds(159, 219, 140, 23);
 		panel_3.add(btnKreirajFaktru);
 		table.getColumnModel().getColumn(0).setPreferredWidth(51);

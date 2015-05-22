@@ -16,6 +16,11 @@ public class Skladiste {
 		mPetoLitarskeBoce += quantity;
 	}
 	
+	public boolean isEmpty()
+	{
+		return (mPetoLitarskeBoce == 0 && mDesetLitarskeBoce == 0 && mPetnaestLitarskeBoce == 0 && mPlinskiRezervoari.size() == 0);
+	}
+	
 	public void addDesetLitarske(int quantity)
 	{
 		mDesetLitarskeBoce += quantity;
@@ -48,6 +53,15 @@ public class Skladiste {
 		return mPetnaestLitarskeBoce;
 	}
 	
+	public LinkedList<PlinskiRezervoar> getPlinskiRezervoari() {
+		return mPlinskiRezervoari;
+	}
+
+	public void setPlinskiRezervoari(
+			LinkedList<PlinskiRezervoar> mPlinskiRezervoari) {
+		this.mPlinskiRezervoari = mPlinskiRezervoari;
+	}
+
 	public void clearSkladiste()
 	{
 		mPetoLitarskeBoce = 0;

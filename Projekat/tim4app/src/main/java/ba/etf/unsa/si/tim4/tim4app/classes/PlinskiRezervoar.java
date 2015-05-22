@@ -14,6 +14,8 @@ public class PlinskiRezervoar {
 	private String mLokacija;
 	private String mTrenutniStatus;
 	
+	public static final double RESERVOIR_PRICE_CONSTANT = 10.5;
+	
 	public PlinskiRezervoar(String mSerijskiBroj, int mKapacitet,
 			int mTezina, int mNapunjenost, String mTipRezervoara,
 			Date mDatumZadnjegBazdarenja, String mLokacija,

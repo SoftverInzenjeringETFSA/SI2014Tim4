@@ -3,6 +3,7 @@ package ba.etf.unsa.si.tim4.tim4app.daldao;
 import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.logging.Level;
 
@@ -52,6 +53,7 @@ public class FaktureProdajeDataSource {
 		int fakturaId = 0;
 		try
 		{
+			if(getIdPs.isClosed()) getIdPs = dbUtils.getPreparedStatement(getIdQuery);
 			ResultSet rs = getIdPs.executeQuery();
 			while(rs.next())
 			{
@@ -67,11 +69,14 @@ public class FaktureProdajeDataSource {
 		
 		if(fakturaId == 0) return;
 		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> rezervoari = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
+		rezervoari = faktura.getPlinskiRezervoarStavke();
 		LinkedList<Triplet<PlinskaBoca, Date, Double>> boce = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		boce = faktura.getPlinskeBoceStavke();
 		try
 		{
 			for(int i = 0; i < faktura.getPlinskiRezervoarStavke().size(); i++)
 			{
+				if(stavkePs.isClosed()) stavkePs = dbUtils.getPreparedStatement(stavkeQuery);
 				PlinskiRezervoar currentRezervoar = rezervoari.get(i).getValue0();
 				double rezervoarPrice = rezervoari.get(i).getValue2();
 				stavkePs.setInt(1, fakturaId);
@@ -84,6 +89,7 @@ public class FaktureProdajeDataSource {
 			}
 			for(int i = 0; i < faktura.getPlinskeBoceStavke().size(); i++)
 			{
+				if(stavkePs.isClosed()) stavkePs = dbUtils.getPreparedStatement(stavkeQuery);
 				PlinskaBoca currentBoca = boce.get(i).getValue0();
 				double bocaPrice = boce.get(i).getValue2();
 				stavkePs.setInt(1, fakturaId);
@@ -103,10 +109,35 @@ public class FaktureProdajeDataSource {
 		}
 	}
 	
-	private String formBrojFakture()
+	public int getMaxId()
 	{
-		String query = "SELECT count(*) FROM fakture_prodaje";
-		String queryIznajmi = "SELECT count(*) FROM fakture_iznajmljivanja";
+		String query = "SELECT max(id) FROM fakture_prodaja";
+		
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return -1;
+		try
+		{
+			ResultSet rsProdaja = ps.executeQuery();
+			while(rsProdaja.next())
+			{
+				int id = rsProdaja.getInt(1);
+				return id;
+			}
+			return -1;
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "izvjestaj insert");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return -1;
+		}
+	}
+	
+	public String formBrojFakture()
+	{
+		String query = "SELECT count(*) FROM fakture_prodaja";
+		String queryIznajmi = "SELECT count(*) FROM fakture_iznajmljivanje";
 		
 		PreparedStatement ps = dbUtils.getPreparedStatement(query);
 		PreparedStatement psIznajmi = dbUtils.getPreparedStatement(queryIznajmi);
@@ -115,10 +146,15 @@ public class FaktureProdajeDataSource {
 		{
 			ResultSet rsProdaja = ps.executeQuery();
 			ResultSet rsIznajmi = psIznajmi.executeQuery();
-			int broj = rsProdaja.getInt(1) + rsIznajmi.getInt(2);
-			Calendar c = Calendar.getInstance();
-			c.setTime(new Date());
-			return "F" + broj + "-" + c.YEAR;
+			int brojProdaja = 0;
+			int brojIznajmi = 0;
+			while(rsProdaja.next()){ brojProdaja = rsProdaja.getInt(1); }
+			while(rsIznajmi.next()){ brojIznajmi = rsIznajmi.getInt(1);}
+			int broj = brojIznajmi + brojProdaja + 1;
+			Calendar date = new GregorianCalendar();
+			date.setTime(new Date());
+			int year = date.get(Calendar.YEAR);  // 2012
+			return "F" + broj + "-" + year;
 		}
 		catch(Exception e)
 		{
