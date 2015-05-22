@@ -15,7 +15,6 @@ public class Korisnik {
 	   private String mBrojTelefona;
 	   private Date mDatumZaposlenja;
 	   
-  
 	public Korisnik(String mTipKorisnika, String mUsername, String mPassword,
 			String mIme, String mPrezime, String mBrojLicneKarte,
 			String mAdresa, String mBrojTelefona, Date mDatumZaposlenja) {

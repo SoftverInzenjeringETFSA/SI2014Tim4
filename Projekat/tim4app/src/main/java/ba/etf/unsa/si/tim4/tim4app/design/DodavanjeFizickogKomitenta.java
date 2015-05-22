@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -22,7 +23,7 @@ import java.awt.Window.Type;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class DodavanjeFizickogKomitenta extends JFrame {
+public class DodavanjeFizickogKomitenta extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField prezimeTF;
@@ -54,6 +55,7 @@ public class DodavanjeFizickogKomitenta extends JFrame {
 	 * Create the frame.
 	 */
 	public DodavanjeFizickogKomitenta() {
+		setModal(true);
 		setResizable(false);
 		setType(Type.POPUP);
 		setTitle("Dodavanje komitenta(Fizičko lice)");

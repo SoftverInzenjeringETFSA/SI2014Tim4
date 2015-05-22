@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -26,7 +27,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.LinkedList;
 
-public class IzmjenaPodatakaPravnogKomitenta extends JFrame {
+public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField nazivTF;
@@ -59,6 +60,7 @@ public class IzmjenaPodatakaPravnogKomitenta extends JFrame {
 	 * Create the frame.
 	 */
 	public IzmjenaPodatakaPravnogKomitenta() {
+		setModal(true);
 		setTitle("Izmjena podataka pravnog komitenta");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

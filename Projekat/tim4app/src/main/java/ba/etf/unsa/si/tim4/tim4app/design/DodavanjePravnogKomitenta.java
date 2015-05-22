@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,9 +21,8 @@ import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
 
-public class DodavanjePravnogKomitenta extends JFrame {
+public class DodavanjePravnogKomitenta extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField nazivFirmeTF;
@@ -52,6 +52,7 @@ public class DodavanjePravnogKomitenta extends JFrame {
 	 * Create the frame.
 	 */
 	public DodavanjePravnogKomitenta() {
+		setModal(true);
 		setType(Type.POPUP);
 		setResizable(false);
 		setTitle("Dodavanje komitenta (Pravno lice)");

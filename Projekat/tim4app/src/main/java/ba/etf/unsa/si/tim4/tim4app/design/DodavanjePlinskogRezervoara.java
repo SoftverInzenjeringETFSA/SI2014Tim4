@@ -3,11 +3,12 @@ package ba.etf.unsa.si.tim4.tim4app.design;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-public class DodavanjePlinskogRezervoara extends JFrame {
+public class DodavanjePlinskogRezervoara extends JDialog {
 
 	private JPanel contentPane;
 
@@ -32,7 +33,8 @@ public class DodavanjePlinskogRezervoara extends JFrame {
 	 * Create the frame.
 	 */
 	public DodavanjePlinskogRezervoara() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setModal(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

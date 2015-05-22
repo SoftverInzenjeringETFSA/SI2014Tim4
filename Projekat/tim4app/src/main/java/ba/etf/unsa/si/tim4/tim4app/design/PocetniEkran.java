@@ -78,7 +78,7 @@ public class PocetniEkran extends JFrame {
 	private JTable table;
 	private JComboBox plinskiRezervoariComboBox;
 	private JButton btnOdjava_1;
-	private JLabel lblPrijavljeniSteKao_1;
+	private JLabel prijavaFaktureLabel;
 	private JButton btnUnesiteRezervoare;
 	private JComboBox komitentFaktureComboBox;
 	private JButton btnKreirajFaktru;
@@ -92,6 +92,14 @@ public class PocetniEkran extends JFrame {
 	private JLabel petnaestLitaraLabel;
 	private JButton dodajBoceButton;
 	private Skladiste skladiste = new Skladiste();
+	private String tipKorisnika = "";
+	private String username = "";
+	private JLabel prijavaKorisniciLabel;
+	private JLabel prijavaKomitentiLabel;
+	private JLabel prijavaRezervoariLabel;
+	private JButton odjavaRezervoariButton;
+	private JButton odjavaButton;
+	private JButton btnOdjava;
 
 	/**
 	 * Launch the application.
@@ -113,6 +121,7 @@ public class PocetniEkran extends JFrame {
 	 * Create the frame.
 	 */
 	public PocetniEkran() {
+		setResizable(false);
 		setTitle("Početni ekran");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 735, 370);
@@ -121,6 +130,15 @@ public class PocetniEkran extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		validator = new Validator();
+		
+		ActionListener odjavaActionListener = new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PocetniEkran.this.setVisible(false);
+				LoginForma loginForma = new LoginForma();
+				loginForma.setVisible(true);
+				PocetniEkran.this.dispose();
+			};
+		};
 		
 		comboBoxSelectionChangedListener = new ItemChangeListener();
 		ChangeListener tabChangedListener = new ChangeListener() {
@@ -215,6 +233,7 @@ public class PocetniEkran extends JFrame {
 		izvjestajiPanel.add(prijavaIzvjestajiLabel);
 		
 		odjavaIzvjestajiButton = new JButton("Odjava");
+		odjavaIzvjestajiButton.addActionListener(odjavaActionListener);
 		odjavaIzvjestajiButton.setBounds(185, 6, 96, 23);
 		izvjestajiPanel.add(odjavaIzvjestajiButton);
 		
@@ -222,13 +241,14 @@ public class PocetniEkran extends JFrame {
 		tabbedPane.addTab("Fakture", null, fakturePanel, null);
 		fakturePanel.setLayout(null);
 		
-		lblPrijavljeniSteKao_1 = new JLabel("Prijavljeni ste kao:");
-		lblPrijavljeniSteKao_1.setBounds(30, 15, 138, 14);
-		fakturePanel.add(lblPrijavljeniSteKao_1);
+		prijavaFaktureLabel = new JLabel("Prijavljeni ste kao:");
+		prijavaFaktureLabel.setBounds(30, 15, 138, 14);
+		fakturePanel.add(prijavaFaktureLabel);
 		
 		btnOdjava_1 = new JButton("Odjava");
 		btnOdjava_1.setBounds(178, 11, 94, 23);
 		fakturePanel.add(btnOdjava_1);
+		btnOdjava_1.addActionListener(odjavaActionListener);
 		
 		lblOdaberiteTipFakture = new JLabel("Odaberite tip fakture:");
 		lblOdaberiteTipFakture.setBounds(396, 15, 146, 14);
@@ -488,13 +508,14 @@ public class PocetniEkran extends JFrame {
 		pretragaRezervoaraTable.setBounds(251, 42, 443, 251);
 		rezervoariPanel.add(pretragaRezervoaraTable);
 		
-		JLabel prijavaRezervoariLabel = new JLabel("Prijavljeni ste kao: ");
+		prijavaRezervoariLabel = new JLabel("Prijavljeni ste kao: ");
 		prijavaRezervoariLabel.setBounds(10, 11, 184, 14);
 		rezervoariPanel.add(prijavaRezervoariLabel);
 		
-		JButton odjavaRezervoariButton = new JButton("Odjava");
+		odjavaRezervoariButton = new JButton("Odjava");
 		odjavaRezervoariButton.setBounds(158, 7, 83, 23);
 		rezervoariPanel.add(odjavaRezervoariButton);
+		odjavaRezervoariButton.addActionListener(odjavaActionListener);
 		
 		JLabel lblIzaberiteKriterijPretrage = new JLabel("Odaberite kriterij pretrage:");
 		lblIzaberiteKriterijPretrage.setBounds(251, 11, 167, 14);
@@ -575,13 +596,14 @@ public class PocetniEkran extends JFrame {
 		pretragaKomitenataTable.setBounds(251, 37, 443, 256);
 		komitentiPanel.add(pretragaKomitenataTable);
 		
-		JLabel prijavaLabel_Komitenti = new JLabel("Prijavljeni ste kao: ");
-		prijavaLabel_Komitenti.setBounds(10, 11, 164, 14);
-		komitentiPanel.add(prijavaLabel_Komitenti);
+		prijavaKomitentiLabel = new JLabel("Prijavljeni ste kao: ");
+		prijavaKomitentiLabel.setBounds(10, 11, 164, 14);
+		komitentiPanel.add(prijavaKomitentiLabel);
 		
-		JButton odjavaButton = new JButton("Odjava");
+		odjavaButton = new JButton("Odjava");
 		odjavaButton.setBounds(168, 7, 73, 23);
 		komitentiPanel.add(odjavaButton);
+		odjavaButton.addActionListener(odjavaActionListener);
 		
 		JLabel lblOdaberiteKriterijPretrage_1 = new JLabel("Odaberite kriterij pretrage:");
 		lblOdaberiteKriterijPretrage_1.setBounds(251, 12, 192, 14);
@@ -613,8 +635,8 @@ public class PocetniEkran extends JFrame {
 		dodajKorisnikaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				PocetniEkran.this.setVisible(false);
 				DodavanjeNovogKorisnika dodavanjeKorisnika = new DodavanjeNovogKorisnika();
+				dodavanjeKorisnika.setModal(true);
 				dodavanjeKorisnika.setVisible(true);
 			}
 		});
@@ -625,8 +647,8 @@ public class PocetniEkran extends JFrame {
 		brisanjeKorisnikaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				PocetniEkran.this.setVisible(false);
 				BrisanjeKorisnika brisanjeKorisnika = new BrisanjeKorisnika();
+				brisanjeKorisnika.setModal(true);
 				brisanjeKorisnika.setVisible(true);
 				
 			}
@@ -639,6 +661,7 @@ public class PocetniEkran extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				IzmjenaPodatakaKorisnika ipkf  = new IzmjenaPodatakaKorisnika();
+				//ipkf.setModal(true);
 				ipkf.setVisible(true);
 			}
 		});
@@ -651,9 +674,9 @@ public class PocetniEkran extends JFrame {
 		pretragaKorisnikaTable.setBounds(266, 41, 428, 252);
 		korisniciPanel.add(pretragaKorisnikaTable);
 		
-		JLabel lblPrijavljeniSteKao = new JLabel("Prijavljeni ste kao:");
-		lblPrijavljeniSteKao.setBounds(10, 11, 194, 14);
-		korisniciPanel.add(lblPrijavljeniSteKao);
+		prijavaKorisniciLabel = new JLabel("Prijavljeni ste kao:");
+		prijavaKorisniciLabel.setBounds(10, 11, 194, 14);
+		korisniciPanel.add(prijavaKorisniciLabel);
 		
 		JLabel lblOdaberiteKriterijPretrage = new JLabel("Odaberite kriterij pretrage:");
 		lblOdaberiteKriterijPretrage.setBounds(266, 11, 167, 14);
@@ -667,9 +690,10 @@ public class PocetniEkran extends JFrame {
 		pretragaKorisnikaButton.setBounds(547, 7, 147, 23);
 		korisniciPanel.add(pretragaKorisnikaButton);
 		
-		JButton btnOdjava = new JButton("Odjava");
+		btnOdjava = new JButton("Odjava");
 		btnOdjava.setBounds(172, 7, 84, 23);
 		korisniciPanel.add(btnOdjava);
+		btnOdjava.addActionListener(odjavaActionListener);
 		
 	}
 	
@@ -738,6 +762,36 @@ public class PocetniEkran extends JFrame {
 		petLitaraTextField.setText("");
 		desetLitaraTextField.setText("");
 		petnaestLitaraTextField.setText("");
+	}
+	
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
+	
+	public void setTip(String tipKorisnika)
+	{
+		this.tipKorisnika = tipKorisnika;
+	}
+	
+	public void setAllLabels()
+	{
+		prijavaIzvjestajiLabel.setText("Prijavljeni ste kao: " + username);
+		prijavaIzvjestajiLabel.setSize(prijavaIzvjestajiLabel.getPreferredSize());
+		prijavaKomitentiLabel.setText("Prijavljeni ste kao: " + username);
+		prijavaKomitentiLabel.setSize(prijavaKomitentiLabel.getPreferredSize());
+		prijavaIzvjestajiLabel.setText("Prijavljeni ste kao: " + username);
+		prijavaIzvjestajiLabel.setSize(prijavaIzvjestajiLabel.getPreferredSize());
+		prijavaRezervoariLabel.setText("Prijavljeni ste kao: " + username);
+		prijavaRezervoariLabel.setSize(prijavaRezervoariLabel.getPreferredSize());
+		prijavaFaktureLabel.setText("Prijavljeni ste kao: " + username);
+		prijavaFaktureLabel.setSize(prijavaIzvjestajiLabel.getPreferredSize());
+		prijavaKorisniciLabel.setText("Prijavljeni ste kao: " + username);
+		prijavaKorisniciLabel.setSize(prijavaKorisniciLabel.getPreferredSize());
+		if(!tipKorisnika.equals("Administrator"))
+		{
+			tabbedPane.setEnabledAt(4,  false);
+		} else tabbedPane.setEnabledAt(4,  true);
 	}
 	
 	class ItemChangeListener implements ItemListener

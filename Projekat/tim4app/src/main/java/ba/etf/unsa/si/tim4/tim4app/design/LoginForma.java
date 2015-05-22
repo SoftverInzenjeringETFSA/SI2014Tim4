@@ -77,11 +77,15 @@ public class LoginForma extends JFrame {
 					String username = usernameTextField.getText();
 					String lozinka = new String(passwordField.getPassword());
 					int count = kds.getCount(username, lozinka);
+					String tip = kds.getTip(username, lozinka);
 					if(count == 1)
 					{
 						LoginForma.this.setVisible(false);
 						PocetniEkran pocetniEkran = new PocetniEkran();
+						pocetniEkran.setUsername(username);
+						pocetniEkran.setTip(tip);
 						pocetniEkran.setVisible(true);
+						pocetniEkran.setAllLabels();
 					}
 					else showMessageBox("Ne postoji korisnik sa tim podacima!", "Greška");
 				} else showMessageBox("Morate unijeti korisničko ime i lozinku!", "Greška");

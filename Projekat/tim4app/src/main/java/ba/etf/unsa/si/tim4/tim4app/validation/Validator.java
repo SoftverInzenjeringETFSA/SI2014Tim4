@@ -101,7 +101,7 @@ public class Validator {
 		if(brojLK.equals("")) errorMessage = "Morate unijeti broj lične karte!";
 		else if(!brojLK.substring(0, 2).matches(ONLY_NUMBERS_NOZERO_REGEX)) errorMessage = "Prva dva znaka moraju biti brojevi!";
 		else if(!brojLK.substring(2, 5).matches(ONLY_LETTERS_REGEX)) errorMessage = "4, 5, 6 znak moraju biti slova!";
-		else if(!brojLK.substring(5, 9).matches(ONLY_NUMBERS_REGEX)) errorMessage = "7, 8, 9 znak moraju biti brojevi!";
+		else if(!brojLK.substring(5, 8).matches(ONLY_NUMBERS_REGEX)) errorMessage = "7, 8, 9 znak moraju biti brojevi!";
 		else if(brojLK.length() != 9) errorMessage = "Lična karta mora imati 9 cifara!";
 		return errorMessage;
 	}

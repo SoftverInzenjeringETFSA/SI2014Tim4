@@ -5,14 +5,17 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class UnosPromjeneRezervoara extends JFrame {
+public class UnosPromjeneRezervoara extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -37,8 +40,9 @@ public class UnosPromjeneRezervoara extends JFrame {
 	 * Create the frame.
 	 */
 	public UnosPromjeneRezervoara() {
+		setModal(true);
 		setTitle("Unos promjene plinskog rezervoara");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -5,12 +5,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class UnosPlinskogRezervoara extends JFrame {
+public class UnosPlinskogRezervoara extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -39,8 +42,9 @@ public class UnosPlinskogRezervoara extends JFrame {
 	 * Create the frame.
 	 */
 	public UnosPlinskogRezervoara() {
+		setModal(true);
 		setTitle("Unos plinskog rezervoara");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

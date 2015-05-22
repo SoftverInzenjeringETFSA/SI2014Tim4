@@ -6,12 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class IzmjenaPodatakaRezervoara extends JFrame {
+public class IzmjenaPodatakaRezervoara extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -40,8 +43,9 @@ public class IzmjenaPodatakaRezervoara extends JFrame {
 	 * Create the frame.
 	 */
 	public IzmjenaPodatakaRezervoara() {
+		setModal(true);
 		setTitle("Izmjena podataka rezervoara");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

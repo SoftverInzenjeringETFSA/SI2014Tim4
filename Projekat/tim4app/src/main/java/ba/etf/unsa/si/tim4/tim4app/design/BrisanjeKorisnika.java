@@ -2,18 +2,29 @@ package ba.etf.unsa.si.tim4.tim4app.design;
 
 
 import java.awt.EventQueue;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-public class BrisanjeKorisnika extends JFrame {
+import ba.etf.unsa.si.tim4.tim4app.classes.Korisnik;
+import ba.etf.unsa.si.tim4.tim4app.daldao.KorisnikDataSource;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class BrisanjeKorisnika extends JDialog {
 
 	private JPanel contentPane;
+	private JComboBox korisnikComboBox;
 
 	/**
 	 * Launch the application.
@@ -36,21 +47,45 @@ public class BrisanjeKorisnika extends JFrame {
 	 * Create the frame.
 	 */
 	public BrisanjeKorisnika() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 428, 232);
+		setTitle("Brisanje korisnika");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 428, 168);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[30][][200][40]", "[][][][][]"));
+		contentPane.setLayout(new MigLayout("", "[30][][200,grow][][40]", "[][][][][]"));
 		
 		JLabel label = new JLabel("Izaberite korisnika:");
-		contentPane.add(label, "cell 1 2,alignx trailing");
+		contentPane.add(label, "cell 1 1,alignx trailing");
 		
-		JComboBox comboBox = new JComboBox();
-		contentPane.add(comboBox, "cell 2 2,alignx left");
+		korisnikComboBox = new JComboBox();
+		contentPane.add(korisnikComboBox, "cell 2 1,growx");
+		fillCMB();
 		
 		JButton button = new JButton("Obriši korisnika");
-		contentPane.add(button, "cell 2 4");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Korisnik k =  (Korisnik) korisnikComboBox.getSelectedItem();
+				KorisnikDataSource kds = new KorisnikDataSource();
+				kds.delete(k.getId());
+				fillCMB();
+			}
+		});
+		contentPane.add(button, "cell 2 3,alignx right");
+	}
+	
+	private void fillCMB()
+	{
+		KorisnikDataSource kds = new KorisnikDataSource();
+		   LinkedList<Korisnik> korisnici = kds.getAll();
+		   if(korisnici != null)
+		   {
+			   korisnikComboBox.removeAllItems();
+			   for(int i = 0; i < korisnici.size(); i++)
+			   {
+				   korisnikComboBox.addItem(korisnici.get(i));
+			   }
+		   }
 	}
 
 }

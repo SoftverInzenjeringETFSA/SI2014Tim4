@@ -37,7 +37,8 @@ public class KorisnikDataSource {
 			ps.setString(5, k.getPrezime());
 			ps.setString(6, k.getBrojLicneKarte());
 			ps.setString(7, k.getAdresa());
-			ps.setDate(8, dbUtils.getSqlDate(k.getDatumZaposlenja()));
+			ps.setString(8, k.getBrojTelefona());
+			ps.setDate(9, dbUtils.getSqlDate(k.getDatumZaposlenja()));
 			ps.execute();
 			dbUtils.closeCurrentConnection();
 		}
@@ -63,8 +64,9 @@ public class KorisnikDataSource {
 			ps.setString(5, k.getPrezime());
 			ps.setString(6, k.getBrojLicneKarte());
 			ps.setString(7, k.getAdresa());
-			ps.setDate(8, dbUtils.getSqlDate(k.getDatumZaposlenja()));
-			ps.setInt(9, k.getId());
+			ps.setString(8, k.getBrojTelefona());
+			ps.setDate(9, dbUtils.getSqlDate(k.getDatumZaposlenja()));
+			ps.setInt(10, k.getId());
 			ps.execute();
 			dbUtils.closeCurrentConnection();
 		}
@@ -147,6 +149,51 @@ public class KorisnikDataSource {
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			dbUtils.closeCurrentConnection();
 			return -1;
+		}
+	}
+	
+	public String getTip(String username, String password)
+	{
+		String query = "SELECT tip FROM korisnici WHERE username=? AND lozinka=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return "";
+		try {
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					String tip = rs.getString(1);
+					return tip;
+				}
+			dbUtils.closeCurrentConnection();
+			return "";
+		} catch (SQLException e) {
+			dbUtils.printExceptionMessage(e.getMessage(), "getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return "";
+		}
+	}
+	
+	public boolean isUsernameUnique(String username)
+	{
+		String query = "SELECT count(*) FROM korisnici WHERE username=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return false;
+		try {
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					int count = rs.getInt(1);
+					return (count == 1);
+				}
+			dbUtils.closeCurrentConnection();
+			return false;
+		} catch (SQLException e) {
+			dbUtils.printExceptionMessage(e.getMessage(), "getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return false;
 		}
 	}
 	

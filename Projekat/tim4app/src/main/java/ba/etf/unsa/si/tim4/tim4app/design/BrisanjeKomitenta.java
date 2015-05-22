@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -22,9 +23,9 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.LinkedList;
-import java.awt.Window.Type;
 
-public class BrisanjeKomitenta extends JFrame {
+
+public class BrisanjeKomitenta extends JDialog {
 
 	private JPanel contentPane;
 	private JComboBox komitentComboBox;
@@ -50,6 +51,7 @@ public class BrisanjeKomitenta extends JFrame {
 	 * Create the frame.
 	 */
 	public BrisanjeKomitenta() {
+		setModal(true);
 		setResizable(false);
 		setType(Type.POPUP);
 		setTitle("Brisanje komitenta");

@@ -8,9 +8,7 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import net.miginfocom.swing.MigLayout;
-
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -19,15 +17,13 @@ import javax.swing.JComboBox;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
-import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Window.Type;
 
-public class IzmjenaPodatakaFizickogKomitenta extends JFrame {
+public class IzmjenaPodatakaFizickogKomitenta extends JDialog {
 
 	private JPanel contentPane;
 	private JTextField imeTF;
@@ -62,6 +58,7 @@ public class IzmjenaPodatakaFizickogKomitenta extends JFrame {
 	 * Create the frame.
 	 */
 	public IzmjenaPodatakaFizickogKomitenta() {
+		setModal(true);
 		setType(Type.POPUP);
 		setResizable(false);
 		setTitle("Izmjena podataka fizičkog komitenta");
