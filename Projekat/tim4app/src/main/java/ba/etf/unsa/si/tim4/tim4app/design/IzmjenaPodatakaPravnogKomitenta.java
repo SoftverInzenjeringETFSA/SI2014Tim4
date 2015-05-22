@@ -6,19 +6,38 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+
+import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
+import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
+import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.LinkedList;
 
 public class IzmjenaPodatakaPravnogKomitenta extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField nazivTF;
+	private JTextField pdvBrojTF;
+	private JTextField adresaTF;
+	private JTextField telefonTF;
+	private JTextField emailTF;
+	private Validator validator = new Validator();
+	private JComboBox komitentComboBox;
+	private JButton btnIzmijeni;
+	private ItemChangeListener comboBoxSelectionChangedListener;
 
 	/**
 	 * Launch the application.
@@ -46,45 +65,141 @@ public class IzmjenaPodatakaPravnogKomitenta extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[][][][][][grow][][][][][]", "[][][][][][][][][][][][][][][][][][][][][][][][][]"));
-		
+		contentPane.setLayout(null);
+		comboBoxSelectionChangedListener = new ItemChangeListener();
 		JLabel lblNazivFirme = new JLabel("Naziv firme:");
-		contentPane.add(lblNazivFirme, "cell 4 4");
+		lblNazivFirme.setBounds(67, 66, 104, 14);
+		contentPane.add(lblNazivFirme);
 		
-		textField = new JTextField();
-		contentPane.add(textField, "cell 5 4 3 1,growx");
-		textField.setColumns(10);
+		nazivTF = new JTextField();
+		nazivTF.setBounds(193, 63, 142, 20);
+		contentPane.add(nazivTF);
+		nazivTF.setColumns(10);
 		
 		JLabel lblPdvBroj = new JLabel("PDV broj:");
-		contentPane.add(lblPdvBroj, "cell 4 7");
+		lblPdvBroj.setBounds(67, 96, 104, 14);
+		contentPane.add(lblPdvBroj);
 		
-		textField_1 = new JTextField();
-		contentPane.add(textField_1, "cell 5 7 3 1,growx");
-		textField_1.setColumns(10);
+		pdvBrojTF = new JTextField();
+		pdvBrojTF.setBounds(193, 93, 142, 20);
+		contentPane.add(pdvBrojTF);
+		pdvBrojTF.setColumns(10);
 		
 		JLabel lblAdresa = new JLabel("Adresa:");
-		contentPane.add(lblAdresa, "cell 4 11");
+		lblAdresa.setBounds(67, 126, 104, 17);
+		contentPane.add(lblAdresa);
 		
-		textField_2 = new JTextField();
-		contentPane.add(textField_2, "cell 5 11 3 1,growx");
-		textField_2.setColumns(10);
+		adresaTF = new JTextField();
+		adresaTF.setBounds(193, 124, 142, 20);
+		contentPane.add(adresaTF);
+		adresaTF.setColumns(10);
 		
 		JLabel lblTelefon = new JLabel("Telefon:");
-		contentPane.add(lblTelefon, "cell 4 14");
+		lblTelefon.setBounds(67, 158, 104, 14);
+		contentPane.add(lblTelefon);
 		
-		textField_3 = new JTextField();
-		contentPane.add(textField_3, "cell 5 14 3 1,growx");
-		textField_3.setColumns(10);
+		telefonTF = new JTextField();
+		telefonTF.setBounds(193, 155, 142, 20);
+		contentPane.add(telefonTF);
+		telefonTF.setColumns(10);
 		
 		JLabel lblEmail = new JLabel("E-mail:");
-		contentPane.add(lblEmail, "cell 4 17");
+		lblEmail.setBounds(67, 189, 104, 14);
+		contentPane.add(lblEmail);
 		
-		textField_4 = new JTextField();
-		contentPane.add(textField_4, "cell 5 17 3 1,growx");
-		textField_4.setColumns(10);
+		emailTF = new JTextField();
+		emailTF.setBounds(193, 186, 142, 20);
+		contentPane.add(emailTF);
+		emailTF.setColumns(10);
 		
-		JButton btnIzmijeni = new JButton("Izmijeni");
-		contentPane.add(btnIzmijeni, "cell 6 22 2 1");
+		btnIzmijeni = new JButton("Izmijeni");
+		btnIzmijeni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String naziv = nazivTF.getText();
+				String adresa = adresaTF.getText();
+				String pdvBroj = pdvBrojTF.getText();
+				String telefon = telefonTF.getText();
+				String email = emailTF.getText();
+				String validateNaziv = validator.validateOnlyLetters(naziv, "Naziv firme");
+				String validateAdresa = validator.validateAdresa(adresa);
+				String validatePdv = validator.validatePDVBroj(pdvBroj);
+				String validateTelefon = validator.validateTelefon(telefon);
+				String validateEmail = validator.validateEmail(email);
+				if(!validateNaziv.equals("")) {showMessageBox(validateNaziv, "Greška"); return; }
+				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška"); return;}
+				else if(!validatePdv.equals("")) {showMessageBox(validatePdv, "Greška"); return;}
+				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška"); return;}
+				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška"); return;}
+				KomitentDataSource kds = new KomitentDataSource();
+				Komitent k = (PravniKomitent)komitentComboBox.getSelectedItem();
+				kds.update(new PravniKomitent(k.getId(), "Pravno lice", adresa, telefon, email, naziv, pdvBroj));
+				fillCMB();
+				clearControls();
+			}
+		});
+		btnIzmijeni.setBounds(250, 217, 85, 23);
+		contentPane.add(btnIzmijeni);
+		
+		komitentComboBox = new JComboBox();
+		komitentComboBox.setBounds(193, 32, 142, 20);
+		contentPane.add(komitentComboBox);
+		komitentComboBox.addItemListener(comboBoxSelectionChangedListener);
+		fillCMB();
+		JLabel lblIzaberiteKomitenta = new JLabel("Izaberite komitenta:");
+		lblIzaberiteKomitenta.setBounds(67, 35, 104, 14);
+		contentPane.add(lblIzaberiteKomitenta);
+	}
+	
+	private void fillCMB()
+	{
+		KomitentDataSource kds = new KomitentDataSource();
+		   LinkedList<Komitent> komitenti = kds.getAll();
+		   if(komitenti != null)
+		   {
+			   komitentComboBox.removeAllItems();
+			   for(int i = 0; i < komitenti.size(); i++)
+			   {
+				   if(komitenti.get(i).getTipKomitenta().equals("Pravno lice"))
+				   komitentComboBox.addItem((PravniKomitent)komitenti.get(i)); 
+			   }
+		   }
+	}
+	
+	private void showMessageBox(String message, String messageBoxTitle)
+	{
+		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void clearControls()
+	{
+		   nazivTF.setText("");
+		   adresaTF.setText("");
+		   emailTF.setText("");
+		   telefonTF.setText("");
+		   pdvBrojTF.setText("");
+	}
+	
+	class ItemChangeListener implements ItemListener
+	{
+	    public void itemStateChanged(ItemEvent event) {
+	       if (event.getStateChange() == ItemEvent.SELECTED) {
+	    	   
+	    	   // uzimamo objekat na kojem se desio događaj
+	    	   Object sourceObject = event.getSource();
+	    	   // određujemo koji je od objekata bio
+	    	   if(sourceObject == komitentComboBox)
+	    	   {
+	    		   // selektovan je combobox, sada mijenjamo podatke
+	    		   Object selectedItem = event.getItem();
+	    		   PravniKomitent k = (PravniKomitent) selectedItem;
+	    		   nazivTF.setText(k.getNazivFirme());
+	    		   pdvBrojTF.setText(k.getPDVbroj());
+	    		   adresaTF.setText(k.getAdresa());
+	    		   emailTF.setText(k.getEmail());
+	    		   telefonTF.setText(k.getBrojTelefona());
+	    	   }
+	       }
+	    }   
 	}
 
 }

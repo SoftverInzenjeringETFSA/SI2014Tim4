@@ -9,6 +9,7 @@ public class Validator {
 	private static final String ONLY_NUMBERS_NOZERO_REGEX = "[1-9]+";
 	private static final String ONLY_LETTERS_REGEX = "[A-Z]+";
 	private static final String POZIVNI_BROJ_REGEX = "03[0-9]+";
+	private static final String MOBITEL_REGEX = "06[0-9]+";
 	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
@@ -72,8 +73,7 @@ public class Validator {
 		if(telefon.equals(""))	errorMessage = "Morate unijeti telefon!";
 		else if(!telefon.matches(ONLY_NUMBERS_REGEX)) errorMessage = "Telefon se mora sastojati samo od brojeva!";
 		else if(telefon.length() != 9) errorMessage = "Telefon mora imati 9 cifara!";
-		else if(telefon.substring(0, 3) != "061" && telefon.substring(0, 3) != "062" && telefon.substring(0, 3) != "063"
-		&& telefon.substring(0, 3) != "065" && !telefon.substring(0, 3).matches(POZIVNI_BROJ_REGEX)) errorMessage = "Pozivni broj(3 cifre) mora biti validan!";
+		else if(!telefon.substring(0, 4).matches(MOBITEL_REGEX) && !telefon.substring(0, 4).matches(POZIVNI_BROJ_REGEX)) errorMessage = "Pozivni broj(3 cifre) mora biti validan!";
 		return errorMessage;
 	}
 	
@@ -91,7 +91,7 @@ public class Validator {
 		if(jmb.equals("")) errorMessage = "Morate unijeti JMB!";
 		else if(!jmb.matches(ONLY_NUMBERS_REGEX)) errorMessage = "JMB se mora sastojati samo od brojeva!";
 		else if(jmb.length() != 13) errorMessage = "JMB mora imati 13 cifara!";
-		else if(!validateStringDate(jmb.substring(0, 5))) errorMessage = "Prvih 6 cifara JMB mora činiti validan datum!";
+		else if(!validateStringDate(jmb.substring(0, 7))) errorMessage = "Prvih 6 cifara JMB mora činiti validan datum!";
 		return errorMessage;
 	}
 	
@@ -99,9 +99,9 @@ public class Validator {
 	{
 		String errorMessage = "";
 		if(brojLK.equals("")) errorMessage = "Morate unijeti broj lične karte!";
-		else if(!brojLK.substring(0, 1).matches(ONLY_NUMBERS_NOZERO_REGEX)) errorMessage = "Prva dva znaka moraju biti brojevi!";
-		else if(!brojLK.substring(2, 4).matches(ONLY_LETTERS_REGEX)) errorMessage = "4, 5, 6 znak moraju biti slova!";
-		else if(!brojLK.substring(5, 8).matches(ONLY_NUMBERS_REGEX)) errorMessage = "7, 8, 9 znak moraju biti brojevi!";
+		else if(!brojLK.substring(0, 2).matches(ONLY_NUMBERS_NOZERO_REGEX)) errorMessage = "Prva dva znaka moraju biti brojevi!";
+		else if(!brojLK.substring(2, 5).matches(ONLY_LETTERS_REGEX)) errorMessage = "4, 5, 6 znak moraju biti slova!";
+		else if(!brojLK.substring(5, 9).matches(ONLY_NUMBERS_REGEX)) errorMessage = "7, 8, 9 znak moraju biti brojevi!";
 		else if(brojLK.length() != 9) errorMessage = "Lična karta mora imati 9 cifara!";
 		return errorMessage;
 	}
@@ -110,7 +110,7 @@ public class Validator {
 	{
 		if (inDate == null)
 		      return false;
-		    SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyy");
 		    if (inDate.trim().length() != dateFormat.toPattern().length())
 		      return false;
 		    dateFormat.setLenient(false);

@@ -117,6 +117,7 @@ public class DodavanjePravnogKomitenta extends JFrame {
 				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška"); return;}
 				KomitentDataSource kds = new KomitentDataSource();
 				kds.insert(new PravniKomitent("Pravno lice", adresa, telefon, email, naziv, pdvBroj));
+				clearControls();
 			}
 		});
 		contentPane.add(btnNewButton, "cell 6 28,growx");
@@ -125,5 +126,14 @@ public class DodavanjePravnogKomitenta extends JFrame {
 	private void showMessageBox(String message, String messageBoxTitle)
 	{
 		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void clearControls()
+	{
+		nazivFirmeTF.setText("");
+		adresaTF.setText("");
+		pdvBrojTF.setText("");
+		telefonTF.setText("");
+		emailTF.setText("");
 	}
 }

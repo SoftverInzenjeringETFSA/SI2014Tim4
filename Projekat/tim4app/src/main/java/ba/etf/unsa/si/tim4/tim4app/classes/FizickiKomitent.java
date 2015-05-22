@@ -16,6 +16,14 @@ public class FizickiKomitent extends Komitent {
 		this.mBrojLicneKarte = mBrojLicneKarte;
 	}
 	
+	public FizickiKomitent(String mIme, String mPrezime, String mJMB, String mBrojLicneKarte, String tipKomitenta, String adresa, String brojTelefona, String eMail) {
+		super(tipKomitenta, adresa, brojTelefona, eMail);
+		this.mIme = mIme;
+		this.mPrezime = mPrezime;
+		this.mJMB = mJMB;
+		this.mBrojLicneKarte = mBrojLicneKarte;
+	}
+	
 	public String getIme() {
 		return mIme;
 	}
