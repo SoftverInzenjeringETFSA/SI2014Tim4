@@ -1,5 +1,7 @@
 package ba.etf.unsa.si.tim4.tim4app.classes;
 
+import java.util.Date;
+
 public class Korisnik {
 	
 	   private int mId;
@@ -11,13 +13,29 @@ public class Korisnik {
 	   private String mBrojLicneKarte;
 	   private String mAdresa;
 	   private String mBrojTelefona;
-	   private String mDatumZaposlenja;
+	   private Date mDatumZaposlenja;
 	   
   
 	public Korisnik(String mTipKorisnika, String mUsername, String mPassword,
 			String mIme, String mPrezime, String mBrojLicneKarte,
-			String mAdresa, String mBrojTelefona, String mDatumZaposlenja) {
+			String mAdresa, String mBrojTelefona, Date mDatumZaposlenja) {
 
+		this.mTipKorisnika = mTipKorisnika;
+		this.mUsername = mUsername;
+		this.mPassword = mPassword;
+		this.mIme = mIme;
+		this.mPrezime = mPrezime;
+		this.mBrojLicneKarte = mBrojLicneKarte;
+		this.mAdresa = mAdresa;
+		this.mBrojTelefona = mBrojTelefona;
+		this.mDatumZaposlenja = mDatumZaposlenja;
+	}
+	
+	public Korisnik(int mId, String mTipKorisnika, String mUsername, String mPassword,
+			String mIme, String mPrezime, String mBrojLicneKarte,
+			String mAdresa, String mBrojTelefona, Date mDatumZaposlenja) {
+
+		this.mId = mId;
 		this.mTipKorisnika = mTipKorisnika;
 		this.mUsername = mUsername;
 		this.mPassword = mPassword;
@@ -83,10 +101,15 @@ public class Korisnik {
 	public void setBrojTelefona(String mBrojTelefona) {
 		this.mBrojTelefona = mBrojTelefona;
 	}
-	public String getDatumZaposlenja() {
+	public Date getDatumZaposlenja() {
 		return mDatumZaposlenja;
 	}
-	public void setDatumZaposlenja(String mDatumZaposlenja) {
+	public void setDatumZaposlenja(Date mDatumZaposlenja) {
 		this.mDatumZaposlenja = mDatumZaposlenja;
+	}
+
+	@Override
+	public String toString() {
+		return mUsername;
 	}
 }

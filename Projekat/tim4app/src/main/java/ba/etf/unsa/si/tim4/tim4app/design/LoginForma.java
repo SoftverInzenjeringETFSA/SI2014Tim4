@@ -6,19 +6,26 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+
+import ba.etf.unsa.si.tim4.tim4app.daldao.KorisnikDataSource;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginForma extends JFrame {
 
 	private JPanel contentPane;
 	private JPasswordField passwordField;
 	private JTextField usernameTextField;
+	private JButton prijavaButton;
 
 	/**
 	 * Launch the application.
@@ -40,6 +47,7 @@ public class LoginForma extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginForma() {
+		setResizable(false);
 		setTitle("Prijava na sistem");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 415, 268);
@@ -60,14 +68,29 @@ public class LoginForma extends JFrame {
 		panel.add(usernameTextField);
 		usernameTextField.setColumns(10);
 		
-		JButton prijavaButton = new JButton("Prijava");
+		prijavaButton = new JButton("Prijava");
+		prijavaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!usernameTextField.getText().equals("") && !passwordField.getPassword().toString().equals(""))
+				{
+					KorisnikDataSource kds = new KorisnikDataSource();
+					String username = usernameTextField.getText();
+					String lozinka = new String(passwordField.getPassword());
+					int count = kds.getCount(username, lozinka);
+					if(count == 1)
+					{
+						LoginForma.this.setVisible(false);
+						PocetniEkran pocetniEkran = new PocetniEkran();
+						pocetniEkran.setVisible(true);
+					}
+					else showMessageBox("Ne postoji korisnik sa tim podacima!", "Greška");
+				} else showMessageBox("Morate unijeti korisničko ime i lozinku!", "Greška");
+			}
+		});
 		prijavaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) 
 			{
-				LoginForma.this.setVisible(false);
-				PocetniEkran pocetniEkran = new PocetniEkran();
-				pocetniEkran.setVisible(true);
 			}
 		});
 		prijavaButton.setBounds(170, 148, 125, 23);
@@ -86,5 +109,10 @@ public class LoginForma extends JFrame {
 		JLabel lblLozinka = new JLabel("Lozinka:");
 		lblLozinka.setBounds(91, 107, 77, 14);
 		panel.add(lblLozinka);
+	}
+	
+	private void showMessageBox(String message, String messageBoxTitle)
+	{
+		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
 	}
 }
