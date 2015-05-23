@@ -31,6 +31,7 @@ import ba.etf.unsa.si.tim4.tim4app.classes.FakturaIznajmljivanje;
 import ba.etf.unsa.si.tim4.tim4app.classes.FakturaProdaje;
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.Korisnik;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
@@ -38,6 +39,7 @@ import ba.etf.unsa.si.tim4.tim4app.classes.Skladiste;
 import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureIznajmljivanjaDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureProdajeDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
+import ba.etf.unsa.si.tim4.tim4app.daldao.KorisnikDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
 import ba.etf.unsa.si.tim4.tim4app.reports.ReportManager;
@@ -60,15 +62,13 @@ import org.javatuples.Triplet;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
+
 import javax.swing.JScrollPane;
 
 public class PocetniEkran extends JFrame {
 
 
 	private JPanel contentPane;
-	private JTable pretragaKorisnikaTable;
-	private JTable pretragaKomitenataTable;
-	private JTable pretragaRezervoaraTable;
 	private JTextField serijskiBrojTextField;
 	private ItemChangeListener comboBoxSelectionChangedListener;
 	private JLabel labelaParametriLabel;
@@ -110,6 +110,18 @@ public class PocetniEkran extends JFrame {
 	private JDatePickerImpl datePicker;
 	private JScrollPane scrollPane;
 	private JTable faktureTable;
+	private JScrollPane scrollPane_1;
+	private JTable korisniciTable;
+	private JTextField korisnikPretragaTF;
+	private JTextField pretragaKomitentiTF;
+	private JTextField pretragaRezervoarTF;
+	private JComboBox kriterijPretrageRezervoariComboBox;
+	private JScrollPane scrollPane_2;
+	private JTable pretragaRezervoaraTable;
+	private JScrollPane scroll;
+	private JTable pretragaKomitenataTable;
+	private JComboBox kriterijPretrageKomitentiComboBox;
+	private JComboBox kriterijPretrageKorisniciComboBox;
 
 	/**
 	 * Launch the application.
@@ -134,7 +146,7 @@ public class PocetniEkran extends JFrame {
 		setResizable(false);
 		setTitle("Početni ekran");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 735, 370);
+		setBounds(100, 100, 809, 370);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -160,7 +172,7 @@ public class PocetniEkran extends JFrame {
 		    };
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(0, 0, 709, 332);
+		tabbedPane.setBounds(0, 0, 793, 332);
 		contentPane.add(tabbedPane);
 		tabbedPane.addChangeListener(tabChangedListener);
 		
@@ -592,11 +604,6 @@ public class PocetniEkran extends JFrame {
 		dodajPlinskeBoceButton.setBounds(10, 207, 211, 23);
 		administracijaRezervoaraPanel.add(dodajPlinskeBoceButton);
 		
-		pretragaRezervoaraTable = new JTable();
-		pretragaRezervoaraTable.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
-		pretragaRezervoaraTable.setBounds(251, 42, 443, 251);
-		rezervoariPanel.add(pretragaRezervoaraTable);
-		
 		prijavaRezervoariLabel = new JLabel("Prijavljeni ste kao: ");
 		prijavaRezervoariLabel.setBounds(10, 11, 184, 14);
 		rezervoariPanel.add(prijavaRezervoariLabel);
@@ -610,13 +617,81 @@ public class PocetniEkran extends JFrame {
 		lblIzaberiteKriterijPretrage.setBounds(251, 11, 167, 14);
 		rezervoariPanel.add(lblIzaberiteKriterijPretrage);
 		
-		JComboBox kriterijPretrageRezervoariComboBox = new JComboBox();
-		kriterijPretrageRezervoariComboBox.setBounds(412, 8, 111, 20);
+		kriterijPretrageRezervoariComboBox = new JComboBox();
+		kriterijPretrageRezervoariComboBox.setModel(new DefaultComboBoxModel(new String[] {"Serijski broj", "Kapacitet"}));
+		kriterijPretrageRezervoariComboBox.setBounds(406, 8, 111, 20);
 		rezervoariPanel.add(kriterijPretrageRezervoariComboBox);
 		
 		JButton btnNewButton = new JButton("Pretraga rezervoara");
-		btnNewButton.setBounds(533, 7, 161, 23);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String terminPretrage = pretragaRezervoarTF.getText();
+				if(terminPretrage.equals(""))  {showMessageBox("Morate unijeti termin za pretragu!", "Greška"); return; }
+				
+				PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
+				LinkedList<PlinskiRezervoar> pr = pds.getAllNoStatus();
+				DefaultTableModel rezervoariModel = (DefaultTableModel)pretragaRezervoaraTable.getModel();
+				rezervoariModel.setRowCount(0);
+				int matching = 0;
+				if(((String)kriterijPretrageRezervoariComboBox.getSelectedItem()).equals("Serijski broj"))
+				{
+					
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							if(pr.get(i).getSerijskiBroj().equals(terminPretrage)){
+								matching++;
+								PlinskiRezervoar p = pr.get(i);
+								rezervoariModel.addRow(new Object[] {p.getSerijskiBroj(), p.getKapacitet(), p.getTrenutniStatus(), p.getTezina()});
+							}
+						}
+					}
+				}
+				else
+				{
+					if(!validator.validateOnlyNumbers(terminPretrage, "Termin za pretragu").equals(""))
+					{
+						showMessageBox(validator.validateOnlyNumbers(terminPretrage, "Termin za pretragu"), "Greška");
+						return;
+					}
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							if(pr.get(i).getKapacitet() == Integer.valueOf(terminPretrage)){
+								matching++;
+								PlinskiRezervoar p = pr.get(i);
+								rezervoariModel.addRow(new Object[] {p.getSerijskiBroj(), p.getKapacitet(), p.getTrenutniStatus(), p.getTezina()});
+							}
+						}
+					}
+				}
+				if(matching == 0) {showMessageBox("Ne postoji rezervoar koji odgovara kriteriju pretrage!", "Greška"); }
+			}
+		});
+		btnNewButton.setBounds(617, 7, 161, 23);
 		rezervoariPanel.add(btnNewButton);
+		
+		pretragaRezervoarTF = new JTextField();
+		pretragaRezervoarTF.setBounds(520, 8, 86, 20);
+		rezervoariPanel.add(pretragaRezervoarTF);
+		pretragaRezervoarTF.setColumns(10);
+		
+		scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(251, 42, 527, 251);
+		rezervoariPanel.add(scrollPane_2);
+		
+		pretragaRezervoaraTable = new JTable();
+		pretragaRezervoaraTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Serijski broj", "Kapacitet", "Trenutni status", "Tezina"
+			}
+		));
+		pretragaRezervoaraTable.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
+		scrollPane_2.setViewportView(pretragaRezervoaraTable);
 		
 		JPanel komitentiPanel = new JPanel();
 		tabbedPane.addTab("Administracija komitenata", null, komitentiPanel, null);
@@ -680,11 +755,6 @@ public class PocetniEkran extends JFrame {
 		brisanjeKomitentaButton.setBounds(10, 151, 211, 23);
 		administracijaKomitenataPanel.add(brisanjeKomitentaButton);
 		
-		pretragaKomitenataTable = new JTable();
-		pretragaKomitenataTable.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
-		pretragaKomitenataTable.setBounds(251, 37, 443, 256);
-		komitentiPanel.add(pretragaKomitenataTable);
-		
 		prijavaKomitentiLabel = new JLabel("Prijavljeni ste kao: ");
 		prijavaKomitentiLabel.setBounds(10, 11, 164, 14);
 		komitentiPanel.add(prijavaKomitentiLabel);
@@ -698,13 +768,96 @@ public class PocetniEkran extends JFrame {
 		lblOdaberiteKriterijPretrage_1.setBounds(251, 12, 192, 14);
 		komitentiPanel.add(lblOdaberiteKriterijPretrage_1);
 		
-		JComboBox kriterijPretrageKomitentiComboBox = new JComboBox();
-		kriterijPretrageKomitentiComboBox.setBounds(426, 8, 105, 20);
+		kriterijPretrageKomitentiComboBox = new JComboBox();
+		kriterijPretrageKomitentiComboBox.setModel(new DefaultComboBoxModel(new String[] {"Ime", "Prezime", "Naziv firme"}));
+		kriterijPretrageKomitentiComboBox.setBounds(404, 8, 105, 20);
 		komitentiPanel.add(kriterijPretrageKomitentiComboBox);
 		
 		JButton pretragaKomitenataButton = new JButton("Pretraga komitenata");
-		pretragaKomitenataButton.setBounds(541, 7, 153, 23);
+		pretragaKomitenataButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String terminPretrage = pretragaKomitentiTF.getText();
+				if(terminPretrage.equals(""))  {showMessageBox("Morate unijeti termin za pretragu!", "Greška"); return; }
+				
+				KomitentDataSource pds = new KomitentDataSource();
+				LinkedList<Komitent> pr = pds.getAll();
+				DefaultTableModel komitentiModel = (DefaultTableModel)pretragaKomitenataTable.getModel();
+				komitentiModel.setRowCount(0);
+				int matching = 0;
+				String kriterij = (String)kriterijPretrageKomitentiComboBox.getSelectedItem();
+				if(kriterij.equals("Ime"))
+				{
+					
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							Komitent k = pr.get(i);
+							if(k.getTipKomitenta().equals("Pravno lice")) continue;
+							if(((FizickiKomitent)k).getIme().equals(terminPretrage)){
+								matching++;
+								FizickiKomitent fk = (FizickiKomitent) k;
+								komitentiModel.addRow(new Object[] {"-", "-", fk.getIme() + " " + fk.getPrezime(), fk.getBrojLicneKarte(), fk.getAdresa()});
+							}
+						}
+					}
+				}
+				else if(kriterij.equals("Prezime"))
+				{
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							Komitent k = pr.get(i);
+							if(k.getTipKomitenta().equals("Pravno lice")) continue;
+							if(((FizickiKomitent)k).getPrezime().equals(terminPretrage)){
+								matching++;
+								FizickiKomitent fk = (FizickiKomitent) k;
+								komitentiModel.addRow(new Object[] {"-", "-", fk.getIme() + " " + fk.getPrezime(), fk.getBrojLicneKarte(), fk.getAdresa()});
+							}
+						}
+					}
+				}
+				else
+				{
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							Komitent k = pr.get(i);
+							if(k.getTipKomitenta().equals("Fizicko lice")) continue;
+							if(((PravniKomitent)k).getNazivFirme().equals(terminPretrage)){
+								matching++;
+								PravniKomitent fk = (PravniKomitent) k;
+								komitentiModel.addRow(new Object[] {fk.getNazivFirme(), fk.getPDVbroj(), "-", "-", fk.getAdresa()});
+							}
+						}
+					}
+				}
+				if(matching == 0) {showMessageBox("Ne postoji komitent koji odgovara kriteriju pretrage!", "Greška"); }
+			}
+		});
+		pretragaKomitenataButton.setBounds(625, 7, 153, 23);
 		komitentiPanel.add(pretragaKomitenataButton);
+		
+		pretragaKomitentiTF = new JTextField();
+		pretragaKomitentiTF.setBounds(529, 8, 86, 20);
+		komitentiPanel.add(pretragaKomitentiTF);
+		pretragaKomitentiTF.setColumns(10);
+		
+		scroll = new JScrollPane();
+		scroll.setBounds(251, 37, 527, 256);
+		komitentiPanel.add(scroll);
+		
+		pretragaKomitenataTable = new JTable();
+		pretragaKomitenataTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Naziv firme", "PDV broj", "Ime i prezime", "Broj lične karte", "Adresa"
+			}
+		));
+		scroll.setViewportView(pretragaKomitenataTable);
 		
 		JPanel korisniciPanel = new JPanel();
 		tabbedPane.addTab("Administracija korisnika", null, korisniciPanel, null);
@@ -758,11 +911,6 @@ public class PocetniEkran extends JFrame {
 		izmjenaKorisnikaButton.setBounds(20, 153, 198, 23);
 		adminFunkcijePanel.add(izmjenaKorisnikaButton);
 		
-		pretragaKorisnikaTable = new JTable();
-		pretragaKorisnikaTable.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
-		pretragaKorisnikaTable.setBounds(266, 41, 428, 252);
-		korisniciPanel.add(pretragaKorisnikaTable);
-		
 		prijavaKorisniciLabel = new JLabel("Prijavljeni ste kao:");
 		prijavaKorisniciLabel.setBounds(10, 11, 194, 14);
 		korisniciPanel.add(prijavaKorisniciLabel);
@@ -771,19 +919,97 @@ public class PocetniEkran extends JFrame {
 		lblOdaberiteKriterijPretrage.setBounds(266, 11, 167, 14);
 		korisniciPanel.add(lblOdaberiteKriterijPretrage);
 		
-		JComboBox kriterijPretrageComboBox = new JComboBox();
-		kriterijPretrageComboBox.setBounds(424, 8, 113, 20);
-		korisniciPanel.add(kriterijPretrageComboBox);
+		kriterijPretrageKorisniciComboBox = new JComboBox();
+		kriterijPretrageKorisniciComboBox.setModel(new DefaultComboBoxModel(new String[] {"Korisničko ime", "Ime", "Prezime"}));
+		kriterijPretrageKorisniciComboBox.setBounds(426, 8, 113, 20);
+		korisniciPanel.add(kriterijPretrageKorisniciComboBox);
 		
 		JButton pretragaKorisnikaButton = new JButton("Pretraga korisnika");
-		pretragaKorisnikaButton.setBounds(547, 7, 147, 23);
+		pretragaKorisnikaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String terminPretrage = korisnikPretragaTF.getText();
+				if(terminPretrage.equals(""))  {showMessageBox("Morate unijeti termin za pretragu!", "Greška"); return; }
+				
+				KorisnikDataSource pds = new KorisnikDataSource();
+				LinkedList<Korisnik> pr = pds.getAll();
+				DefaultTableModel korisniciModel = (DefaultTableModel)korisniciTable.getModel();
+				korisniciModel.setRowCount(0);
+				int matching = 0;
+				String kriterij = (String)kriterijPretrageKorisniciComboBox.getSelectedItem();
+				if(kriterij.equals("Ime"))
+				{
+					
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							Korisnik k = pr.get(i);
+							if((k.getIme().equals(terminPretrage))){
+								matching++;
+								korisniciModel.addRow(new Object[] {k.getIme(), k.getPrezime(), k.getUsername(), k.getAdresa(), k.getBrojTelefona()});
+							}
+						}
+					}
+				}
+				else if(kriterij.equals("Prezime"))
+				{
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							Korisnik k = pr.get(i);
+							if((k.getPrezime().equals(terminPretrage))){
+								matching++;
+								korisniciModel.addRow(new Object[] {k.getIme(), k.getPrezime(), k.getUsername(), k.getAdresa(), k.getBrojTelefona()});
+							}
+						}
+					}
+				}
+				else
+				{
+					if(pr != null)
+					{
+						for(int i = 0; i < pr.size(); i++)
+						{
+							Korisnik k = pr.get(i);
+							if((k.getUsername().equals(terminPretrage))){
+								matching++;
+								korisniciModel.addRow(new Object[] {k.getIme(), k.getPrezime(), k.getUsername(), k.getAdresa(), k.getBrojTelefona()});
+							}
+						}
+					}
+				}
+				if(matching == 0) {showMessageBox("Ne postoji korisnik koji odgovara kriteriju pretrage!", "Greška"); }
+			}
+		});
+		pretragaKorisnikaButton.setBounds(631, 7, 147, 23);
 		korisniciPanel.add(pretragaKorisnikaButton);
 		
 		btnOdjava = new JButton("Odjava");
 		btnOdjava.setBounds(172, 7, 84, 23);
 		korisniciPanel.add(btnOdjava);
-		btnOdjava.addActionListener(odjavaActionListener);
 		
+		scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(276, 41, 502, 252);
+		korisniciPanel.add(scrollPane_1);
+		
+		korisniciTable = new JTable();
+		korisniciTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Ime", "Prezime", "Korisničko ime", "Adresa", "Telefon"
+			}
+		));
+		korisniciTable.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
+		scrollPane_1.setViewportView(korisniciTable);
+		
+		korisnikPretragaTF = new JTextField();
+		korisnikPretragaTF.setBounds(541, 8, 86, 20);
+		korisniciPanel.add(korisnikPretragaTF);
+		korisnikPretragaTF.setColumns(10);
+		btnOdjava.addActionListener(odjavaActionListener);
+
 	}
 	
 	
@@ -836,6 +1062,7 @@ public class PocetniEkran extends JFrame {
 			break;
 		}
 	}
+	
 	
 	private void clearFaktureControls()
 	{
