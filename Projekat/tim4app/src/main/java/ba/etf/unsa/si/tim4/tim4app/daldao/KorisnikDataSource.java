@@ -226,4 +226,27 @@ public class KorisnikDataSource {
 			return null;
 		}
 	}
+	
+	public String getIdByUsername(String username, String password)
+	{
+		String query = "SELECT id FROM korisnici WHERE username=? and lozinka=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return "";
+		try {
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+				while(rs.next()){
+					String id = rs.getString(1);
+					return id;
+				}
+			dbUtils.closeCurrentConnection();
+			return "";
+		} catch (SQLException e) {
+			dbUtils.printExceptionMessage(e.getMessage(), "getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return "";
+		}
+	}
 }
