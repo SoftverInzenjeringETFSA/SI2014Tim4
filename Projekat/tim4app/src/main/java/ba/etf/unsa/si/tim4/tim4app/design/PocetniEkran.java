@@ -191,7 +191,7 @@ public class PocetniEkran extends JFrame {
 		panel.add(lblIzaberiteIzvjetaj);
 
 		izborIzvjestajaComboBox = new JComboBox();
-		izborIzvjestajaComboBox.setModel(new DefaultComboBoxModel(new String[] {"Izvještaj o stanju plinskih boca na skladištu", "Izvještaj o stanju velikih plinskih rezervoara na skladištu", "Izvještaj za pojedinačni veliki plinski rezervoar", "Izvještaj o trenutnom stanju za komitenta"}));
+		izborIzvjestajaComboBox.setModel(new DefaultComboBoxModel(new String[] {"Izvještaj o stanju plinskih boca na skladištu", "Izvještaj o stanju velikih plinskih rezervoara na skladištu", "Izvještaj za pojedinačni veliki plinski rezervoar", "Izvještaj o trenutnom stanju za komitenta", "Izvještaj o iznajmljenim rezervoarima komitentu"}));
 		izborIzvjestajaComboBox.setBounds(10, 36, 345, 20);
 		izborIzvjestajaComboBox.addItemListener(comboBoxSelectionChangedListener);
 		panel.add(izborIzvjestajaComboBox);
@@ -238,6 +238,7 @@ public class PocetniEkran extends JFrame {
 				}
 				else if(!serijskiBrojTextField.isVisible() && komitentIzvjestajComboBox.isVisible())
 				{
+					if(comboIndex == 4) comboIndex = 6;
 					rm.printReport(comboIndex, komitentIzvjestajComboBox.getSelectedItem());
 				}
 				else 
@@ -1167,6 +1168,25 @@ public class PocetniEkran extends JFrame {
 	    			   labelaParametriLabel.setSize(labelaParametriLabel.getPreferredSize());
 	    		   }
 	    		   else if(selected.equals("Izvještaj o trenutnom stanju za komitenta"))
+	    		   {
+	    			   serijskiBrojTextField.setVisible(false);
+	    			   komitentIzvjestajComboBox.setVisible(true);
+	    			   labelaParametriLabel.setText("Izaberite komitenta: ");
+	    			   labelaParametriLabel.setSize(labelaParametriLabel.getPreferredSize());
+	    			   KomitentDataSource kds = new KomitentDataSource();
+	    			   LinkedList<Komitent> komitenti = kds.getAll();
+	    			   if(komitenti != null)
+	    			   {
+	    				   komitentIzvjestajComboBox.removeAllItems();
+	    				   for(int i = 0; i < komitenti.size(); i++)
+	    				   {
+	    					   if(komitenti.get(i).getTipKomitenta().equals("Pravno lice"))
+	    					   komitentIzvjestajComboBox.addItem((PravniKomitent)komitenti.get(i));
+	    					   else komitentIzvjestajComboBox.addItem((FizickiKomitent)komitenti.get(i)); 
+	    				   }
+	    			   }
+	    		   }
+	    		   else if(selected.equals("Izvještaj o iznajmljenim rezervoarima komitentu"))
 	    		   {
 	    			   serijskiBrojTextField.setVisible(false);
 	    			   komitentIzvjestajComboBox.setVisible(true);

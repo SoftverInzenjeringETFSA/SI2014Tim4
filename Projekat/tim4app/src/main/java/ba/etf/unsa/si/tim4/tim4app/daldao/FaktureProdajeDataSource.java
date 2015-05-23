@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import org.javatuples.Triplet;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.FakturaProdaje;
-import ba.etf.unsa.si.tim4.tim4app.classes.Izvjestaj;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
 

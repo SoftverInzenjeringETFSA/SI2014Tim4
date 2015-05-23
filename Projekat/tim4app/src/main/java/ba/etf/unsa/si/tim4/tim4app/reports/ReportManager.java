@@ -188,6 +188,39 @@ public class ReportManager {
 				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
+		else if(reportPath.equals("Reports/IzvjestajOIznajmljenimRezervoarima.jrxml"))
+		{
+			
+			Komitent k = (Komitent) parameter;
+			PravniKomitent pk = null;
+			FizickiKomitent fk = null;
+			if(k.getTipKomitenta().equals("Pravno lice")) pk = (PravniKomitent) k;
+			else fk = (FizickiKomitent) k;
+			String nazivKomitenta = "";
+			int idKomitenta = 0;
+			idKomitenta = k.getId();
+			nazivKomitenta = (pk == null) ? fk.getIme() + " " + fk.getPrezime() : pk.getNazivFirme();
+			String reportName = "izvjestajOIznajmljenimRezervoarima-" + nazivKomitenta;
+			Map parametersMap = new HashMap();
+			System.out.println(idKomitenta);
+			parametersMap.put("P_KOMITENT_ID", idKomitenta);
+			parametersMap.put("P_LOGO_IMAGE", getReportLogoImage());
+			parametersMap.put("P_NAZIV_KOMITENTA", nazivKomitenta);
+			Date currentDate = new Date();
+			try{
+				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
+				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
+				JasperExportManager.exportReportToPdfFile(jasperPrint,
+		                  pathToFolder + reportName + "-" + date + ".pdf");
+				JasperViewer.viewReport(jasperPrint, false);
+			}
+			catch(Exception e)
+			{
+				dbUtils.printExceptionMessage(e.getMessage(), "printParameterReport case 1");
+				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			}
+		}
 	}
 	
 	public void printReport(int comboSelectedIndex, Object parameter)
@@ -224,13 +257,17 @@ public class ReportManager {
 			pathToPrint = "Reports/FakturaIznajmljivanja.jrxml";
 			reportCase = 5;
 			break;
+		case 6:
+			pathToPrint = "Reports/IzvjestajOIznajmljenimRezervoarima.jrxml";
+			reportCase = 6;
+			break;
 		case -1:
 			return;
 		}
 		if(pathToPrint != "" && reportName != "") printParameterlessReport(pathToPrint, reportName);
 		else if(pathToPrint != "" && reportName == "")
 		{
-			if(reportCase == 2 || reportCase == 3 || reportCase == 4 || reportCase == 5) printParameterReport(pathToPrint, parameter);
+			if(reportCase == 2 || reportCase == 3 || reportCase == 4 || reportCase == 5 || reportCase == 6) printParameterReport(pathToPrint, parameter);
 		}
 	}
 	

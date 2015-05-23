@@ -15,11 +15,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
-import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
-import java.awt.Window.Type;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 

@@ -1,10 +1,8 @@
 package ba.etf.unsa.si.tim4.tim4app.design;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;

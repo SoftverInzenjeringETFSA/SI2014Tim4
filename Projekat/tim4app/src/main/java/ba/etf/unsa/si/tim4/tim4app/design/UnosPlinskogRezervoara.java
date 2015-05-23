@@ -2,7 +2,6 @@ package ba.etf.unsa.si.tim4.tim4app.design;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 

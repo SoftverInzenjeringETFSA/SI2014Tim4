@@ -7,7 +7,6 @@ import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.LinkedList;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -24,10 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
 
-import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
-import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
-import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 

@@ -15,9 +15,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 
-import ba.etf.unsa.si.tim4.tim4app.classes.Korisnik;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
-import ba.etf.unsa.si.tim4.tim4app.daldao.KorisnikDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

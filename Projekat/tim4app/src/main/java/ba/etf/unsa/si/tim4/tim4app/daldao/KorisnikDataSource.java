@@ -5,11 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.logging.Level;
-
-import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
-import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Korisnik;
-import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 
 import com.mysql.jdbc.PreparedStatement;
 
