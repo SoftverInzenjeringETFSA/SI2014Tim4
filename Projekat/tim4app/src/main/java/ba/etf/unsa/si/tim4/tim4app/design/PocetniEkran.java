@@ -60,6 +60,7 @@ import org.javatuples.Triplet;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
+import javax.swing.JScrollPane;
 
 public class PocetniEkran extends JFrame {
 
@@ -82,7 +83,6 @@ public class PocetniEkran extends JFrame {
 	private JTextField petLitaraTextField;
 	private JTextField desetLitaraTextField;
 	private JTextField petnaestLitaraTextField;
-	private JTable table;
 	private JComboBox plinskiRezervoariComboBox;
 	private JButton btnOdjava_1;
 	private JLabel prijavaFaktureLabel;
@@ -108,6 +108,8 @@ public class PocetniEkran extends JFrame {
 	private JButton odjavaButton;
 	private JButton btnOdjava;
 	private JDatePickerImpl datePicker;
+	private JScrollPane scrollPane;
+	private JTable faktureTable;
 
 	/**
 	 * Launch the application.
@@ -368,6 +370,7 @@ public class PocetniEkran extends JFrame {
 				PlinskiRezervoar pr = (PlinskiRezervoar) plinskiRezervoariComboBox.getSelectedItem();
 				boolean success = skladiste.addPlinskiRezervoar(pr);
 				if(!success) showMessageBox("Već ste dodali ovaj plinski rezervoar!", "Greška");
+				else addRowsToTableRezervoari();
 			}
 		});
 		btnUnesiteRezervoare.setBounds(187, 219, 144, 23);
@@ -392,7 +395,9 @@ public class PocetniEkran extends JFrame {
 			if(!petLitara.equals(""))	skladiste.addPetLitarske(Integer.valueOf(petLitara));
 			if(!desetLitara.equals("")) skladiste.addDesetLitarske(Integer.valueOf(desetLitara));
 		    if(!petnaestLitara.equals(""))skladiste.addPetnaestLitarske(Integer.valueOf(petnaestLitara));
-				int oldPet = Integer.valueOf(petLitaraLabel.getText());
+			// dodavanje redova u tabelu
+		    addRowsToTableBoce();
+		    int oldPet = Integer.valueOf(petLitaraLabel.getText());
 				int oldDeset = Integer.valueOf(desetLitaraLabel.getText());
 				int oldPetnaest = Integer.valueOf(petnaestLitaraLabel.getText());
 				if(!petLitara.equals(""))	petLitaraLabel.setText(oldPet - Integer.valueOf(petLitara) + "");
@@ -424,30 +429,6 @@ public class PocetniEkran extends JFrame {
 		komitentFaktureComboBox = new JComboBox();
 		komitentFaktureComboBox.setBounds(159, 8, 140, 20);
 		panel_3.add(komitentFaktureComboBox);
-		
-		
-		table = new JTable();
-		table.setBorder(new LineBorder(SystemColor.inactiveCaption));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setRowHeight(25);
-		table.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		table.setFillsViewportHeight(true);
-		table.setBounds(22, 63, 277, 125);
-		panel_3.add(table);
-		table.setCellSelectionEnabled(true);
-		table.setColumnSelectionAllowed(true);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"Red. br.", "Tip rezervoara", "Serijski broj", "Kapacitet", "Tezina", "Kolicina", "Cijena"
-			}
-		));
 		panel_3.add(datePicker);
 		btnKreirajFaktru = new JButton("Kreiraj fakturu");
 		btnKreirajFaktru.addActionListener(new ActionListener() {
@@ -462,17 +443,17 @@ public class PocetniEkran extends JFrame {
 					FaktureProdajeDataSource fds = new FaktureProdajeDataSource();
 					if(skladiste.getPetLitarske() != 0)
 					{
-						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), new Date(), (double) 10));
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), new Date(), (double) 10 * skladiste.getPetLitarske()));
 						skl.update(5, Integer.valueOf(petLitaraTextField.getText()));
 					}
 					if(skladiste.getDesetLitarske() != 0)
 					{
-						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), new Date(), (double) 20));
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), new Date(), (double) 20 * skladiste.getDesetLitarske()));
 						skl.update(10, Integer.valueOf(desetLitaraTextField.getText()));
 					}
 					if(skladiste.getPetnaestLitarske() != 0) 
 					{
-						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), new Date(), (double) 30));
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), new Date(), (double) 30 * skladiste.getPetnaestLitarske()));
 						skl.update(15, Integer.valueOf(petnaestLitaraTextField.getText()));
 					}
 					LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
@@ -487,6 +468,7 @@ public class PocetniEkran extends JFrame {
 					rm.printReport(4, new Triplet<String, String, Integer>(k.toString(), fds.formBrojFakture(), fds.getMaxId()));
 					skladiste.clearSkladiste();
 					clearFaktureControls();
+					clearTable();
 					fillCMB();
 				}
 				else if(iznajmiRadioButton.isSelected())
@@ -496,17 +478,17 @@ public class PocetniEkran extends JFrame {
 					else if(iznajmiDatum.before(new Date())) { showMessageBox("Datum mora biti veći od trenutnog!", "Greška"); return;}
 					FaktureIznajmljivanjaDataSource fds = new FaktureIznajmljivanjaDataSource();
 					if(skladiste.getPetLitarske() != 0){
-						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), iznajmiDatum, (double) 10));
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), iznajmiDatum, (double) 10 * skladiste.getPetLitarske()));
 						skl.update(5, Integer.valueOf(petLitaraTextField.getText()));
 					}
 					if(skladiste.getDesetLitarske() != 0) 
 					{
-						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), iznajmiDatum, (double) 20));
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), iznajmiDatum, (double) 20 * skladiste.getDesetLitarske()));
 						skl.update(10, Integer.valueOf(desetLitaraTextField.getText()));
 					}
 					if(skladiste.getPetnaestLitarske() != 0) 
 					{
-						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), iznajmiDatum, (double) 30));
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), iznajmiDatum, (double) 30 * skladiste.getPetnaestLitarske()));
 						skl.update(15, Integer.valueOf(petnaestLitaraTextField.getText()));
 					}
 					LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
@@ -520,6 +502,7 @@ public class PocetniEkran extends JFrame {
 					ReportManager rm = new ReportManager();
 					rm.printReport(5, new Triplet<String, String, Integer>(k.toString(), fds.formBrojFakture(), fds.getMaxId()));
 					skladiste.clearSkladiste();
+					clearTable();
 					clearFaktureControls();
 					fillCMB();
 				}
@@ -527,8 +510,20 @@ public class PocetniEkran extends JFrame {
 		});
 		btnKreirajFaktru.setBounds(159, 219, 140, 23);
 		panel_3.add(btnKreirajFaktru);
-		table.getColumnModel().getColumn(0).setPreferredWidth(51);
-		table.getColumnModel().getColumn(1).setPreferredWidth(84);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(22, 36, 277, 178);
+		panel_3.add(scrollPane);
+		
+		faktureTable = new JTable();
+		faktureTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Tip rezervoara", "Serijski broj", "Kapacitet(l)", "Tezina(kg)", "Broj boca/rezervoara", "Cijena"
+			}
+		));
+		scrollPane.setViewportView(faktureTable);
 		
 		JPanel rezervoariPanel = new JPanel();
 		tabbedPane.addTab("Administracija rezervoara", null, rezervoariPanel, null);
@@ -881,6 +876,33 @@ public class PocetniEkran extends JFrame {
 		{
 			tabbedPane.setEnabledAt(4,  false);
 		} else tabbedPane.setEnabledAt(4,  true);
+	}
+	
+	private void addRowsToTableBoce()
+	{
+		DefaultTableModel model = (DefaultTableModel) faktureTable.getModel();
+		int petice = skladiste.getPetLitarske();
+		int desetke = skladiste.getDesetLitarske();
+		int petnaeske = skladiste.getPetnaestLitarske();
+		if(petice != 0) model.addRow(new Object[]{"Plinska boca", "-", "5", "5", petice, petice * 10});
+		if(desetke != 0) model.addRow(new Object[]{"Plinska boca", "-", "10", "10", desetke, desetke * 20});
+		if(petnaeske != 0) model.addRow(new Object[]{"Plinska boca", "-", "10", "10", petnaeske, petnaeske * 30});
+	}
+	
+	private void addRowsToTableRezervoari()
+	{
+		DefaultTableModel model = (DefaultTableModel) faktureTable.getModel();
+		LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
+		for(int i = 0; i < rezervoari.size(); i++)
+		{
+			model.addRow(new Object[]{"Veliki plinski rezervoar", rezervoari.get(i).getSerijskiBroj(), rezervoari.get(i).getKapacitet(), rezervoari.get(i).getTezina(), "1", rezervoari.get(i).getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT});
+		}
+	}
+
+	private void clearTable()
+	{
+		DefaultTableModel model = (DefaultTableModel) faktureTable.getModel();
+		model.setRowCount(0);
 	}
 	
 	private void fillCMB()
