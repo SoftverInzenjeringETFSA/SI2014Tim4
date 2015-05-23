@@ -8,7 +8,7 @@ import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 import java.util.LinkedList;
 
 
-public class FizickiKomitentTestClass extends TestCase {
+public class FizickiKomitentClassTest extends TestCase {
 
 
 	public void testDodavanjeKomitenta()
@@ -64,5 +64,7 @@ public class FizickiKomitentTestClass extends TestCase {
 		kds.insert(k);
 		LinkedList<Komitent> komitenti2 = kds.getAll();
 		assertEquals(komitenti.size(),komitenti2.size() -1 );
+		kds.delete(666);
 	}
 }
+
