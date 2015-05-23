@@ -193,4 +193,31 @@ private DatabaseUtils dbUtils;
 			return -1;
 		}
 	}
+	
+	public int isUniqueSerijskiBroj(String serijskiBroj)
+	{
+		String query = "SELECT count(*) FROM plinski_rezervoari WHERE serijski_broj=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return -1;
+		try
+		{
+			ps.setString(1, serijskiBroj);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				int count = rs.getInt(1);
+				dbUtils.closeCurrentConnection();
+				return count;
+			}
+			dbUtils.closeCurrentConnection();
+			return -1;
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "getCount()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return -1;
+		}
+	}
 }

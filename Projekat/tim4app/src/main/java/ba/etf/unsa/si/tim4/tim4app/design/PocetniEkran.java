@@ -463,6 +463,12 @@ public class PocetniEkran extends JFrame {
 		administracijaRezervoaraPanel.add(lblFunkcijeZaAdministraciju_1);
 		
 		JButton dodajVelikiRezervoarButton = new JButton("Dodavanje velikih plinskih rezervoara");
+		dodajVelikiRezervoarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UnosPlinskogRezervoara upr = new UnosPlinskogRezervoara();
+				upr.setVisible(true);
+			}
+		});
 		dodajVelikiRezervoarButton.setBounds(10, 47, 211, 23);
 		administracijaRezervoaraPanel.add(dodajVelikiRezervoarButton);
 		
@@ -474,12 +480,6 @@ public class PocetniEkran extends JFrame {
 				i.setVisible(true);
 			}
 		});
-		izmjenaPodatakaVelikiRezervoarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				UnosPlinskogRezervoara i = new UnosPlinskogRezervoara();
-				i.setVisible(true);
-			}
-		});
 		izmjenaPodatakaVelikiRezervoarButton.setBounds(10, 90, 211, 23);
 		administracijaRezervoaraPanel.add(izmjenaPodatakaVelikiRezervoarButton);
 		
@@ -487,6 +487,8 @@ public class PocetniEkran extends JFrame {
 		brisanjeVelikiRezervoarButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				BrisanjePlinskogRezervoara p = new BrisanjePlinskogRezervoara();
+				p.setVisible(true);
 			}
 		});
 		brisanjeVelikiRezervoarButton.setBounds(10, 134, 211, 23);

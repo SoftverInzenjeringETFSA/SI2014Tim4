@@ -106,6 +106,15 @@ public class Validator {
 		return errorMessage;
 	}
 	
+	public String validateOnlyNumbers(String expression, String field)
+	{
+		String errorMessage = "";
+		if(expression.equals("")) errorMessage = "Morate unijeti " + field + "!";
+		else if(!expression.matches(ONLY_NUMBERS_REGEX)) errorMessage = field + " mora biti broj!";
+		else if(Integer.valueOf(expression) < 0 || Integer.valueOf(expression) > 500) errorMessage = field + " mora biti veći od nule i manji od 500 l(kg)";
+		return errorMessage;
+	}
+	
 	public boolean validateStringDate(String inDate)
 	{
 		if (inDate == null)

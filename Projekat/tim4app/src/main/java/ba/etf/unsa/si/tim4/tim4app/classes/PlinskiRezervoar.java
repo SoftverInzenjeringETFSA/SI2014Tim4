@@ -30,6 +30,21 @@ public class PlinskiRezervoar {
 		this.mTrenutniStatus = mTrenutniStatus;
 	}
 	
+	public PlinskiRezervoar(int id, String mSerijskiBroj, int mKapacitet,
+			int mTezina, int mNapunjenost, String mTipRezervoara,
+			Date mDatumZadnjegBazdarenja, String mLokacija,
+			String mTrenutniStatus) {
+		this.mId = id;
+		this.mSerijskiBroj = mSerijskiBroj;
+		this.mKapacitet = mKapacitet;
+		this.mTezina = mTezina;
+		this.mNapunjenost = mNapunjenost;
+		this.mTipRezervoara = mTipRezervoara;
+		this.mDatumZadnjegBazdarenja = mDatumZadnjegBazdarenja;
+		this.mLokacija = mLokacija;
+		this.mTrenutniStatus = mTrenutniStatus;
+	}
+	
 	
 	public int getId() {
 		return mId;
