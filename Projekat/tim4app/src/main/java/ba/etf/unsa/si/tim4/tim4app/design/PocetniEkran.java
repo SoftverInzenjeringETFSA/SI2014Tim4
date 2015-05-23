@@ -505,6 +505,16 @@ public class PocetniEkran extends JFrame {
 		btnNewButton_1.setBounds(10, 173, 211, 23);
 		administracijaRezervoaraPanel.add(btnNewButton_1);
 		
+		JButton dodajPlinskeBoceButton = new JButton("Dodavanje plinskih boca");
+		dodajPlinskeBoceButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DodavanjePlinskihBoca d = new DodavanjePlinskihBoca();
+				d.setVisible(true);
+			}
+		});
+		dodajPlinskeBoceButton.setBounds(10, 207, 211, 23);
+		administracijaRezervoaraPanel.add(dodajPlinskeBoceButton);
+		
 		pretragaRezervoaraTable = new JTable();
 		pretragaRezervoaraTable.setBorder(new LineBorder(UIManager.getColor("InternalFrame.inactiveTitleGradient")));
 		pretragaRezervoaraTable.setBounds(251, 42, 443, 251);

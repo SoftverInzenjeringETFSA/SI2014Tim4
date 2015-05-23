@@ -62,6 +62,26 @@ public class SkladisteDataSource {
 		}
 	}
 	
+	public void update(int kapacitet, int staraKolicina, int kolicina)
+	{
+		String query = "UPDATE skladiste_plinskih_boca SET kolicina=? WHERE kapacitet=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return;
+		try
+		{
+			ps.setInt(1, kolicina + staraKolicina);
+			ps.setInt(2, kapacitet);
+			ps.execute();
+			dbUtils.closeCurrentConnection();
+		}
+		catch(SQLException e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca update");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+		}
+	}
+	
 	public void delete(int id)
 	{
 		String query = "DELETE FROM skladiste_plinskih_boca WHERE id=?";

@@ -162,6 +162,7 @@ public class DodavanjeNovogKorisnika extends JDialog {
 				else if(password.equals("")) { showMessageBox("Morate unijeti lozinku!", "Greška"); return; }
 				else if(kds.isUsernameUnique(username)) { showMessageBox("Korisničko ime mora biti jedinstveno!", "Greška"); return; }
 				else if(!administratorRadioButton.isSelected() && !korisnikRadioButton.isSelected()) { showMessageBox("Morate odabrati tip!", "Greška"); return;}
+				else if(datum == null) { showMessageBox("Morate izabrati datum!", "Greška"); return; }
 				kds.insert(new Korisnik(tip, username, password, ime, prezime, brojLK, adresa, telefon, datum));
 				clearControls();
 			}

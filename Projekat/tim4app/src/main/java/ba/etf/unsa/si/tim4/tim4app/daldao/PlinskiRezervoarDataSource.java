@@ -47,20 +47,20 @@ private DatabaseUtils dbUtils;
 	
 	public void update(PlinskiRezervoar pr)
 	{
-		String query = "UPDATE plinski_rezervoari SET serijski_broj=?, kapacitet=?, tezina=?, napunjenost=?, tip=?"
-				+ ", datum_zadnjeg_bazdarenja=?, lokacija=?, trenutni_status=?";
+		String query = "UPDATE plinski_rezervoari SET kapacitet=?, tezina=?, napunjenost=?, tip=?"
+				+ ", datum_zadnjeg_bazdarenja=?, lokacija=?, trenutni_status=? WHERE serijski_broj=?";
 		PreparedStatement ps = dbUtils.getPreparedStatement(query);
 		if(ps == null) return;
 		try
 		{
-			ps.setString(1, pr.getSerijskiBroj());
-			ps.setInt(2, pr.getKapacitet());
-			ps.setInt(3, pr.getTezina());
-			ps.setInt(4, pr.getNapunjenost());
-			ps.setString(5, pr.getTipRezervoara());
-			ps.setDate(6, dbUtils.getSqlDate(pr.getDatumZadnjegBazdarenja()));
-			ps.setString(7, pr.getLokacija());
-			ps.setString(8, pr.getTrenutniStatus());
+			ps.setInt(1, pr.getKapacitet());
+			ps.setInt(2, pr.getTezina());
+			ps.setInt(3, pr.getNapunjenost());
+			ps.setString(4, pr.getTipRezervoara());
+			ps.setDate(5, dbUtils.getSqlDate(pr.getDatumZadnjegBazdarenja()));
+			ps.setString(6, pr.getLokacija());
+			ps.setString(7, pr.getTrenutniStatus());
+			ps.setString(8,  pr.getSerijskiBroj());
 			ps.execute();
 			dbUtils.closeCurrentConnection();
 		}

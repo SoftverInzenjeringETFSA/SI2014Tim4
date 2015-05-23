@@ -1,5 +1,6 @@
 package ba.etf.unsa.si.tim4.tim4app.classes;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class PlinskiRezervoar {
@@ -99,6 +100,15 @@ public class PlinskiRezervoar {
 	}
 	public void setTrenutniStatus(String mTrenutniStatus) {
 		this.mTrenutniStatus = mTrenutniStatus;
+	}
+	
+	public Date getDatumSljedecegBazdarenja()
+	{
+		   Calendar c = Calendar.getInstance();
+		   c.setTime(this.getDatumZadnjegBazdarenja());
+		   c.add(Calendar.YEAR, 2);
+		   Date datumNext = c.getTime();
+		   return datumNext;
 	}
 
 
