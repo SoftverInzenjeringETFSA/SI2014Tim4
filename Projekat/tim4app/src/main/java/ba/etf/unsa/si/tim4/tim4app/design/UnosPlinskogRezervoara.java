@@ -24,6 +24,8 @@ import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UnosPlinskogRezervoara extends JDialog {
 
@@ -51,6 +53,8 @@ public class UnosPlinskogRezervoara extends JDialog {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

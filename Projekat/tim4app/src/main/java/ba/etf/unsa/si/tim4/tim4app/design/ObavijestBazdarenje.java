@@ -3,6 +3,8 @@ package ba.etf.unsa.si.tim4.tim4app.design;
 import java.awt.EventQueue;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
+
 import javax.swing.JLabel;
 
 public class ObavijestBazdarenje extends JDialog {
@@ -36,6 +39,8 @@ public class ObavijestBazdarenje extends JDialog {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

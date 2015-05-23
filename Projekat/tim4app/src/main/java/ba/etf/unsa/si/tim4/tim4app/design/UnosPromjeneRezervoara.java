@@ -32,6 +32,8 @@ import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UnosPromjeneRezervoara extends JDialog {
 
@@ -57,6 +59,8 @@ public class UnosPromjeneRezervoara extends JDialog {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

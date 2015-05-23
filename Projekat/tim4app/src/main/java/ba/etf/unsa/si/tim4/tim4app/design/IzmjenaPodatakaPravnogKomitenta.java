@@ -25,6 +25,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 
@@ -50,6 +52,8 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

@@ -19,6 +19,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LoginForma extends JFrame {
 
@@ -38,6 +40,8 @@ public class LoginForma extends JFrame {
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

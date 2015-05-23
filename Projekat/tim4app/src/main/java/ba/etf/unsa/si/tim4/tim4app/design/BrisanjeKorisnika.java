@@ -3,6 +3,8 @@ package ba.etf.unsa.si.tim4.tim4app.design;
 
 import java.awt.EventQueue;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -38,6 +40,8 @@ public class BrisanjeKorisnika extends JDialog {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

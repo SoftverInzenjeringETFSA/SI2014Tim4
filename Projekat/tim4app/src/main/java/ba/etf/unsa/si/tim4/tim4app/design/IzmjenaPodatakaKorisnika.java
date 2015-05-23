@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -62,6 +65,8 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});

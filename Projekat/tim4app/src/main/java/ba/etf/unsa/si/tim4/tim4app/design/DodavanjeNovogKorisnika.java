@@ -25,6 +25,8 @@ import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
@@ -57,6 +59,8 @@ public class DodavanjeNovogKorisnika extends JDialog {
 				}
 				catch (Exception e) {
 					e.printStackTrace();
+					Logger l = Logger.getAnonymousLogger();
+					l.log(Level.SEVERE, e.getMessage(), e);
 				}
 			}
 		});
