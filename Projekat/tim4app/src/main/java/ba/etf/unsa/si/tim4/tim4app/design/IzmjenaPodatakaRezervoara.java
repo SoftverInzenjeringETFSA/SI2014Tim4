@@ -69,6 +69,7 @@ public class IzmjenaPodatakaRezervoara extends JDialog {
 	 * Create the frame.
 	 */
 	public IzmjenaPodatakaRezervoara() {
+		setResizable(false);
 		setModal(true);
 		setTitle("Izmjena podataka rezervoara");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

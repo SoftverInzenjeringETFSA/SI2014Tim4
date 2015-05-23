@@ -47,6 +47,7 @@ public class BrisanjeKorisnika extends JDialog {
 	 * Create the frame.
 	 */
 	public BrisanjeKorisnika() {
+		setResizable(false);
 		setTitle("Brisanje korisnika");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 428, 168);

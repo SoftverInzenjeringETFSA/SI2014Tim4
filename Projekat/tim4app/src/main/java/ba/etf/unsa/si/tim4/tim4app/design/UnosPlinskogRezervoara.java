@@ -60,6 +60,7 @@ public class UnosPlinskogRezervoara extends JDialog {
 	 * Create the frame.
 	 */
 	public UnosPlinskogRezervoara() {
+		setResizable(false);
 		setModal(true);
 		setTitle("Unos plinskog rezervoara");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

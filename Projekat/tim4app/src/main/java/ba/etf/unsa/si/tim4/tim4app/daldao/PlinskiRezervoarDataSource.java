@@ -190,6 +190,8 @@ private DatabaseUtils dbUtils;
 		}
 	}
 	
+	
+	
 	public LinkedList<PlinskiRezervoar> getAllNoStatus()
 	{
 		String query = "SELECT id, serijski_broj, kapacitet, tezina, napunjenost, tip"
@@ -227,6 +229,46 @@ private DatabaseUtils dbUtils;
 			return null;
 		}
 	}
+	
+	public LinkedList<PlinskiRezervoar> getAllBazdarenjeSoon()
+	{
+		String query = "SELECT id, serijski_broj, kapacitet, tezina, napunjenost, tip"
+				+ ", datum_zadnjeg_bazdarenja, lokacija, trenutni_status FROM plinski_rezervoari"
+				+ " WHERE date_sub(curdate(), INTERVAL 7 DAY) = date_add(datum_zadnjeg_bazdarenja, INTERVAL 2 YEAR)";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		LinkedList<PlinskiRezervoar> toRet = new LinkedList<PlinskiRezervoar>();
+		if(ps == null) return null;
+		try
+		{
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				int id = rs.getInt(1);
+				String serijskiBroj = rs.getString(2);
+				int kapacitet = rs.getInt(3);
+				int tezina = rs.getInt(4);
+				int napunjenost = rs.getInt(5);
+				String tip = rs.getString(6);
+				Date datumBazdarenja = rs.getDate(7);
+				String lokacija = rs.getString(8);
+				String trenutniStatus = rs.getString(9);
+				PlinskiRezervoar pr = new PlinskiRezervoar(serijskiBroj, kapacitet, tezina, napunjenost,
+										  tip, datumBazdarenja, lokacija, trenutniStatus);
+				pr.setId(id);
+				toRet.add(pr);
+			}
+			dbUtils.closeCurrentConnection();
+			return toRet;
+		}
+		catch(SQLException e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca getAll()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return null;
+		}
+	}
+	
 	
 	public int getCount()
 	{

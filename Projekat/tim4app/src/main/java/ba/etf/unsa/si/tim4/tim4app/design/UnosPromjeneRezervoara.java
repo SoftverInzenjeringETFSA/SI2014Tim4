@@ -66,6 +66,7 @@ public class UnosPromjeneRezervoara extends JDialog {
 	 * Create the frame.
 	 */
 	public UnosPromjeneRezervoara() {
+		setResizable(false);
 		setModal(true);
 		setTitle("Unos promjene plinskog rezervoara");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

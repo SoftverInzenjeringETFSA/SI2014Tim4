@@ -94,7 +94,6 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 		korisnikComboBox.addItemListener(changeListener);
 		JLabel label_1 = new JLabel("Ime:");
 		contentPane.add(label_1, "cell 1 2,alignx trailing");
-		
 		imeTF = new JTextField();
 		imeTF.setColumns(28);
 		contentPane.add(imeTF, "cell 2 2,growx");
