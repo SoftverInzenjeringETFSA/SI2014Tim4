@@ -41,7 +41,6 @@ public class BrisanjePlinskogRezervoara extends JDialog {
 					BrisanjePlinskogRezervoara frame = new BrisanjePlinskogRezervoara();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

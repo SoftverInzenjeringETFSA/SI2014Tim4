@@ -58,7 +58,6 @@ public class UnosPromjeneRezervoara extends JDialog {
 					UnosPromjeneRezervoara frame = new UnosPromjeneRezervoara();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

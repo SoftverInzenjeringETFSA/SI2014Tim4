@@ -61,7 +61,6 @@ public class IzmjenaPodatakaRezervoara extends JDialog {
 					IzmjenaPodatakaRezervoara frame = new IzmjenaPodatakaRezervoara();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

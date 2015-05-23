@@ -38,7 +38,6 @@ public class ObavijestBazdarenje extends JDialog {
 					ObavijestBazdarenje frame = new ObavijestBazdarenje();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

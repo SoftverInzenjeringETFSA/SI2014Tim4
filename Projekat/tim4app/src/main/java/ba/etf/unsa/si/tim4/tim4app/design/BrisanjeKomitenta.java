@@ -43,7 +43,6 @@ public class BrisanjeKomitenta extends JDialog {
 					BrisanjeKomitenta frame = new BrisanjeKomitenta();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

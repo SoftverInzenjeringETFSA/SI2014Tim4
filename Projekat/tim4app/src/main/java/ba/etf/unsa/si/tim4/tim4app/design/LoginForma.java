@@ -39,7 +39,6 @@ public class LoginForma extends JFrame {
 					LoginForma frame = new LoginForma();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

@@ -50,7 +50,6 @@ public class IzmjenaPodatakaFizickogKomitenta extends JDialog {
 					IzmjenaPodatakaFizickogKomitenta frame = new IzmjenaPodatakaFizickogKomitenta();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}

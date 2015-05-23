@@ -53,7 +53,6 @@ public class DodavanjePlinskihBoca extends JDialog {
 					DodavanjePlinskihBoca frame = new DodavanjePlinskihBoca();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
 					Logger l = Logger.getAnonymousLogger();
 					l.log(Level.SEVERE, e.getMessage(), e);
 				}
