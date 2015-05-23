@@ -61,6 +61,7 @@ public class DodavanjePlinskihBoca extends JDialog {
 	 * Create the frame.
 	 */
 	public DodavanjePlinskihBoca() {
+		setResizable(false);
 		setTitle("Dodavanje plinskih boca");
 		setModal(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
