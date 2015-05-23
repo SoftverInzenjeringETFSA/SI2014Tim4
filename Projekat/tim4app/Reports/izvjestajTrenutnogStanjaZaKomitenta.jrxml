@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="izvjestajTrenutnogStanjaZaKomitenta" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9c501e-b442-4194-84a1-5208a2a818d7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="158"/>
+	<property name="ireport.y" value="203"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -132,10 +132,9 @@
 kapacitet "Kapacitet", 1 "Kolicina"
 FROM
 (
-select rezervoar "Rezervoar" from stavkefakture_prodaja where faktura = (SELECT x.id FROM fakture_prodaja x WHERE x.komitent = $P{P_KOMITENT_ID_TABELA_1}
-)
+select rezervoar "Rezervoar" from stavkefakture_prodaja where faktura IN (SELECT x.id FROM fakture_prodaja x WHERE x.komitent = $P{P_KOMITENT_ID_TABELA_1})
 ) rezervoari_id, plinski_rezervoari
-WHERE serijski_broj = rezervoari_id.rezervoar
+WHERE serijski_broj = (SELECT p.serijski_broj FROM plinski_rezervoari p WHERE p.id = rezervoari_id.rezervoar)
 ;]]>
 		</queryString>
 		<field name="Lokacija" class="java.lang.String">
@@ -162,10 +161,9 @@ WHERE serijski_broj = rezervoari_id.rezervoar
 kapacitet "Kapacitet", 1 "Kolicina"
 FROM
 (
-select rezervoar "Rezervoar" from stavkefakture_iznajmljivanje where faktura = (SELECT x.id FROM fakture_iznajmljivanje x WHERE x.komitent = $P{P_KOMITENT_ID_IZNAJMI}
-)
+select rezervoar "Rezervoar" from stavkefakture_iznajmljivanje where faktura IN (SELECT x.id FROM fakture_iznajmljivanje x WHERE x.komitent = $P{P_KOMITENT_ID_IZNAJMI})
 ) rezervoari_id, plinski_rezervoari
-WHERE serijski_broj = rezervoari_id.rezervoar
+WHERE serijski_broj = (SELECT p.serijski_broj FROM plinski_rezervoari p WHERE p.id = rezervoari_id.rezervoar)
 ;]]>
 		</queryString>
 		<field name="Lokacija" class="java.lang.String">
@@ -190,7 +188,7 @@ WHERE serijski_broj = rezervoari_id.rezervoar
 		<queryString>
 			<![CDATA[SELECT  (SELECT y.adresa FROM komitenti y WHERE id = $P{P_TABELA_PRODAJA_BOCE}) "Lokacija",
 '-' , 'Plinska boca','--', kapacitetBoce "Kapacitet", kolicina "Kolicina"
-FROM stavkefakture_prodaja WHERE faktura =
+FROM stavkefakture_prodaja WHERE faktura IN
 (
     SELECT x.id FROM fakture_prodaja x WHERE x.komitent = $P{P_TABELA_PRODAJA_BOCE}
 );]]>
@@ -211,9 +209,9 @@ FROM stavkefakture_prodaja WHERE faktura =
 			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 		</parameter>
 		<queryString>
-			<![CDATA[SELECT  (SELECT y.adresa FROM komitenti y WHERE id = 16) "Lokacija",
+			<![CDATA[SELECT  (SELECT y.adresa FROM komitenti y WHERE id = $P{P_TABELA_IZNAJMI_2}) "Lokacija",
 '-' , 'Plinska boca', '-' , kapacitetBoce "Kapacitet", kolicina "Kolicina"
-FROM stavkefakture_iznajmljivanje WHERE faktura =
+FROM stavkefakture_iznajmljivanje WHERE faktura IN
 (
     SELECT x.id FROM fakture_iznajmljivanje x WHERE x.komitent = $P{P_TABELA_IZNAJMI_2}
 );]]>
@@ -293,9 +291,12 @@ za komitenta: ]]></text>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="280" splitType="Stretch">
+		<band height="34" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="277">
 			<componentElement>
-				<reportElement key="table 2" style="table 2" x="10" y="17" width="360" height="50" uuid="3775d1e9-3d8d-46f6-bf10-9e4526d4b323"/>
+				<reportElement key="table 2" style="table 2" x="0" y="0" width="360" height="50" uuid="3775d1e9-3d8d-46f6-bf10-9e4526d4b323"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="tabela_prodaja" uuid="a5d2b66c-a91d-4cfa-b7bf-b152d01547f4">
 						<datasetParameter name="P_KOMITENT_ID_TABELA_1">
@@ -426,7 +427,7 @@ za komitenta: ]]></text>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 3" style="table 3" x="10" y="108" width="360" height="54" uuid="5e23c40c-2f11-497d-8105-991cd1f9855f"/>
+				<reportElement key="table 3" style="table 3" x="0" y="91" width="360" height="54" uuid="5e23c40c-2f11-497d-8105-991cd1f9855f"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="tabela_prodaja_boce" uuid="e7f5576a-9d00-456a-be4c-c890c556a462">
 						<datasetParameter name="P_TABELA_PRODAJA_BOCE">
@@ -492,7 +493,7 @@ za komitenta: ]]></text>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 4" style="table 4" x="10" y="148" width="360" height="53" uuid="8e7420b3-bb1c-4da8-ad96-07f20e19f223"/>
+				<reportElement key="table 4" style="table 4" x="0" y="131" width="360" height="53" uuid="8e7420b3-bb1c-4da8-ad96-07f20e19f223"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="tabela_iznajmljivanje_boce" uuid="bbfd8b45-2bbb-4626-9d8b-da44972d8c25">
 						<datasetParameter name="P_TABELA_IZNAJMI_2">
@@ -558,7 +559,7 @@ za komitenta: ]]></text>
 				</jr:table>
 			</componentElement>
 			<componentElement>
-				<reportElement key="table 5" style="table 5" x="10" y="88" width="360" height="54" uuid="e1f9e6fb-2494-44c6-aa3d-d2be6461f4ed"/>
+				<reportElement key="table 5" style="table 5" x="0" y="71" width="360" height="54" uuid="e1f9e6fb-2494-44c6-aa3d-d2be6461f4ed"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="tabela_iznajmljivanje" uuid="5c1ffd0b-e64c-4f30-98ed-9b69b92d25c8">
 						<datasetParameter name="P_KOMITENT_ID_IZNAJMI">
@@ -635,7 +636,7 @@ za komitenta: ]]></text>
 				</jr:table>
 			</componentElement>
 		</band>
-	</columnHeader>
+	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
 	</columnFooter>

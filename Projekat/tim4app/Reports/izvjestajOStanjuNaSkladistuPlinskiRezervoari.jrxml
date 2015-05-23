@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="izvjestajOStanjuNaSkladistuPlinskeBoce" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9c501e-b442-4194-84a1-5208a2a818d7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="izvjestajOStanjuNaSkladistuPlinskiRezervoari" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f9c501e-b442-4194-84a1-5208a2a818d7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -88,7 +88,7 @@ FROM plinski_rezervoari WHERE trenutni_status = 'Skladiste';]]>
 	<parameter name="P_LOGO_IMAGE" class="java.lang.Object"/>
 	<queryString>
 		<![CDATA[SELECT serijski_broj "Serijski broj", tip "Tip",  date(datum_zadnjeg_bazdarenja) "Datum zadnjeg bazdarenja", kapacitet "Kapacitet rezervoara u l"
-FROM plinski_rezervoari WHERE trenutni_status = 'Skladiste';]]>
+FROM plinski_rezervoari WHERE trenutni_status='Skladiste']]>
 	</queryString>
 	<field name="Serijski broj" class="java.lang.String"/>
 	<field name="Tip" class="java.lang.String">

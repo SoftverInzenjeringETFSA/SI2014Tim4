@@ -20,6 +20,7 @@ public class DatabaseUtils {
 	{
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
+			if( currentConnection == null || currentConnection.isClosed())
 			currentConnection = (Connection) DriverManager.getConnection(connectionString, username, password);
 			return currentConnection;
 		}

@@ -72,6 +72,27 @@ private DatabaseUtils dbUtils;
 		}
 	}
 	
+	public void updateStatus(int id, String lokacija, String status)
+	{
+		String query = "UPDATE plinski_rezervoari SET lokacija=?, trenutni_status=? WHERE id=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return;
+		try
+		{
+			ps.setString(1, lokacija);
+			ps.setString(2, status);
+			ps.setInt(3, id);
+			ps.execute();
+			dbUtils.closeCurrentConnection();
+		}
+		catch(SQLException e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca update");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+		}
+	}
+	
 	public void delete(int id)
 	{
 		String query = "DELETE FROM plinski_rezervoari WHERE id=?";
@@ -133,7 +154,8 @@ private DatabaseUtils dbUtils;
 	public LinkedList<PlinskiRezervoar> getAll()
 	{
 		String query = "SELECT id, serijski_broj, kapacitet, tezina, napunjenost, tip"
-				+ ", datum_zadnjeg_bazdarenja, lokacija, trenutni_status FROM plinski_rezervoari";
+				+ ", datum_zadnjeg_bazdarenja, lokacija, trenutni_status FROM plinski_rezervoari"
+				+ " WHERE trenutni_status='Skladiste'";
 		PreparedStatement ps = dbUtils.getPreparedStatement(query);
 		LinkedList<PlinskiRezervoar> toRet = new LinkedList<PlinskiRezervoar>();
 		if(ps == null) return null;

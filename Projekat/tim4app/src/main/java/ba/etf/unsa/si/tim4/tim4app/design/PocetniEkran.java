@@ -20,12 +20,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
+import ba.etf.unsa.si.tim4.tim4app.classes.FakturaIznajmljivanje;
 import ba.etf.unsa.si.tim4.tim4app.classes.FakturaProdaje;
 import ba.etf.unsa.si.tim4.tim4app.classes.FizickiKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
@@ -33,6 +35,7 @@ import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.Skladiste;
+import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureIznajmljivanjaDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureProdajeDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
@@ -47,6 +50,10 @@ import java.awt.ComponentOrientation;
 import java.awt.Component;
 
 import javax.swing.ListSelectionModel;
+
+import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
+import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
+import net.sourceforge.jdatepicker.impl.UtilDateModel;
 
 import org.javatuples.Triplet;
 
@@ -100,6 +107,7 @@ public class PocetniEkran extends JFrame {
 	private JButton odjavaRezervoariButton;
 	private JButton odjavaButton;
 	private JButton btnOdjava;
+	private JDatePickerImpl datePicker;
 
 	/**
 	 * Launch the application.
@@ -256,10 +264,26 @@ public class PocetniEkran extends JFrame {
 		
 
 		prodajaRadioButton = new JRadioButton("Prodaja");
+		prodajaRadioButton.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				JRadioButton b = (JRadioButton)e.getSource();
+				if(b.isSelected()) datePicker.setVisible(false);
+				else datePicker.setVisible(false);
+				iznajmiRadioButton.setSelected(false);
+			}
+		});
 		prodajaRadioButton.setBounds(520, 11, 67, 23);
 		fakturePanel.add(prodajaRadioButton);
 		
 		iznajmiRadioButton = new JRadioButton("Iznajmljivanje");
+		iznajmiRadioButton.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				JRadioButton b = (JRadioButton) e.getSource();
+				if(b.isSelected()) datePicker.setVisible(true);
+				else datePicker.setVisible(false);
+				prodajaRadioButton.setSelected(false);
+			}
+		});
 		iznajmiRadioButton.setBounds(590, 11, 94, 23);
 		fakturePanel.add(iznajmiRadioButton);
 		
@@ -386,6 +410,12 @@ public class PocetniEkran extends JFrame {
 		panel_3.setBounds(385, 40, 309, 253);
 		fakturePanel.add(panel_3);
 		panel_3.setLayout(null);
+		UtilDateModel model = new UtilDateModel();
+		JDatePanelImpl datePanel = new JDatePanelImpl(model);
+		datePicker = new JDatePickerImpl(datePanel);
+		datePicker.getJFormattedTextField().setEnabled(false);
+		datePicker.setSize(128, 23);
+		datePicker.setLocation(22, 219);
 		
 		JLabel lblOdaberiteKomitenta = new JLabel("Odaberite komitenta:");
 		lblOdaberiteKomitenta.setBounds(10, 11, 140, 14);
@@ -418,7 +448,7 @@ public class PocetniEkran extends JFrame {
 				"Red. br.", "Tip rezervoara", "Serijski broj", "Kapacitet", "Tezina", "Kolicina", "Cijena"
 			}
 		));
-		
+		panel_3.add(datePicker);
 		btnKreirajFaktru = new JButton("Kreiraj fakturu");
 		btnKreirajFaktru.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -426,20 +456,72 @@ public class PocetniEkran extends JFrame {
 				LinkedList<Triplet<PlinskaBoca, Date, Double>> boceStavke = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
 				LinkedList<Triplet<PlinskiRezervoar, Date, Double>> rezervoariStavke = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
 				Komitent k = (Komitent) komitentFaktureComboBox.getSelectedItem();
+				SkladisteDataSource skl = new SkladisteDataSource();
+				PlinskiRezervoarDataSource prd = new PlinskiRezervoarDataSource();
 				if(prodajaRadioButton.isSelected()){
 					FaktureProdajeDataSource fds = new FaktureProdajeDataSource();
-					if(skladiste.getPetLitarske() != 0) boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), new Date(), (double) 10));
-					if(skladiste.getDesetLitarske() != 0) boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), new Date(), (double) 20));
-					if(skladiste.getPetnaestLitarske() != 0) boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), new Date(), (double) 30));
+					if(skladiste.getPetLitarske() != 0)
+					{
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), new Date(), (double) 10));
+						skl.update(5, Integer.valueOf(petLitaraTextField.getText()));
+					}
+					if(skladiste.getDesetLitarske() != 0)
+					{
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), new Date(), (double) 20));
+						skl.update(10, Integer.valueOf(desetLitaraTextField.getText()));
+					}
+					if(skladiste.getPetnaestLitarske() != 0) 
+					{
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), new Date(), (double) 30));
+						skl.update(15, Integer.valueOf(petnaestLitaraTextField.getText()));
+					}
 					LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
 					for(int i = 0; i < rezervoari.size(); i++)
 					{
 						rezervoariStavke.add(new Triplet<PlinskiRezervoar, Date, Double>(rezervoari.get(i), new Date(), (double) rezervoari.get(i).getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT));
+						prd.updateStatus(rezervoari.get(i).getId(), k.getAdresa(), "Prodat");
 					}
 					FakturaProdaje fp = new FakturaProdaje(k, boceStavke, rezervoariStavke);
 					fds.insert(fp);
 					ReportManager rm = new ReportManager();
 					rm.printReport(4, new Triplet<String, String, Integer>(k.toString(), fds.formBrojFakture(), fds.getMaxId()));
+					skladiste.clearSkladiste();
+					clearFaktureControls();
+					fillCMB();
+				}
+				else if(iznajmiRadioButton.isSelected())
+				{
+					Date iznajmiDatum = (Date)datePicker.getModel().getValue();
+					if(iznajmiDatum == null){ showMessageBox("Morate izabrati datum", "Greška"); return; }
+					else if(iznajmiDatum.before(new Date())) { showMessageBox("Datum mora biti veći od trenutnog!", "Greška"); return;}
+					FaktureIznajmljivanjaDataSource fds = new FaktureIznajmljivanjaDataSource();
+					if(skladiste.getPetLitarske() != 0){
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(5, 10, skladiste.getPetLitarske()), iznajmiDatum, (double) 10));
+						skl.update(5, Integer.valueOf(petLitaraTextField.getText()));
+					}
+					if(skladiste.getDesetLitarske() != 0) 
+					{
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(10, 20, skladiste.getDesetLitarske()), iznajmiDatum, (double) 20));
+						skl.update(10, Integer.valueOf(desetLitaraTextField.getText()));
+					}
+					if(skladiste.getPetnaestLitarske() != 0) 
+					{
+						boceStavke.add(new Triplet<PlinskaBoca, Date, Double>(new PlinskaBoca(15, 30, skladiste.getPetnaestLitarske()), iznajmiDatum, (double) 30));
+						skl.update(15, Integer.valueOf(petnaestLitaraTextField.getText()));
+					}
+					LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
+					for(int i = 0; i < rezervoari.size(); i++)
+					{
+						rezervoariStavke.add(new Triplet<PlinskiRezervoar, Date, Double>(rezervoari.get(i), iznajmiDatum, (double) rezervoari.get(i).getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT));
+						prd.updateStatus(rezervoari.get(i).getId(), k.getAdresa(), "Iznajmljen do " + (new SimpleDateFormat("dd-MM-yyyy").format(iznajmiDatum)));
+					}
+					FakturaIznajmljivanje fp = new FakturaIznajmljivanje(k, boceStavke, rezervoariStavke);
+					fds.insert(fp);
+					ReportManager rm = new ReportManager();
+					rm.printReport(5, new Triplet<String, String, Integer>(k.toString(), fds.formBrojFakture(), fds.getMaxId()));
+					skladiste.clearSkladiste();
+					clearFaktureControls();
+					fillCMB();
 				}
 			}
 		});
@@ -735,16 +817,7 @@ public class PocetniEkran extends JFrame {
 					   else komitentFaktureComboBox.addItem((FizickiKomitent)komitenti.get(i)); 
 				   }
 			   }
-			PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
-				LinkedList<PlinskiRezervoar> rezervoari = pds.getAll();
-				if(rezervoari != null)
-				{
-					plinskiRezervoariComboBox.removeAllItems();
-					for(int i = 0; i < rezervoari.size(); i++)
-					{
-						if(rezervoari.get(i).getNapunjenost() == 1) plinskiRezervoariComboBox.addItem(rezervoari.get(i));
-					}
-				}
+			fillCMB();
 			// Setovanje labela
 			SkladisteDataSource sd = new SkladisteDataSource();
 			int petLitara = sd.getQuantityByCapacity(5);
@@ -774,6 +847,10 @@ public class PocetniEkran extends JFrame {
 		petLitaraTextField.setText("");
 		desetLitaraTextField.setText("");
 		petnaestLitaraTextField.setText("");
+		iznajmiRadioButton.setSelected(false);
+		prodajaRadioButton.setSelected(false);
+		setAllLabels();
+		
 	}
 	
 	public void setUsername(String username)
@@ -804,6 +881,20 @@ public class PocetniEkran extends JFrame {
 		{
 			tabbedPane.setEnabledAt(4,  false);
 		} else tabbedPane.setEnabledAt(4,  true);
+	}
+	
+	private void fillCMB()
+	{
+		PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
+		LinkedList<PlinskiRezervoar> rezervoarix = pds.getAll();
+		if(rezervoarix != null)
+		{
+			plinskiRezervoariComboBox.removeAllItems();
+			for(int i = 0; i < rezervoarix.size(); i++)
+			{
+				if(rezervoarix.get(i).getNapunjenost() == 1) plinskiRezervoariComboBox.addItem(rezervoarix.get(i));
+			}
+		}
 	}
 	
 	class ItemChangeListener implements ItemListener

@@ -171,7 +171,7 @@ WHERE faktura = $P{P_FAKTURA}]]>
 	<parameter name="P_BROJ_FAKTURE" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT serijski_broj "Serijski broj", tip "Tip",  date(datum_zadnjeg_bazdarenja) "Datum zadnjeg bazdarenja", kapacitet "Kapacitet rezervoara u l"
-FROM plinski_rezervoari WHERE trenutni_status = 'Skladiste';]]>
+FROM plinski_rezervoari]]>
 	</queryString>
 	<field name="Serijski broj" class="java.lang.String"/>
 	<field name="Tip" class="java.lang.String">
