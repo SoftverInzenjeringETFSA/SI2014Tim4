@@ -1,42 +1,44 @@
 package ba.etf.unsa.si.tim4.tim4app;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import junit.framework.TestCase;
+import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
+import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
+import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.util.LinkedList;
 
-public class PravniKomitentClassTest extends JFrame {
 
-	private JPanel contentPane;
+public class PravniKomitentClassTest extends TestCase {
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PravniKomitentClassTest frame = new PravniKomitentClassTest();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void testPravniKomitent_Konstruktor()
+	{
+		PravniKomitent k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
+				"Firma doo","123123123");
+		
+		assertEquals(333, k.getId());
+		assertEquals("Pravni komitent",k.getTipKomitenta());
+		assertEquals("Grbavica",k.getAdresa());
+		assertEquals("061666666",k.getBrojTelefona());
+		assertEquals("email@gmail.com",k.getEmail());
+		assertEquals("Firma doo",k.getNazivFirme());
+		assertEquals("123123123",k.getPDVbroj());
+			
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public PravniKomitentClassTest() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+	
+	public void testPravniKomitent_Set()
+	{
+		PravniKomitent k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
+				"Firma doo","123123123");
+		
+		k.setAdresa("Stup");
+		assertEquals("Stup",k.getAdresa());
+		
+		k.setBrojTelefona("061456456");
+		assertEquals("061456456",k.getBrojTelefona());
+		
+		k.setNazivFirme("Nova doo");
+		assertEquals("Nova doo",k.getNazivFirme());
 	}
+	
 
 }
