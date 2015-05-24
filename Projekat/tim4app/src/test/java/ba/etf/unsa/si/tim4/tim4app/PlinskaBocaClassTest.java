@@ -3,7 +3,7 @@ package ba.etf.unsa.si.tim4.tim4app;
 import junit.framework.TestCase;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 
-import java.util.LinkedList;
+
 
 public class PlinskaBocaClassTest extends TestCase {
 

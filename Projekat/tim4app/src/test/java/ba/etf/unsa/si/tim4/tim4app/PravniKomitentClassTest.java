@@ -1,11 +1,10 @@
 package ba.etf.unsa.si.tim4.tim4app;
 
 import junit.framework.TestCase;
-import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
-import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 
-import java.util.LinkedList;
+
+
 
 
 public class PravniKomitentClassTest extends TestCase {

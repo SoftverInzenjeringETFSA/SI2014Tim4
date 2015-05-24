@@ -1,15 +1,13 @@
 package ba.etf.unsa.si.tim4.tim4app;
 
 import junit.framework.TestCase;
-import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureIznajmljivanjaDataSource;
+
 import ba.etf.unsa.si.tim4.tim4app.daldao.FaktureProdajeDataSource;
-import ba.etf.unsa.si.tim4.tim4app.classes.FakturaIznajmljivanje;
 import ba.etf.unsa.si.tim4.tim4app.classes.FakturaProdaje;
-import ba.etf.unsa.si.tim4.tim4app.classes.Komitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskaBoca;
 import ba.etf.unsa.si.tim4.tim4app.classes.PlinskiRezervoar;
-import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
