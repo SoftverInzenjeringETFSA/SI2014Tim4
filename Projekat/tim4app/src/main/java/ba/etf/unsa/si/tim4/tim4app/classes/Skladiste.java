@@ -1,9 +1,11 @@
 package ba.etf.unsa.si.tim4.tim4app.classes;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
-public class Skladiste {
+public class Skladiste implements Serializable {
 
+	private static final long serialVersionUID = -1882846992209756551L;
 	private int mPetoLitarskeBoce = 0;
 	private int mDesetLitarskeBoce = 0;
 	private int mPetnaestLitarskeBoce = 0;
