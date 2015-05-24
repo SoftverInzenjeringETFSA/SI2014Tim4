@@ -4,11 +4,15 @@ import java.util.prefs.Preferences;
 
 import javax.swing.JFileChooser;
 
+import ba.etf.unsa.si.tim4.tim4app.daldao.DatabaseUtils;
+
 public class PreferenceManager {
 	
 	private String pathToFolder = "";
 	private static final String REPORT_FOLDER_PATH_KEY = "path_to_folder";
 	private static final String NO_PATH_CHOSEN = "no_path_chosen";
+	private static final String DB_PASSWORD_KEY = "db_password";
+	private static final String NO_PASSWORD = "no_password";
 	
 	public PreferenceManager() { }
 	
@@ -22,6 +26,18 @@ public class PreferenceManager {
 		}
 		else pathToFolder = preferencePath;
 		return pathToFolder;
+	}
+	
+	public void setDBPassword(String password)
+	{
+		Preferences prefs = Preferences.userNodeForPackage(DatabaseUtils.class);
+		prefs.put(DB_PASSWORD_KEY, password);
+	}
+	
+	public String getDBPassword()
+	{
+		Preferences prefs = Preferences.userNodeForPackage(DatabaseUtils.class);
+		return prefs.get(DB_PASSWORD_KEY, NO_PASSWORD);
 	}
 	
 	private void savePreferences(String folderPath)

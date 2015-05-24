@@ -4,13 +4,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import ba.etf.unsa.si.tim4.tim4app.reports.PreferenceManager;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 public class DatabaseUtils {
 	
 	private static final String connectionString = "jdbc:mysql://localhost/tim4";
-	private static final String password = "2014SIEtf";
 	private static final String username = "EtfSI2014";
 	private Connection currentConnection;
 	
@@ -21,7 +23,10 @@ public class DatabaseUtils {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			if( currentConnection == null || currentConnection.isClosed())
-			currentConnection = (Connection) DriverManager.getConnection(connectionString, username, password);
+			{
+				String password = (new PreferenceManager()).getDBPassword();
+				currentConnection = (Connection) DriverManager.getConnection(connectionString, username, password);
+			}
 			return currentConnection;
 		}
 		catch(Exception e){ 

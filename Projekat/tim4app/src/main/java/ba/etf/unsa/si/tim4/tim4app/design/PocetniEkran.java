@@ -44,6 +44,7 @@ import ba.etf.unsa.si.tim4.tim4app.daldao.KomitentDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.KorisnikDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.PlinskiRezervoarDataSource;
 import ba.etf.unsa.si.tim4.tim4app.daldao.SkladisteDataSource;
+import ba.etf.unsa.si.tim4.tim4app.reports.PreferenceManager;
 import ba.etf.unsa.si.tim4.tim4app.reports.ReportManager;
 import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
@@ -1026,6 +1027,10 @@ public class PocetniEkran extends JFrame {
 		korisnikPretragaTF.setColumns(10);
 		btnOdjava.addActionListener(odjavaActionListener);
 		
+		
+		PreferenceManager pm = new PreferenceManager();
+		pm.setDBPassword("2014SIEtf");
+		
 		PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
 		int count = pds.getAllBazdarenjeSoon().size();
 		if(count != 0 && count != -1)
@@ -1033,6 +1038,7 @@ public class PocetniEkran extends JFrame {
 			ObavijestBazdarenje ob = new ObavijestBazdarenje();
 			ob.setVisible(true);
 		}
+
 	}
 	
 	
