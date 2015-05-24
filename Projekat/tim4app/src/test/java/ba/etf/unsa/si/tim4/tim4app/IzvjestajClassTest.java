@@ -62,7 +62,7 @@ public class IzvjestajClassTest extends TestCase {
 			int br2= ids.getMaxId();
 			
 			assertEquals(br,br2-1);
-			ids.delete(br2);
+			ids.delete(br);
 			
 		}
 		
@@ -88,8 +88,8 @@ public class IzvjestajClassTest extends TestCase {
 			
 			int br2= ids.getMaxId();
 			
-			assertEquals(br,br2-2);
-			ids.delete(br2);
+			assertEquals(br,br2-1);
+			ids.delete(br);
 		}
 
 }
