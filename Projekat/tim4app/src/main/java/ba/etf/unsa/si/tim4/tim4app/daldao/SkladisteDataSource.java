@@ -40,6 +40,37 @@ public class SkladisteDataSource {
 		}
 	}
 	
+	public void insertWithCheck(PlinskaBoca pb)
+	{
+		LinkedList<PlinskaBoca>  plinskeBoce = this.getAll();
+		for(int i=0; i<plinskeBoce.size(); i++)
+		{
+			PlinskaBoca jednaBoca = plinskeBoce.get(i);
+			if(pb.getKapacitet() == jednaBoca.getKapacitet())
+			{
+				this.update(pb.getKapacitet(), jednaBoca.getKolicina(),pb.getKolicina());
+				return;
+			}
+		}
+		
+		String query = "INSERT INTO skladiste_plinskih_boca(kapacitet, kolicina, cijena) VALUES(?, ?, ?)";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return;
+		try{
+			ps.setInt(1, pb.getKapacitet());
+			ps.setInt(2, pb.getKolicina());
+			ps.setDouble(3, pb.getCijena());
+			ps.execute();
+			dbUtils.closeCurrentConnection();
+		}
+		catch(SQLException e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "skladiste plinskih boca insert");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+		}
+	}
+	
 	public void update(PlinskaBoca pb)
 	{
 		String query = "UPDATE skladiste_plinskih_boca SET kapacitet=?, kolicina=?, cijena=? WHERE id=?";
@@ -232,6 +263,32 @@ public class SkladisteDataSource {
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			dbUtils.closeCurrentConnection();
 			return -1;
+		}
+	}
+	
+	public int getId(int s)
+	{
+		String query = "SELECT id FROM skladiste_plinskih_boca WHERE kapacitet=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return -1;
+		try
+		{
+			ps.setInt(1,s);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt(1);
+				return id;
+			}
+		dbUtils.closeCurrentConnection();
+		return -1;
+
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "getCount()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return -2;
 		}
 	}
 }

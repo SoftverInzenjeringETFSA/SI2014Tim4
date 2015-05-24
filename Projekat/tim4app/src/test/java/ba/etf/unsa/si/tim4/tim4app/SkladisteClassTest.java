@@ -20,9 +20,9 @@ public class SkladisteClassTest extends TestCase {
 	LinkedList<PlinskiRezervoar> prl; 
 	Skladiste s;
 	SkladisteDataSource sds;
-	public void SetUp()
+	
+	protected void SetUp()
 	{
-		sds = new SkladisteDataSource();
 		s = new Skladiste();
 		prl = new LinkedList<PlinskiRezervoar>();
 		
@@ -67,58 +67,64 @@ public class SkladisteClassTest extends TestCase {
 	
 	public void testSkladisteDalDao_Insert()
 	{
-		pb.setId(89);
-		sds.insert(pb);
+
+		sds = new SkladisteDataSource();
+
+		PlinskaBoca pb1 =new PlinskaBoca(5,20,10);
+
+		int quantityBefore = sds.getQuantityByCapacity(pb1.getKapacitet());
+		sds.insert(pb1);
+		int quantityAfter = sds.getQuantityByCapacity(pb1.getKapacitet());
 		
-		LinkedList<PlinskaBoca> lpb = sds.getAll();
-		
-		assertTrue(lpb.contains(pb));
-		sds.delete(89);
-		
+		assertEquals(quantityAfter, pb1.getKolicina()+5);
+		int id = sds.getId(pb1.getKapacitet());
+		sds.delete(id);
 	}
 	
-	public void testSkladisteDalDao_GetBocaById()
-	{
-		pb.setId(89);
-		sds.insert(pb);
-		
-		assertEquals(pb,sds.getById(89));
-		sds.delete(89);
-
-	}
 	
 	public void testSkladisteDalDao_QuantityByCapacity()
 	{
-		pb.setId(89);
-		pb.setKolicina(15);
-		sds.insert(pb);
+		sds = new SkladisteDataSource();
+		PlinskaBoca pb1 =new PlinskaBoca(5,20,10);
 		
-		assertEquals(15,sds.getQuantityByCapacity(5));
-		sds.delete(89);
+		sds.insert(pb1);
+		
+		assertEquals(pb1.getKolicina() + 5,sds.getQuantityByCapacity(5));
+		int id = sds.getId(pb1.getKapacitet());
+		sds.delete(id);
 
 	}
 	
 	public void testSkladisteDalDao_Update()
 	{
-		pb.setId(89);
-		pb.setKolicina(15);
-		sds.insert(pb);
+		sds = new SkladisteDataSource();
+
+		PlinskaBoca pb1 =new PlinskaBoca(5,20,10);
+		
+		sds.insert(pb1);
 		
 		sds.update(5, 15);
 		assertEquals(15, sds.getQuantityByCapacity(5));
-		sds.delete(89);
+		int id = sds.getId(pb1.getKapacitet());
+		
+		sds.delete(id);
 
 	}
 	
 	public void testSkladisteDalDao_GetCount()
 	{
+
+		PlinskaBoca pb1 =new PlinskaBoca(5,20,10);
+		sds = new SkladisteDataSource();
+		sds.insert(pb1);
 		int br = sds.getCount();
-		pb.setId(89);
-		pb.setKolicina(10);
-		sds.insert(pb);
+
+		int id = sds.getId(pb1.getKapacitet());
+
+		sds.update(pb1);
+		PlinskaBoca plin = sds.getById(id);
 		
-		assertEquals(br ,sds.getCount() -10);
-		sds.delete(89);
+		sds.delete(id);
 	}
 	
 	
