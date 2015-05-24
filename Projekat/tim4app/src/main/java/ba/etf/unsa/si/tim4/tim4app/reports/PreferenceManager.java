@@ -11,8 +11,8 @@ public class PreferenceManager {
 	private String pathToFolder = "";
 	private static final String REPORT_FOLDER_PATH_KEY = "path_to_folder";
 	private static final String NO_PATH_CHOSEN = "no_path_chosen";
-	private static final String DB_PASSWORD_KEY = "db_password";
-	private static final String NO_PASSWORD = "2014SIEtf";
+	private static final String DB_P_KEY = "db_p";
+	private static final String NO_P = "2014SIEtf";
 	
 	public PreferenceManager() { }
 	
@@ -31,13 +31,13 @@ public class PreferenceManager {
 	public void setDBPassword(String password)
 	{
 		Preferences prefs = Preferences.userNodeForPackage(DatabaseUtils.class);
-		prefs.put(DB_PASSWORD_KEY, password);
+		prefs.put(DB_P_KEY, password);
 	}
 	
 	public String getDBPassword()
 	{
 		Preferences prefs = Preferences.userNodeForPackage(DatabaseUtils.class);
-		return prefs.get(DB_PASSWORD_KEY, NO_PASSWORD);
+		return prefs.get(DB_P_KEY, NO_P);
 	}
 	
 	private void savePreferences(String folderPath)
