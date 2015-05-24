@@ -63,7 +63,7 @@
   			<configuration>
 				<archive>
 					<manifest>
-						<mainClass>ba.etf.unsa.si.tim4.tim4app.design.PocetniEkran</mainClass>
+						<mainClass>ba.etf.unsa.si.tim4.tim4app.design.LoginForma</mainClass>
 					</manifest>
 				</archive>
 				<descriptorRefs>
