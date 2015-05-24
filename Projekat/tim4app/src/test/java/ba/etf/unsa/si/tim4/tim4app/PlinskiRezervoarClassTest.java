@@ -99,7 +99,7 @@ public class PlinskiRezervoarClassTest extends TestCase {
 		prds.delete(222);
 	}
 	
-	public void testPlinskiRezervoar_GetAllNoStatus()
+	public void testPlinskiRezervoarDalDao_GetAllNoStatus()
 	{
 		LinkedList<PlinskiRezervoar> lpr = prds.getAll();
 		prds.insert(pr);
@@ -113,7 +113,7 @@ public class PlinskiRezervoarClassTest extends TestCase {
 		prds.delete(222);
 	}
 	
-	public void testPlinskiRezervoar_GetCount()
+	public void testPlinskiRezervoarDalDao_GetCount()
 	{
 		int br = prds.getCount();
 		prds.insert(pr);
@@ -126,5 +126,15 @@ public class PlinskiRezervoarClassTest extends TestCase {
 		prds.delete(333);
 		prds.delete(222);
 		
+	}
+	
+	public void testplinskiRezervoarDalDao_IsUniqueSerijskiBroj()
+	{
+		prds.insert(pr);
+		prds.insert(pr);
+		
+		int br = prds.isUniqueSerijskiBroj("666555");
+		
+		assertEquals(2,br);
 	}
 }
