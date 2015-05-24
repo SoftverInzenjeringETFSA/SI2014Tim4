@@ -9,7 +9,7 @@ public class Validator implements Serializable {
 	private static final long serialVersionUID = 7766987411442122500L;
 	private static final String ONLY_NUMBERS_REGEX = "[0-9]+";
 	private static final String ONLY_NUMBERS_NOZERO_REGEX = "[1-9]+";
-	private static final String ONLY_LETTERS_REGEX = "[A-Z]+";
+	private static final String ONLY_LETTERS_REGEX = "[a-zA-Z]+";
 	private static final String POZIVNI_BROJ_REGEX = "03[0-9]+";
 	private static final String MOBITEL_REGEX = "06[0-9]+";
 	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"

@@ -180,7 +180,7 @@ public class ValidatorClassTest extends TestCase {
 	public void testValidateBrojLicneKarte_DevetCifara()
 	{
 		Validator validator = new Validator();
-		String input = "12xxx123123123";
+		String input = "12xxx878934";
 		String errorMessage = validator.validateBrojLicneKarte(input);
 		assertEquals("Lična karta mora imati 9 cifara!",errorMessage);
 	}
