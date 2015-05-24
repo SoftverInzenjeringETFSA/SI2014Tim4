@@ -4,9 +4,6 @@ import junit.framework.TestCase;
 import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 
 
-
-
-
 public class PravniKomitentClassTest extends TestCase {
 
 	public void testPravniKomitent_Konstruktor()
