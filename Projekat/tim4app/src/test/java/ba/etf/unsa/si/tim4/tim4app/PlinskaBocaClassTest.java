@@ -16,7 +16,7 @@ public class PlinskaBocaClassTest extends TestCase {
 		assertEquals(10,pb.getKapacitet());
 		
 		pb.setCijena(30);
-		assertEquals(30,pb.getCijena());
+		assertEquals(30.,pb.getCijena());
 		
 		pb.setKolicina(50);
 		assertEquals(50,pb.getKolicina());

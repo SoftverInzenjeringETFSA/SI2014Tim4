@@ -18,19 +18,20 @@ import org.javatuples.Triplet;
 
 public class FakturaProdajeClassTest extends TestCase {
 
-	PlinskiRezervoar pr;
-	PlinskaBoca pb;
-	LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
-	LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
-	PravniKomitent k;
-	FakturaProdaje fi;
-	Triplet<PlinskaBoca,Date,Double> tb;
-	Triplet<PlinskiRezervoar,Date,Double> tr;
-	Date d;
-	FaktureProdajeDataSource fids;
-	
-	protected void SetUp()
+
+	public void testFakturaProdaje_Konstruktor()
 	{
+		
+		PlinskiRezervoar pr;
+		PlinskaBoca pb;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
+		PravniKomitent k;
+		FakturaProdaje fi;
+		Triplet<PlinskaBoca,Date,Double> tb;
+		Triplet<PlinskiRezervoar,Date,Double> tr;
+		Date d;
+		FaktureProdajeDataSource fids;
 		fids = new FaktureProdajeDataSource();
 		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 		d = null;
@@ -52,12 +53,6 @@ public class FakturaProdajeClassTest extends TestCase {
 		prl.add(tr);
 		pbl.add(tb);
 		 fi = new FakturaProdaje(33,"4455",k,pbl,prl);
-		
-		
-	}
-	
-	public void testFakturaProdaje_Konstruktor()
-	{
 		FakturaProdaje f = new FakturaProdaje(33,"4455",k,pbl,prl);
 		assertEquals("4455", f.getBrojFakture());
 		assertEquals(k,f.getKomitent());
@@ -67,6 +62,37 @@ public class FakturaProdajeClassTest extends TestCase {
 	
 	public void testFakturaProdajeDalDao_insert()
 	{
+		PlinskiRezervoar pr;
+		PlinskaBoca pb;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
+		PravniKomitent k;
+		FakturaProdaje fi;
+		Triplet<PlinskaBoca,Date,Double> tb;
+		Triplet<PlinskiRezervoar,Date,Double> tr;
+		Date d;
+		FaktureProdajeDataSource fids;
+		fids = new FaktureProdajeDataSource();
+		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+		d = null;
+		try 
+		{
+			d = dateformat.parse("12/12/2012");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
+				"Firma doo","123123123");
+		
+		pr = new PlinskiRezervoar(333,"666555", 350,
+				400, 1, "nadzemni",d, "Grbavica 45","iznajmljen");
+		tr = new Triplet<PlinskiRezervoar,Date,Double>(pr,d,50.);
+		pb =new PlinskaBoca(5,20,10);
+		tb = new Triplet<PlinskaBoca,Date,Double>(pb,d,34.);
+		
+		prl.add(tr);
+		pbl.add(tb);
+		 fi = new FakturaProdaje(33,"4455",k,pbl,prl);
 		int max = fids.getMaxId();
 		
 			fi.setId(max +1);
@@ -78,6 +104,37 @@ public class FakturaProdajeClassTest extends TestCase {
 	
 	public void testFakturaProdajeDalDao_GetMaxId()
 	{
+		PlinskiRezervoar pr;
+		PlinskaBoca pb;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
+		PravniKomitent k;
+		FakturaProdaje fi;
+		Triplet<PlinskaBoca,Date,Double> tb;
+		Triplet<PlinskiRezervoar,Date,Double> tr;
+		Date d;
+		FaktureProdajeDataSource fids;
+		fids = new FaktureProdajeDataSource();
+		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+		d = null;
+		try 
+		{
+			d = dateformat.parse("12/12/2012");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
+				"Firma doo","123123123");
+		
+		pr = new PlinskiRezervoar(333,"666555", 350,
+				400, 1, "nadzemni",d, "Grbavica 45","iznajmljen");
+		tr = new Triplet<PlinskiRezervoar,Date,Double>(pr,d,50.);
+		pb =new PlinskaBoca(5,20,10);
+		tb = new Triplet<PlinskaBoca,Date,Double>(pb,d,34.);
+		
+		prl.add(tr);
+		pbl.add(tb);
+		 fi = new FakturaProdaje(33,"4455",k,pbl,prl);
 		int max = fids.getMaxId();
 		
 		fi.setId(max +1);

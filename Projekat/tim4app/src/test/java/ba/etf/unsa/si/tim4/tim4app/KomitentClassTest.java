@@ -10,11 +10,6 @@ import ba.etf.unsa.si.tim4.tim4app.classes.PravniKomitent;
 
 public class KomitentClassTest extends TestCase {
 	
-	
-	
-		
-	
-	
 	public void testKomitentDalDao_KomitentByJMB()
 	{
 		FizickiKomitent k,k1;
@@ -30,7 +25,7 @@ public class KomitentClassTest extends TestCase {
 		kds.insert(k);
 		
 		assertEquals(k,kds.getKomitentByJMB("0308964384007"));
-		kds.delete(666);
+		//kds.delete(666);
 	}
 	
 	public void testKomitentDalDao_KomitentById()
