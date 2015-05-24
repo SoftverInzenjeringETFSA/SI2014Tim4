@@ -12,7 +12,7 @@ public class PreferenceManager {
 	private static final String REPORT_FOLDER_PATH_KEY = "path_to_folder";
 	private static final String NO_PATH_CHOSEN = "no_path_chosen";
 	private static final String DB_PASSWORD_KEY = "db_password";
-	private static final String NO_PASSWORD = "no_password";
+	private static final String NO_PASSWORD = "2014SIEtf";
 	
 	public PreferenceManager() { }
 	

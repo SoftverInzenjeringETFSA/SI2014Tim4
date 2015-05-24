@@ -64,6 +64,7 @@ public class FakturaIznajmljivanjeClassTest extends TestCase { // dodat brisanje
 	
 	public void testFakturaiznajmljivanjeDalDao_insert()
 	{
+		fids = new FaktureIznajmljivanjaDataSource();
 		int max = fids.getMaxId();
 		
 			fi.setId(max +1);
@@ -75,6 +76,7 @@ public class FakturaIznajmljivanjeClassTest extends TestCase { // dodat brisanje
 	
 	public void testFakturaiznajmljivanjeDalDao_GetMaxId()
 	{
+		fids = new FaktureIznajmljivanjaDataSource();
 		int max = fids.getMaxId();
 		
 		fi.setId(max +1);
