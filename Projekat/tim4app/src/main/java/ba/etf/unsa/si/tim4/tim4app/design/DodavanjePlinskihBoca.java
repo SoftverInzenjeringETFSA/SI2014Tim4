@@ -112,7 +112,7 @@ public class DodavanjePlinskihBoca extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String desetLitara = desetLitaraTF.getText();
 				String validateKolicina = validator.validateQuantity(desetLitara, 600);
-				if(!validateKolicina.equals("")) { showMessageBox(validateKolicina, "Greška"); return; }
+				if(!validateKolicina.equals("")) { showMessageBox(validateKolicina, "Greška kod unosa količine"); return; }
 				SkladisteDataSource s = new SkladisteDataSource();
 				int staraKolicina = s.getQuantityByCapacity(10);
 				s.update(10, staraKolicina, Integer.valueOf(desetLitara));
@@ -127,7 +127,7 @@ public class DodavanjePlinskihBoca extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String petnaestLitara = petnaestLitaraTF.getText();
 				String validateKolicina = validator.validateQuantity(petnaestLitara, 600);
-				if(!validateKolicina.equals("")) { showMessageBox(validateKolicina, "Greška"); return; }
+				if(!validateKolicina.equals("")) { showMessageBox(validateKolicina, "Greška kod unosa količine"); return; }
 				SkladisteDataSource s = new SkladisteDataSource();
 				int staraKolicina = s.getQuantityByCapacity(15);
 				s.update(15, staraKolicina, Integer.valueOf(petnaestLitara));

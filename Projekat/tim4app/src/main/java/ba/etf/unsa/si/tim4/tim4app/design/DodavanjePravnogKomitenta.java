@@ -114,11 +114,11 @@ public class DodavanjePravnogKomitenta extends JDialog {
 				String validatePdv = validator.validatePDVBroj(pdvBroj);
 				String validateTelefon = validator.validateTelefon(telefon);
 				String validateEmail = validator.validateEmail(email);
-				if(!validateNaziv.equals("")) {showMessageBox(validateNaziv, "Greška"); return; }
-				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška"); return;}
-				else if(!validatePdv.equals("")) {showMessageBox(validatePdv, "Greška"); return;}
-				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška"); return;}
-				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška"); return;}
+				if(!validateNaziv.equals("")) {showMessageBox(validateNaziv, "Greška kod unosa naziva firme"); return; }
+				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese firme"); return;}
+				else if(!validatePdv.equals("")) {showMessageBox(validatePdv, "Greška kod unosa pdv vrijednosti"); return;}
+				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška kod unosa broja telefona firme"); return;}
+				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška kod unosa email adrese"); return;}
 				KomitentDataSource kds = new KomitentDataSource();
 				kds.insert(new PravniKomitent("Pravno lice", adresa, telefon, email, naziv, pdvBroj));
 				clearControls();

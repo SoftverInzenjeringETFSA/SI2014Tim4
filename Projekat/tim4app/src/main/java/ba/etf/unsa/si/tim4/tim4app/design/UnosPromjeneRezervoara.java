@@ -127,9 +127,9 @@ public class UnosPromjeneRezervoara extends JDialog {
 				{
 					String adresa = lokacijaTF.getText();
 					String validateAdresa = validator.validateAdresa(adresa);
-					if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška"); return;}
-					else if(datumPromjene == null) { showMessageBox("Morate izabrati datum!", "Greška"); return;}
-					else if(opis.equals("")) { showMessageBox("Morate unijeti opis promjene!", "Greška"); return;}
+					if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese"); return;}
+					else if(datumPromjene == null) { showMessageBox("Morate izabrati datum!", "Greška kod unosa datuma"); return;}
+					else if(opis.equals("")) { showMessageBox("Morate unijeti opis promjene!", "Greška kod unosa opisa"); return;}
 					Promjena px = new Promjena(p.getSerijskiBroj(), datumPromjene, pds.getTipPromjeneFromSifarnik(tip), opis);
 					p.setLokacija(adresa);
 					pds.insert(px);

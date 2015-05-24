@@ -131,14 +131,14 @@ public class UnosPlinskogRezervoara extends JDialog {
 				String validateSerijskiBroj = validator.validateSerijskiBroj(serijskiBroj);
 				String validateKapacitet = validator.validateOnlyNumbers(kapacitet, "Kapacitet");
 				String validateTezina = validator.validateOnlyNumbers(tezina, "Tezina");
-				if(!validateSerijskiBroj.equals("")) { showMessageBox(validateSerijskiBroj, "Greška"); return; }
+				if(!validateSerijskiBroj.equals("")) { showMessageBox(validateSerijskiBroj, "Greška kod unosa serijskog broja rezervoara"); return; }
 				else if(pds.isUniqueSerijskiBroj(serijskiBroj) != 0) { showMessageBox("Serijski broj mora biti jedinstven!", "Greška"); return; }
-				else if(!validateKapacitet.equals("")) { showMessageBox(validateKapacitet, "Greška"); return;}
-				else if(!validateTezina.equals("")) { showMessageBox(validateTezina, "Greška"); return;}
-				else if(!punRadioButton.isSelected() && !prazanRadioButton.isSelected()) { showMessageBox("Morate odabrati napunjenost!", "Greška"); return; }
-				else if(!uzemniRadioButton.isSelected() && !nadzemniRadioButton.isSelected()) { showMessageBox("Morate odabrati tip rezervoara!", "Greška"); return;}
-				else if(uzemniRadioButton.isSelected() && nadzemniRadioButton.isSelected()) { showMessageBox("Samo jedan tip može biti odabran!", "Greška"); return;}
-				else if(punRadioButton.isSelected() && prazanRadioButton.isSelected()) { showMessageBox("Rezervoar može biti ili pun ili prazan!", "Greška"); return;}
+				else if(!validateKapacitet.equals("")) { showMessageBox(validateKapacitet, "Greška kod unosa kapaciteta rezervoara"); return;}
+				else if(!validateTezina.equals("")) { showMessageBox(validateTezina, "Greška kod unosa težine rezervoara"); return;}
+				else if(!punRadioButton.isSelected() && !prazanRadioButton.isSelected()) { showMessageBox("Morate odabrati napunjenost!", "Greška kod odabira napunjenosti rezervoara"); return; }
+				else if(!uzemniRadioButton.isSelected() && !nadzemniRadioButton.isSelected()) { showMessageBox("Morate odabrati tip rezervoara!", "Greška kod odabira tipa rezervoara"); return;}
+				else if(uzemniRadioButton.isSelected() && nadzemniRadioButton.isSelected()) { showMessageBox("Samo jedan tip može biti odabran!", "Greška kod odabira tipa rezervoara"); return;}
+				else if(punRadioButton.isSelected() && prazanRadioButton.isSelected()) { showMessageBox("Rezervoar može biti ili pun ili prazan!", "Greška kod odabira napunjenosti rezervoara"); return;}
 				PlinskiRezervoar pr = new PlinskiRezervoar(serijskiBroj, Integer.valueOf(kapacitet), Integer.valueOf(tezina),
 														   napunjenost, tip, datum, "Skladiste", "Skladiste");
 				pds.insert(pr);

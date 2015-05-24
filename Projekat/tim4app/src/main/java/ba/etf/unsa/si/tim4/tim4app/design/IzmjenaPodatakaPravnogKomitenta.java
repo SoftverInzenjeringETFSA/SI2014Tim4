@@ -131,11 +131,11 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 				String validatePdv = validator.validatePDVBroj(pdvBroj);
 				String validateTelefon = validator.validateTelefon(telefon);
 				String validateEmail = validator.validateEmail(email);
-				if(!validateNaziv.equals("")) {showMessageBox(validateNaziv, "Greška"); return; }
-				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška"); return;}
-				else if(!validatePdv.equals("")) {showMessageBox(validatePdv, "Greška"); return;}
-				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška"); return;}
-				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška"); return;}
+				if(!validateNaziv.equals("")) {showMessageBox(validateNaziv, "Greška kod unosa naziva komitenta"); return; }
+				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese komitenta"); return;}
+				else if(!validatePdv.equals("")) {showMessageBox(validatePdv, "Greška kod unosa pdv-a"); return;}
+				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška kod unosa broja telefona komitenta"); return;}
+				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška kod unosa email adrese komitenta"); return;}
 				KomitentDataSource kds = new KomitentDataSource();
 				Komitent k = (PravniKomitent)komitentComboBox.getSelectedItem();
 				kds.update(new PravniKomitent(k.getId(), "Pravno lice", adresa, telefon, email, naziv, pdvBroj));

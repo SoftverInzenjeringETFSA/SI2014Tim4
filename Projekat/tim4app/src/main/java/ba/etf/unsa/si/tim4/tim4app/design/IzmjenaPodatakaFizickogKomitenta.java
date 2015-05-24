@@ -164,13 +164,13 @@ public class IzmjenaPodatakaFizickogKomitenta extends JDialog {
 				String validateBrojLK = validator.validateBrojLicneKarte(brojLK);
 				String validateTelefon = validator.validateTelefon(telefon);
 				String validateEmail = validator.validateEmail(email);
-				if(!validateIme.equals("")) {showMessageBox(validateIme, "Greška"); return; }
-				else if(!validatePrezime.equals("")) {showMessageBox(validatePrezime, "Greška"); return;}
-				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška"); return;}
-				else if(!validateBrojLK.equals("")) { showMessageBox(validateBrojLK, "Greška"); return;}
-				else if(!validateJMB.equals("")) {showMessageBox(validateJMB, "Greška"); return;}
-				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška"); return;}
-				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška"); return;}
+				if(!validateIme.equals("")) {showMessageBox(validateIme, "Greška kod unosa imena"); return; }
+				else if(!validatePrezime.equals("")) {showMessageBox(validatePrezime, "Greška kod unosa prezimena"); return;}
+				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese"); return;}
+				else if(!validateBrojLK.equals("")) { showMessageBox(validateBrojLK, "Greška kod unosa broja lične karte"); return;}
+				else if(!validateJMB.equals("")) {showMessageBox(validateJMB, "Greška kod unosa JMBG"); return;}
+				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška kod unosa telefona"); return;}
+				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška kod unosa email adrese"); return;}
 				KomitentDataSource kds = new KomitentDataSource();
 				Komitent selected = (Komitent)komitentComboBox.getSelectedItem();
 				FizickiKomitent fk = new FizickiKomitent(ime, prezime, jmb, brojLK, selected.getId(), "Fizicko lice", adresa, telefon, email);

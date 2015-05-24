@@ -156,16 +156,16 @@ public class DodavanjeNovogKorisnika extends JDialog {
 				String validateBrojLK = validator.validateBrojLicneKarte(brojLK);
 				String validateTelefon = validator.validateTelefon(telefon);
 				KorisnikDataSource kds = new KorisnikDataSource();
-				if(!validateIme.equals("")) {showMessageBox(validateIme, "Greška"); return; }
-				else if(!validatePrezime.equals("")) {showMessageBox(validatePrezime, "Greška"); return;}
-				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška"); return;}
-				else if(!validateBrojLK.equals("")) { showMessageBox(validateBrojLK, "Greška"); return;}
-				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška"); return;}
-				else if(username.equals("")) { showMessageBox("Morate unijeti korisničko ime!", "Greška"); return; }
-				else if(password.equals("")) { showMessageBox("Morate unijeti lozinku!", "Greška"); return; }
-				else if(kds.isUsernameUnique(username)) { showMessageBox("Korisničko ime mora biti jedinstveno!", "Greška"); return; }
-				else if(!administratorRadioButton.isSelected() && !korisnikRadioButton.isSelected()) { showMessageBox("Morate odabrati tip!", "Greška"); return;}
-				else if(datum == null) { showMessageBox("Morate izabrati datum!", "Greška"); return; }
+				if(!validateIme.equals("")) {showMessageBox(validateIme, "Greška kod unosa imena korisnika"); return; }
+				else if(!validatePrezime.equals("")) {showMessageBox(validatePrezime, "Greška kod unosa prezimena korisnika"); return;}
+				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese korisnika"); return;}
+				else if(!validateBrojLK.equals("")) { showMessageBox(validateBrojLK, "Greška kod unosa broja lične karte korisnika"); return;}
+				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška kod unosa broja telefona korisnika"); return;}
+				else if(username.equals("")) { showMessageBox("Morate unijeti korisničko ime!", "Greška kod unosa korisničkog imena korisnika"); return; }
+				else if(password.equals("")) { showMessageBox("Morate unijeti lozinku!", "Greška kod unosa lozinke korisnika"); return; }
+				else if(kds.isUsernameUnique(username)) { showMessageBox("Korisničko ime mora biti jedinstveno!", "Greška kod unosa korisničkog imena korisnika"); return; }
+				else if(!administratorRadioButton.isSelected() && !korisnikRadioButton.isSelected()) { showMessageBox("Morate odabrati tip!", "Greška kod odabira tipa korisnika"); return;}
+				else if(datum == null) { showMessageBox("Morate izabrati datum!", "Greška kod unosa datuma"); return; }
 				kds.insert(new Korisnik(tip, username, password, ime, prezime, brojLK, adresa, telefon, datum));
 				clearControls();
 			}
