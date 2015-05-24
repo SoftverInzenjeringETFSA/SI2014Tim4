@@ -22,10 +22,9 @@ public class FakturaProdajeClassTest extends TestCase {
 	public void testFakturaProdaje_Konstruktor()
 	{
 		
-		PlinskiRezervoar pr;
 		PlinskaBoca pb;
-		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
-		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
 		PravniKomitent k;
 		FakturaProdaje fi;
 		Triplet<PlinskaBoca,Date,Double> tb;
@@ -44,7 +43,7 @@ public class FakturaProdajeClassTest extends TestCase {
 		k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
 				"Firma doo","123123123");
 		
-		pr = new PlinskiRezervoar(333,"666555", 350,
+		PlinskiRezervoar pr = new PlinskiRezervoar(333,"666555", 350,
 				400, 1, "nadzemni",d, "Grbavica 45","iznajmljen");
 		tr = new Triplet<PlinskiRezervoar,Date,Double>(pr,d,50.);
 		pb =new PlinskaBoca(5,20,10);
@@ -64,8 +63,8 @@ public class FakturaProdajeClassTest extends TestCase {
 	{
 		PlinskiRezervoar pr;
 		PlinskaBoca pb;
-		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
-		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
 		PravniKomitent k;
 		FakturaProdaje fi;
 		Triplet<PlinskaBoca,Date,Double> tb;
@@ -95,19 +94,17 @@ public class FakturaProdajeClassTest extends TestCase {
 		 fi = new FakturaProdaje(33,"4455",k,pbl,prl);
 		int max = fids.getMaxId();
 		
-			fi.setId(max +1);
-		
 			fids.insert(fi);
 		
-			assertEquals(max +1 ,fids.getMaxId());
+			assertEquals(max,fids.getMaxId());
 	}
 	
 	public void testFakturaProdajeDalDao_GetMaxId()
 	{
 		PlinskiRezervoar pr;
 		PlinskaBoca pb;
-		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
-		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
 		PravniKomitent k;
 		FakturaProdaje fi;
 		Triplet<PlinskaBoca,Date,Double> tb;
@@ -134,14 +131,14 @@ public class FakturaProdajeClassTest extends TestCase {
 		
 		prl.add(tr);
 		pbl.add(tb);
-		 fi = new FakturaProdaje(33,"4455",k,pbl,prl);
+		 fi = new FakturaProdaje(k,pbl,prl);
 		int max = fids.getMaxId();
 		
 		fi.setId(max +1);
 		
 		fids.insert(fi);
 		
-		assertEquals(max +1 ,fids.getMaxId());
+		assertEquals(max,fids.getMaxId());
 		fi.setId(33);
 	}
 

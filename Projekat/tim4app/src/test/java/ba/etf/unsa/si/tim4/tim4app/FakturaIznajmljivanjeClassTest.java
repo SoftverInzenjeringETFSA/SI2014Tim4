@@ -15,19 +15,59 @@ import java.util.LinkedList;
 import org.javatuples.Triplet;
 
 public class FakturaIznajmljivanjeClassTest extends TestCase { // dodat brisanje da se ne nagomilaju zbog testiranja
-	PlinskiRezervoar pr;
-	PlinskaBoca pb;
-	LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl;
-	LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl;
-	PravniKomitent k;
-	FakturaIznajmljivanje fi;
-	Triplet<PlinskaBoca,Date,Double> tb;
-	Triplet<PlinskiRezervoar,Date,Double> tr;
-	Date d;
-	FaktureIznajmljivanjaDataSource fids;
 	
-	protected void SetUp()
+		
+		
+		
+	
+	public void testFakturaiznajmljivanje_Konstruktor()
 	{
+		PlinskiRezervoar pr;
+		PlinskaBoca pb;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
+		PravniKomitent k;
+		Triplet<PlinskaBoca,Date,Double> tb;
+		Triplet<PlinskiRezervoar,Date,Double> tr;
+		Date d;
+		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+		d = null;
+		try 
+		{
+			d = dateformat.parse("12/12/2012");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
+				"Firma doo","123123123");
+		
+		pr = new PlinskiRezervoar(333,"666555", 350,
+				400, 1, "nadzemni",d, "Grbavica 45","iznajmljen");
+		tr = new Triplet<PlinskiRezervoar,Date,Double>(pr,d,50.);
+		pb =new PlinskaBoca(5,20,10);
+		tb = new Triplet<PlinskaBoca,Date,Double>(pb,d,34.);
+		
+		prl.add(tr);
+		pbl.add(tb);
+		FakturaIznajmljivanje f = new FakturaIznajmljivanje(33,"4455",k,pbl,prl);
+		assertEquals("4455", f.getBrojFakture());
+		assertEquals(k,f.getKomitent());
+		assertEquals(pbl, f.getPlinskeBoceStavke());
+		assertEquals(prl, f.getPlinskiRezervoarStavke());
+	}
+	
+	public void testFakturaiznajmljivanjeDalDao_insert()
+	{
+		PlinskiRezervoar pr;
+		PlinskaBoca pb;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
+		PravniKomitent k;
+		FakturaIznajmljivanje fi;
+		Triplet<PlinskaBoca,Date,Double> tb;
+		Triplet<PlinskiRezervoar,Date,Double> tr;
+		Date d;
+		FaktureIznajmljivanjaDataSource fids;
 		fids = new FaktureIznajmljivanjaDataSource();
 		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
 		d = null;
@@ -49,21 +89,6 @@ public class FakturaIznajmljivanjeClassTest extends TestCase { // dodat brisanje
 		prl.add(tr);
 		pbl.add(tb);
 		 fi = new FakturaIznajmljivanje(33,"4455",k,pbl,prl);
-		
-		
-	}
-	
-	public void testFakturaiznajmljivanje_Konstruktor()
-	{
-		FakturaIznajmljivanje f = new FakturaIznajmljivanje(33,"4455",k,pbl,prl);
-		assertEquals("4455", f.getBrojFakture());
-		assertEquals(k,f.getKomitent());
-		assertEquals(pbl, f.getPlinskeBoceStavke());
-		assertEquals(prl, f.getPlinskiRezervoarStavke());
-	}
-	
-	public void testFakturaiznajmljivanjeDalDao_insert()
-	{
 		fids = new FaktureIznajmljivanjaDataSource();
 		int max = fids.getMaxId();
 		
@@ -71,11 +96,42 @@ public class FakturaIznajmljivanjeClassTest extends TestCase { // dodat brisanje
 		
 			fids.insert(fi);
 		
-			assertEquals(max +1 ,fids.getMaxId());
+			assertEquals(max,fids.getMaxId());
 	}
 	
 	public void testFakturaiznajmljivanjeDalDao_GetMaxId()
 	{
+		PlinskiRezervoar pr;
+		PlinskaBoca pb;
+		LinkedList<Triplet<PlinskaBoca, Date, Double>> pbl = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
+		LinkedList<Triplet<PlinskiRezervoar, Date, Double>> prl = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
+		PravniKomitent k;
+		FakturaIznajmljivanje fi;
+		Triplet<PlinskaBoca,Date,Double> tb;
+		Triplet<PlinskiRezervoar,Date,Double> tr;
+		Date d;
+		FaktureIznajmljivanjaDataSource fids;
+		fids = new FaktureIznajmljivanjaDataSource();
+		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+		d = null;
+		try 
+		{
+			d = dateformat.parse("12/12/2012");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		k = new PravniKomitent(333,"Pravni komitent", "Grbavica","061666666","email@gmail.com",
+				"Firma doo","123123123");
+		
+		pr = new PlinskiRezervoar(333,"666555", 350,
+				400, 1, "nadzemni",d, "Grbavica 45","iznajmljen");
+		tr = new Triplet<PlinskiRezervoar,Date,Double>(pr,d,50.);
+		pb =new PlinskaBoca(5,20,10);
+		tb = new Triplet<PlinskaBoca,Date,Double>(pb,d,34.);
+		
+		prl.add(tr);
+		pbl.add(tb);
+		 fi = new FakturaIznajmljivanje(33,"4455",k,pbl,prl);
 		fids = new FaktureIznajmljivanjaDataSource();
 		int max = fids.getMaxId();
 		
@@ -83,7 +139,7 @@ public class FakturaIznajmljivanjeClassTest extends TestCase { // dodat brisanje
 		
 		fids.insert(fi);
 		
-		assertEquals(max +1 ,fids.getMaxId());
+		assertEquals(max,fids.getMaxId());
 		fi.setId(33);
 	}
 	
