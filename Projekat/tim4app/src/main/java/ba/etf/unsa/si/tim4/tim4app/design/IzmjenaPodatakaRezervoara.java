@@ -159,6 +159,7 @@ public class IzmjenaPodatakaRezervoara extends JDialog {
 				else if(uzemniRadioButton.isSelected() && nadzemniRadioButton.isSelected()) { showMessageBox("Samo jedan tip može biti odabran!", "Greška kod odabira tipa rezervoara"); return;}
 				else if(punRadioButton.isSelected() && prazanRadioButton.isSelected()) { showMessageBox("Rezervoar može biti ili pun ili prazan!", "Greška kod unosa napunjenosti rezervoara"); return;}
 				else if(datum == null) { showMessageBox("Morate izabrati datum!", "Greška kod unosa datuma"); return; }
+				else if(datum.after(new Date())) { showMessageBox("Datum ne može biti veći od trenutnog!", "Greška kod unosa datuma"); return; }
 				PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
 				int id = ((PlinskiRezervoar)rezervoarComboBox.getSelectedItem()).getId();
 				PlinskiRezervoar pr = new PlinskiRezervoar(id, serijskiBroj, Integer.valueOf(kapacitet), Integer.valueOf(tezina),

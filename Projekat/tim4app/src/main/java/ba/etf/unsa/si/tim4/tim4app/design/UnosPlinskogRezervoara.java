@@ -139,6 +139,8 @@ public class UnosPlinskogRezervoara extends JDialog {
 				else if(!uzemniRadioButton.isSelected() && !nadzemniRadioButton.isSelected()) { showMessageBox("Morate odabrati tip rezervoara!", "Greška kod odabira tipa rezervoara"); return;}
 				else if(uzemniRadioButton.isSelected() && nadzemniRadioButton.isSelected()) { showMessageBox("Samo jedan tip može biti odabran!", "Greška kod odabira tipa rezervoara"); return;}
 				else if(punRadioButton.isSelected() && prazanRadioButton.isSelected()) { showMessageBox("Rezervoar može biti ili pun ili prazan!", "Greška kod odabira napunjenosti rezervoara"); return;}
+				else if(datum == null) { showMessageBox("Morate izabrati datum!", "Greška kod odabira datuma"); return;}
+				else if(datum.after(new Date())) { showMessageBox("Datum zadnjeg baždarenja ne može biti veći od trenutnog datuma!", "Greška pri odabiru datuma"); return;}
 				PlinskiRezervoar pr = new PlinskiRezervoar(serijskiBroj, Integer.valueOf(kapacitet), Integer.valueOf(tezina),
 														   napunjenost, tip, datum, "Skladiste", "Skladiste");
 				pds.insert(pr);

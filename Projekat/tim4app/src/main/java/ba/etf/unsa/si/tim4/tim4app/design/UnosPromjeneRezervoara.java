@@ -129,6 +129,7 @@ public class UnosPromjeneRezervoara extends JDialog {
 					String validateAdresa = validator.validateAdresa(adresa);
 					if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese"); return;}
 					else if(datumPromjene == null) { showMessageBox("Morate izabrati datum!", "Greška kod unosa datuma"); return;}
+					else if(datumPromjene.after(new Date())) { showMessageBox("Datum promjene ne može biti veći od trenutnog!", "Greška kod unosa datuma"); return;}
 					else if(opis.equals("")) { showMessageBox("Morate unijeti opis promjene!", "Greška kod unosa opisa"); return;}
 					Promjena px = new Promjena(p.getSerijskiBroj(), datumPromjene, pds.getTipPromjeneFromSifarnik(tip), opis);
 					p.setLokacija(adresa);
@@ -138,6 +139,7 @@ public class UnosPromjeneRezervoara extends JDialog {
 				else if(tip.equals("Bazdarenje"))
 				{
 					if(datumPromjene == null) { showMessageBox("Morate izabrati datum!", "Greška"); return;}
+					else if(datumPromjene.after(new Date())) { showMessageBox("Datum promjene ne može biti veći od trenutnog!", "Greška kod unosa datuma"); return;}
 					Promjena px = new Promjena(p.getSerijskiBroj(), datumPromjene, pds.getTipPromjeneFromSifarnik(tip), opis);
 					p.setDatumZadnjegBazdarenja(p.getDatumSljedecegBazdarenja());
 					pds.insert(px);
@@ -146,6 +148,7 @@ public class UnosPromjeneRezervoara extends JDialog {
 				else if(tip.equals("Punjenje"))
 				{
 					if(datumPromjene == null) { showMessageBox("Morate izabrati datum!", "Greška"); return;}
+					else if(datumPromjene.after(new Date())) { showMessageBox("Datum promjene ne može biti veći od trenutnog!", "Greška kod unosa datuma"); return;}
 					Promjena px = new Promjena(p.getSerijskiBroj(), datumPromjene, pds.getTipPromjeneFromSifarnik(tip), opis);
 					p.setNapunjenost(1);
 					pds.insert(px);
