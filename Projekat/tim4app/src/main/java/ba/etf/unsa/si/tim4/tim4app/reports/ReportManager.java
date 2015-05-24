@@ -62,7 +62,6 @@ public class ReportManager {
 		catch(Exception e)
 		{
 			dbUtils.printExceptionMessage(e.getMessage(), "printParameterlessReport");
-			e.printStackTrace();
 			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 		}
 	}

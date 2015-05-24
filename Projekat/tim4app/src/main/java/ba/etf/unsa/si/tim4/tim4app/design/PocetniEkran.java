@@ -64,6 +64,7 @@ import org.javatuples.Triplet;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
+import java.io.Serializable;
 
 import javax.swing.JScrollPane;
 
@@ -1168,9 +1169,12 @@ public class PocetniEkran extends JFrame {
 		}
 	}
 	
-	class ItemChangeListener implements ItemListener
+	class ItemChangeListener implements ItemListener, Serializable
 	{
-	    public void itemStateChanged(ItemEvent event) {
+
+		private static final long serialVersionUID = 2079647288224998594L;
+
+		public void itemStateChanged(ItemEvent event) {
 	       if (event.getStateChange() == ItemEvent.SELECTED) {
 	    	   
 	    	   // uzimamo objekat na kojem se desio događaj

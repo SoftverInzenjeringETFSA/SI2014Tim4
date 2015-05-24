@@ -29,6 +29,7 @@ import javax.swing.JPasswordField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 
 import javax.swing.JRadioButton;
 
@@ -219,9 +220,12 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 		   telefonTF.setText("");
 	}
 	
-	class ItemChangeListener implements ItemListener
+	class ItemChangeListener implements ItemListener, Serializable
 	{
-	    public void itemStateChanged(ItemEvent event) {
+
+		private static final long serialVersionUID = 7226253792370032523L;
+
+		public void itemStateChanged(ItemEvent event) {
 	       if (event.getStateChange() == ItemEvent.SELECTED) {
 	    	   
 	    	   // uzimamo objekat na kojem se desio događaj

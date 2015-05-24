@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -184,9 +185,12 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 		   pdvBrojTF.setText("");
 	}
 	
-	class ItemChangeListener implements ItemListener
+	class ItemChangeListener implements ItemListener, Serializable
 	{
-	    public void itemStateChanged(ItemEvent event) {
+
+		private static final long serialVersionUID = 6178966600015300990L;
+
+		public void itemStateChanged(ItemEvent event) {
 	       if (event.getStateChange() == ItemEvent.SELECTED) {
 	    	   
 	    	   // uzimamo objekat na kojem se desio događaj

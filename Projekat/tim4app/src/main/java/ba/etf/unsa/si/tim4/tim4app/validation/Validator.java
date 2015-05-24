@@ -1,10 +1,12 @@
 package ba.etf.unsa.si.tim4.tim4app.validation;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class Validator {
-	
+public class Validator implements Serializable {
+
+	private static final long serialVersionUID = 7766987411442122500L;
 	private static final String ONLY_NUMBERS_REGEX = "[0-9]+";
 	private static final String ONLY_NUMBERS_NOZERO_REGEX = "[1-9]+";
 	private static final String ONLY_LETTERS_REGEX = "[A-Z]+";

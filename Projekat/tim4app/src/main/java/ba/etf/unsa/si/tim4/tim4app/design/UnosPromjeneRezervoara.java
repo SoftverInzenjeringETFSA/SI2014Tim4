@@ -29,6 +29,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -187,9 +188,12 @@ public class UnosPromjeneRezervoara extends JDialog {
 		   lokacijaTF.setText("");
 	}
 	
-	class ItemChangeListener implements ItemListener
+	class ItemChangeListener implements ItemListener, Serializable
 	{
-	    public void itemStateChanged(ItemEvent event) {
+
+		private static final long serialVersionUID = -6144872478985565951L;
+
+		public void itemStateChanged(ItemEvent event) {
 	       if (event.getStateChange() == ItemEvent.SELECTED) {
 	    	   
 	    	   // uzimamo objekat na kojem se desio događaj

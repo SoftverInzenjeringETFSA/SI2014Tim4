@@ -74,7 +74,7 @@ public class LoginForma extends JFrame {
 		prijavaButton = new JButton("Prijava");
 		prijavaButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!usernameTextField.getText().equals("") && !passwordField.getPassword().toString().equals(""))
+				if(!usernameTextField.getText().equals("") && !(new String(passwordField.getPassword())).equals(""))
 				{
 					KorisnikDataSource kds = new KorisnikDataSource();
 					String username = usernameTextField.getText();

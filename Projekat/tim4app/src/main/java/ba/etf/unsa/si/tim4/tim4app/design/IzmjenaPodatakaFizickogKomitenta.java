@@ -24,6 +24,7 @@ import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.Serializable;
 
 public class IzmjenaPodatakaFizickogKomitenta extends JDialog {
 
@@ -224,9 +225,12 @@ public class IzmjenaPodatakaFizickogKomitenta extends JDialog {
 		   telefonTF.setText("");
 	}
 	
-	class ItemChangeListener implements ItemListener
+	class ItemChangeListener implements ItemListener, Serializable
 	{
-	    public void itemStateChanged(ItemEvent event) {
+
+		private static final long serialVersionUID = -3147101148591613530L;
+
+		public void itemStateChanged(ItemEvent event) {
 	       if (event.getStateChange() == ItemEvent.SELECTED) {
 	    	   
 	    	   // uzimamo objekat na kojem se desio događaj
