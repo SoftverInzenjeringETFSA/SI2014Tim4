@@ -1,12 +1,17 @@
 package ba.etf.unsa.si.tim4.tim4app.reports;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.javatuples.Triplet;
@@ -52,7 +57,8 @@ public class ReportManager {
 			HashMap hm = new HashMap();	
 			hm.put("P_LOGO_IMAGE", getReportLogoImage());
 			Date currentDate = new Date();
-			JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+			InputStream is = ClassLoader.getSystemResourceAsStream(reportPath);
+			JasperReport jasperReport = (JasperReport)JasperCompileManager.compileReport(is);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, hm, dbUtils.getConnection());
 			String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 			JasperExportManager.exportReportToPdfFile(jasperPrint,
@@ -80,7 +86,8 @@ public class ReportManager {
 			parametersMap.put("P_LOGO_IMAGE", getReportLogoImage());
 			Date currentDate = new Date();
 			try{
-				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				InputStream is = ClassLoader.getSystemResourceAsStream(reportPath);
+				JasperReport jasperReport = (JasperReport)JasperCompileManager.compileReport(is);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
 				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 				JasperExportManager.exportReportToPdfFile(jasperPrint,
@@ -116,7 +123,8 @@ public class ReportManager {
 			parametersMap.put("P_NAZIV_KOMITENTA", nazivKomitenta);
 			Date currentDate = new Date();
 			try{
-				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				InputStream is = ClassLoader.getSystemResourceAsStream(reportPath);
+				JasperReport jasperReport = (JasperReport)JasperCompileManager.compileReport(is);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
 				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 				JasperExportManager.exportReportToPdfFile(jasperPrint,
@@ -147,7 +155,8 @@ public class ReportManager {
 			parametersMap.put("P_KOMITENT_NAZIV", nazivKomitenta);
 			Date currentDate = new Date();
 			try{
-				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				InputStream is = ClassLoader.getSystemResourceAsStream(reportPath);
+				JasperReport jasperReport = (JasperReport)JasperCompileManager.compileReport(is);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
 				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 				JasperExportManager.exportReportToPdfFile(jasperPrint,
@@ -174,7 +183,8 @@ public class ReportManager {
 			parametersMap.put("P_KOMITENT_NAZIV", nazivKomitenta);
 			Date currentDate = new Date();
 			try{
-				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				InputStream is = ClassLoader.getSystemResourceAsStream(reportPath);
+				JasperReport jasperReport = (JasperReport)JasperCompileManager.compileReport(is);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
 				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 				JasperExportManager.exportReportToPdfFile(jasperPrint,
@@ -207,7 +217,8 @@ public class ReportManager {
 			parametersMap.put("P_NAZIV_KOMITENTA", nazivKomitenta);
 			Date currentDate = new Date();
 			try{
-				JasperReport jasperReport = JasperCompileManager.compileReport(reportPath);
+				InputStream is = ClassLoader.getSystemResourceAsStream(reportPath);
+				JasperReport jasperReport = (JasperReport)JasperCompileManager.compileReport(is);
 				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametersMap, dbUtils.getConnection());
 				String date = (new SimpleDateFormat("dd-MM-yyyy")).format(currentDate);
 				JasperExportManager.exportReportToPdfFile(jasperPrint,
@@ -285,7 +296,14 @@ public class ReportManager {
 	
 	private java.awt.Image getReportLogoImage()
 	{
-		ImageIcon icon = new ImageIcon(LOGO_PATH);
+		InputStream is = ClassLoader.getSystemResourceAsStream(LOGO_PATH);
+		ImageIcon icon = new ImageIcon();
+		try {
+			icon.setImage(ImageIO.read(is));
+		} catch (IOException e) {
+			Logger l = Logger.getAnonymousLogger();
+			l.log(Level.SEVERE, e.getMessage(), e);
+		}
 		return icon.getImage();
 	}
 	
