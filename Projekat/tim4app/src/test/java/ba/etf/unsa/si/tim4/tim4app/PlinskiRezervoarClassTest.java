@@ -15,25 +15,38 @@ public class PlinskiRezervoarClassTest extends TestCase {
 	PlinskiRezervoar pr2;
 	PlinskiRezervoarDataSource prds;
 	
-	protected void SetUp()
+	public void testPlinskiRezervoar_GetAll()
 	{
 		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+			PlinskiRezervoar prvi = new PlinskiRezervoar("666555", 350, 400, 1, "nadzemni",datum, "Visoko","Skladiste");
+			 
+			 PlinskiRezervoar drugi = new PlinskiRezervoar("555666", 350, 400, 1, "nadzemni",datum, "Visoko","Skladiste");
+			 
+		LinkedList<PlinskiRezervoar> lpr = prds.getAll();
 	
-		SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-		Date datum = null;
-		try 
-		{
-		datum = dateformat.parse("13/10/2014");
-		} catch (ParseException e) {
-		e.printStackTrace();
-		}
-	
-		 pr = new PlinskiRezervoar(333,"666555", 350,
-			400, 1, "nadzemni",datum, "Grbavica 45","iznajmljen");
-		 
-		 pr2 = new PlinskiRezervoar(222,"555666", 350,
-				400, 1, "nadzemni",datum, "Grbavica 45","iznajmljen");
+		prds.insert(prvi);
+		prds.insert(drugi);
+		
+		LinkedList<PlinskiRezervoar> lpr2 = prds.getAll();
+		
+		assertEquals(lpr.size()+2,lpr2.size());
+
+		int id = prds.getId(prvi.getSerijskiBroj());
+		prds.delete(id);
+		id = prds.getId(drugi.getSerijskiBroj());
+		prds.delete(id);
 	}
+	
 	
 	public void testPlinskiRezervoar_Konstrukor()
 	{
@@ -58,83 +71,179 @@ public class PlinskiRezervoarClassTest extends TestCase {
 	
 	public void testPlinskiRezervoarDalDao_Insert()
 	{
-           
+		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+		  pr = new PlinskiRezervoar("666555", 350, 400, 1, "nadzemni",datum, "Grbavica 2","iznajmljen");
+			 
           prds.insert(pr);
+
+          int id = prds.getId(pr.getSerijskiBroj());
+          PlinskiRezervoar plinski = prds.getRezervoarById(id);
           
-          assertEquals(pr,prds.getRezervoarById(666555));
-          prds.delete(333);
+          assertEquals(pr.getSerijskiBroj(),plinski.getSerijskiBroj());
+
+          prds.delete(id);
 	}
 	
 	public void testPlinskiRezervoarDalDao_Update()
 	{
+		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+			 pr = new PlinskiRezervoar("666555", 350,
+				400, 1, "nadzemni",datum, "Grbavica 3","iznajmljen");
+			 
+			 pr2 = new PlinskiRezervoar("555666", 350,
+					400, 1, "nadzemni",datum, "Grbavica 32","iznajmljen");
 		prds.insert(pr);
 		pr.setLokacija("Stup");
 		prds.update(pr);
-		
-		assertEquals("Stup", prds.getRezervoarById(333).getLokacija());
-		prds.delete(333);
+
+		int id = prds.getId(pr.getSerijskiBroj());
+		assertEquals("Stup", prds.getRezervoarById(id).getLokacija());
+
+		prds.delete(id);
 	}
 	
 	public void testPlinskiRezervoarDalDao_UpdateStatus()
 	{
-		prds.insert(pr);
-		prds.updateStatus(333, "Stup", "prodan");
+		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
 		
-		assertEquals("Stup", prds.getRezervoarById(333).getLokacija());
-		assertEquals("prodan",prds.getRezervoarById(333).getTrenutniStatus());
-		prds.delete(333);
+			 pr = new PlinskiRezervoar("666555", 350,
+				400, 1, "nadzemni",datum, "Grbavica 4","iznajmljen");
+			 
+			 pr2 = new PlinskiRezervoar("555666", 350,
+					400, 1, "nadzemni",datum, "Grbavica 23","iznajmljen");
+		prds.insert(pr);
+
+		int id = prds.getId(pr.getSerijskiBroj());
+		prds.updateStatus(id, "Stup", "prodan");
+		
+
+		assertEquals("Stup", prds.getRezervoarById(id).getLokacija());
+		assertEquals("prodan",prds.getRezervoarById(id).getTrenutniStatus());
+
+		prds.delete(id);
 	}
 	
-	public void testPlinskiRezervoar_GetAll()
-	{
-		LinkedList<PlinskiRezervoar> lpr = prds.getAll();
-		prds.insert(pr);
-		prds.insert(pr2);
-		
-		LinkedList<PlinskiRezervoar> lpr2 = prds.getAll();
-		
-		assertEquals(lpr.size(),lpr2.size());
-		
-		prds.delete(333);
-		prds.delete(222);
-	}
-	
+
 	public void testPlinskiRezervoarDalDao_GetAllNoStatus()
 	{
-		LinkedList<PlinskiRezervoar> lpr = prds.getAll();
+		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+			 pr = new PlinskiRezervoar("666555", 350,
+				400, 1, "nadzemni",datum, "Grbavica 5","iznajmljen");
+			 
+			 pr2 = new PlinskiRezervoar("555666", 350,
+					400, 1, "nadzemni",datum, "Grbavica 43","iznajmljen");
+		LinkedList<PlinskiRezervoar> lpr = prds.getAllNoStatus();
 		prds.insert(pr);
 		prds.insert(pr2);
 		
-		LinkedList<PlinskiRezervoar> lpr2 = prds.getAll();
+		LinkedList<PlinskiRezervoar> lpr2 = prds.getAllNoStatus();
 		
 		assertEquals(lpr.size(),lpr2.size() -2);
-		
-		prds.delete(333);
-		prds.delete(222);
+
+		int id = prds.getId(pr.getSerijskiBroj());
+		prds.delete(id);
+		id = prds.getId(pr2.getSerijskiBroj());
+		prds.delete(id);
 	}
 	
 	public void testPlinskiRezervoarDalDao_GetCount()
 	{
+		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+			 pr = new PlinskiRezervoar("666555", 350,
+				400, 1, "nadzemni",datum, "Grbavica 6","iznajmljen");
+			 
+			 pr2 = new PlinskiRezervoar("555666", 350,
+					400, 1, "nadzemni",datum, "Grbavica 56","iznajmljen");
 		int br = prds.getCount();
+		
 		prds.insert(pr);
 		prds.insert(pr2);
 		
 		int br2 = prds.getCount();
 		
-		assertEquals(br,br2 -2);
+		assertEquals(br,br2-2);
 		
-		prds.delete(333);
-		prds.delete(222);
-		
+		int id = prds.getId(pr.getSerijskiBroj());
+		prds.delete(id);
+		id = prds.getId(pr2.getSerijskiBroj());
+		prds.delete(id);
 	}
 	
 	public void testplinskiRezervoarDalDao_IsUniqueSerijskiBroj()
 	{
+		 prds = new PlinskiRezervoarDataSource();
+			
+			SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+			Date datum = null;
+			try 
+			{
+			datum = dateformat.parse("13/10/2014");
+			} catch (ParseException e) {
+			e.printStackTrace();
+			}
+		
+			 pr = new PlinskiRezervoar("333444", 350,
+				400, 1, "nadzemni",datum, "Grbavica 7","iznajmljen");
+
 		prds.insert(pr);
 		prds.insert(pr);
 		
-		int br = prds.isUniqueSerijskiBroj("666555");
+		int br = prds.isUniqueSerijskiBroj(pr.getSerijskiBroj()); 
+		assertEquals(1,br);
 		
-		assertEquals(2,br);
+		int id = prds.getId(pr.getSerijskiBroj());
+		prds.delete(id);
+
+
+		
 	}
 }

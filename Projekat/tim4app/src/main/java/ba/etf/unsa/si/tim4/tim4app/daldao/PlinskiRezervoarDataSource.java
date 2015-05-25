@@ -137,7 +137,6 @@ private DatabaseUtils dbUtils;
 										  tip, datumBazdarenja, lokacija, trenutniStatus);
 				pr.setId(idValue);
 				toRet = pr;
-				dbUtils.closeCurrentConnection();
 			}
 			dbUtils.closeCurrentConnection();
 			return toRet;
@@ -157,11 +156,12 @@ private DatabaseUtils dbUtils;
 				+ ", datum_zadnjeg_bazdarenja, lokacija, trenutni_status FROM plinski_rezervoari"
 				+ " WHERE trenutni_status='Skladiste'";
 		PreparedStatement ps = dbUtils.getPreparedStatement(query);
-		LinkedList<PlinskiRezervoar> toRet = new LinkedList<PlinskiRezervoar>();
+		LinkedList<PlinskiRezervoar> toRet = null;
 		if(ps == null) return null;
 		try
 		{
 			ResultSet rs = ps.executeQuery();
+			toRet = new LinkedList<PlinskiRezervoar>();
 			while(rs.next())
 			{
 				int id = rs.getInt(1);
@@ -310,6 +310,33 @@ private DatabaseUtils dbUtils;
 				int count = rs.getInt(1);
 				dbUtils.closeCurrentConnection();
 				return count;
+			}
+			dbUtils.closeCurrentConnection();
+			return -1;
+		}
+		catch(Exception e)
+		{
+			dbUtils.printExceptionMessage(e.getMessage(), "getCount()");
+			dbUtils.logException(Level.SEVERE, e.getMessage(), e);
+			dbUtils.closeCurrentConnection();
+			return -1;
+		}
+	}
+	
+	public int getId(String serijskiBroj)
+	{
+		String query = "SELECT id FROM plinski_rezervoari WHERE serijski_broj=?";
+		PreparedStatement ps = dbUtils.getPreparedStatement(query);
+		if(ps == null) return -1;
+		try
+		{
+			ps.setString(1, serijskiBroj);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next())
+			{
+				int id = rs.getInt(1);
+				dbUtils.closeCurrentConnection();
+				return id;
 			}
 			dbUtils.closeCurrentConnection();
 			return -1;
