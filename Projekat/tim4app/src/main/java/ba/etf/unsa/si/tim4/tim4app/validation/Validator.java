@@ -46,9 +46,22 @@ public class Validator implements Serializable {
 	public String validateOnlyLetters(String expression, String field)
 	{
 		String errorMessage = "";
-		for(char c : expression.toCharArray())
+		if(expression.equals("")) errorMessage = "Morate unijeti " + field +" !";
+		else
 		{
-			if(!Character.isLetter(c) && c != ' ' && c != '.') errorMessage = field + " se mora sastojati samo od razmaka i slova!";
+			boolean onlySpaces = true;
+			for(char x: expression.toCharArray())
+			{
+				if(x != ' ') onlySpaces = false;
+			}
+			if(onlySpaces) errorMessage = "Morate unijeti " + field + " !";
+			else
+			{
+				for(char c : expression.toCharArray())
+				{
+					if(!Character.isLetter(c) && c != ' ' && c != '.') errorMessage = field + " se mora sastojati samo od razmaka i slova!";
+				}
+			}
 		}
 		return errorMessage;
 	}
@@ -101,9 +114,9 @@ public class Validator implements Serializable {
 	{
 		String errorMessage = "";
 		if(brojLK.equals("")) errorMessage = "Morate unijeti broj lične karte!";
-		else if(!brojLK.substring(0, 2).matches(ONLY_NUMBERS_NOZERO_REGEX)) errorMessage = "Prva dva znaka moraju biti brojevi!";
-		else if(!brojLK.substring(2, 5).matches(ONLY_LETTERS_REGEX)) errorMessage = "4, 5, 6 znak moraju biti slova!";
-		else if(!brojLK.substring(5, 8).matches(ONLY_NUMBERS_REGEX)) errorMessage = "7, 8, 9 znak moraju biti brojevi!";
+		else if(!brojLK.substring(0, 2).matches(ONLY_NUMBERS_REGEX)) errorMessage = "Prva dva znaka moraju biti brojevi!";
+		else if(!brojLK.substring(2, 5).matches(ONLY_LETTERS_REGEX)) errorMessage = "3, 4, 5 znak moraju biti slova!";
+		else if(!brojLK.substring(5, 9).matches(ONLY_NUMBERS_REGEX)) errorMessage = "6, 7, 8, 9 znak moraju biti brojevi!";
 		else if(brojLK.length() != 9) errorMessage = "Lična karta mora imati 9 cifara!";
 		return errorMessage;
 	}

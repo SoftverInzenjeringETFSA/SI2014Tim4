@@ -165,6 +165,7 @@ public class DodavanjeNovogKorisnika extends JDialog {
 				else if(password.equals("")) { showMessageBox("Morate unijeti lozinku!", "Greška kod unosa lozinke korisnika"); return; }
 				else if(kds.isUsernameUnique(username)) { showMessageBox("Korisničko ime mora biti jedinstveno!", "Greška kod unosa korisničkog imena korisnika"); return; }
 				else if(!administratorRadioButton.isSelected() && !korisnikRadioButton.isSelected()) { showMessageBox("Morate odabrati tip!", "Greška kod odabira tipa korisnika"); return;}
+				else if(administratorRadioButton.isSelected() && korisnikRadioButton.isSelected()) { showMessageBox("Korisnik može biti ili administrator ili obični korisnik!", "Greška kod odabira tipa korisnika"); return;}
 				else if(datum == null) { showMessageBox("Morate izabrati datum!", "Greška kod unosa datuma"); return; }
 				else if(datum.after(new Date())) { showMessageBox("Datum zapošljavanja ne može biti veći od trenutnog!", "Greška kod unosa datuma"); return; }
 				kds.insert(new Korisnik(tip, username, password, ime, prezime, brojLK, adresa, telefon, datum));

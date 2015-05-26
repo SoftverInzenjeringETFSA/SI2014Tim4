@@ -37,7 +37,7 @@ public class ReportManager {
 	private boolean isSkladisteEmpty = false;
 	private String pathToFolder = "";
 	private PreferenceManager folderManager = new PreferenceManager();
-	private static final String LOGO_PATH = "Images/LOGO.jpg";
+	private static final String LOGO_PATH = "LOGO.jpg";
 
 	
 	public ReportManager() 
@@ -77,7 +77,7 @@ public class ReportManager {
 	private void printParameterReport(String reportPath, Object parameter)
 	{
 		DatabaseUtils dbUtils = new DatabaseUtils();
-		if(reportPath.equals("Reports/izvjestajZaPojedinacniPlinskiRezervoar.jrxml"))
+		if(reportPath.equals("izvjestajZaPojedinacniPlinskiRezervoar.jrxml"))
 		{
 			String serijskiBroj = (String) parameter;
 			String reportName = "izvjestajZaPojedinacniPlinskiRezervoar" + serijskiBroj;
@@ -104,7 +104,7 @@ public class ReportManager {
 				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		else if(reportPath.equals("Reports/izvjestajTrenutnogStanjaZaKomitenta.jrxml"))
+		else if(reportPath.equals("izvjestajTrenutnogStanjaZaKomitenta.jrxml"))
 		{
 			Komitent k = (Komitent) parameter;
 			PravniKomitent pk = null;
@@ -141,7 +141,7 @@ public class ReportManager {
 				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		else if(reportPath.equals("Reports/FakturaProdaje.jrxml"))
+		else if(reportPath.equals("FakturaProdaje.jrxml"))
 		{
 			Triplet<String, String, Integer> parameters = (Triplet<String, String, Integer>) parameter;
 			String nazivKomitenta = parameters.getValue0();
@@ -169,7 +169,7 @@ public class ReportManager {
 				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		else if(reportPath.equals("Reports/FakturaIznajmljivanja.jrxml"))
+		else if(reportPath.equals("FakturaIznajmljivanja.jrxml"))
 		{
 			Triplet<String, String, Integer> parameters = (Triplet<String, String, Integer>) parameter;
 			String nazivKomitenta = parameters.getValue0();
@@ -197,7 +197,7 @@ public class ReportManager {
 				dbUtils.logException(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		else if(reportPath.equals("Reports/IzvjestajOIznajmljenimRezervoarima.jrxml"))
+		else if(reportPath.equals("IzvjestajOIznajmljenimRezervoarima.jrxml"))
 		{
 			
 			Komitent k = (Komitent) parameter;
@@ -242,33 +242,33 @@ public class ReportManager {
 		switch(selectedIndex)
 		{
 		case 0:
-			pathToPrint = "Reports/izvjestajOStanjuNaSkladistuPlinskeBoce.jrxml";
+			pathToPrint = "izvjestajOStanjuNaSkladistuPlinskeBoce.jrxml";
 			reportName = "IzvjestajOStanjuNaSkladistuPlinskeBoce";
 			reportCase = 0;
 			break;
 		case 1:
-			pathToPrint = "Reports/izvjestajOStanjuNaSkladistuPlinskiRezervoari.jrxml";
+			pathToPrint = "izvjestajOStanjuNaSkladistuPlinskiRezervoari.jrxml";
 			reportName = "IzvjestajOStanjuNaSkladistuPlinskiRezervoari";
 			reportCase = 1;
 			break;
 		case 2:
-			pathToPrint = "Reports/izvjestajZaPojedinacniPlinskiRezervoar.jrxml";
+			pathToPrint = "izvjestajZaPojedinacniPlinskiRezervoar.jrxml";
 			reportCase = 2;
 			break;
 		case 3:
-			pathToPrint = "Reports/izvjestajTrenutnogStanjaZaKomitenta.jrxml";
+			pathToPrint = "izvjestajTrenutnogStanjaZaKomitenta.jrxml";
 			reportCase = 3;
 			break;
 		case 4:
-			pathToPrint = "Reports/FakturaProdaje.jrxml";
+			pathToPrint = "FakturaProdaje.jrxml";
 			reportCase = 4;
 			break;
 		case 5:
-			pathToPrint = "Reports/FakturaIznajmljivanja.jrxml";
+			pathToPrint = "FakturaIznajmljivanja.jrxml";
 			reportCase = 5;
 			break;
 		case 6:
-			pathToPrint = "Reports/IzvjestajOIznajmljenimRezervoarima.jrxml";
+			pathToPrint = "IzvjestajOIznajmljenimRezervoarima.jrxml";
 			reportCase = 6;
 			break;
 		case -1:
