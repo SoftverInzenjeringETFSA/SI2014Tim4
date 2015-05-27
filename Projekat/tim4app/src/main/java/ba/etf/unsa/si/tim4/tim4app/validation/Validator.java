@@ -11,7 +11,7 @@ public class Validator implements Serializable {
 	private static final String ONLY_NUMBERS_NOZERO_REGEX = "[1-9]+";
 	private static final String ONLY_LETTERS_REGEX = "[a-zA-Z]+";
 	private static final String POZIVNI_BROJ_REGEX = "03[0-9]+";
-	private static final String MOBITEL_REGEX = "06[0-9]+";
+	private static final String MOBITEL_REGEX = "06[0-3]+";
 	private static final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
@@ -42,6 +42,8 @@ public class Validator implements Serializable {
 		else if(quantity > maxQuantity) errorMessage = "Količina ne može biti veća od maksimalne!";
 		return errorMessage;
 	}
+	
+	
 	
 	public String validateOnlyLetters(String expression, String field)
 	{
@@ -82,13 +84,40 @@ public class Validator implements Serializable {
 		return errorMessage;
 	}
 	
+	public String validateNazivFirme(String naziv)
+	{
+		String errorMessage = "";
+		if(naziv.equals("")) errorMessage = "Morate unijeti naziv firme!";
+		else
+		{
+			boolean onlySpaces = true;
+			for(char x: naziv.toCharArray())
+			{
+				if(x != ' ') onlySpaces = false;
+			}
+			if(onlySpaces) errorMessage = "Morate unijeti naziv firme!";
+		}
+		return errorMessage;
+	}
+	
 	public String validateTelefon(String telefon)
 	{
 		String errorMessage = "";
+		final String haloPozivni = "064";
+		final String mobisPozivni = "065";
 		if(telefon.equals(""))	errorMessage = "Morate unijeti telefon!";
 		else if(!telefon.matches(ONLY_NUMBERS_REGEX)) errorMessage = "Telefon se mora sastojati samo od brojeva!";
-		else if(telefon.length() != 9) errorMessage = "Telefon mora imati 9 cifara!";
-		else if(!telefon.substring(0, 4).matches(MOBITEL_REGEX) && !telefon.substring(0, 4).matches(POZIVNI_BROJ_REGEX)) errorMessage = "Pozivni broj(3 cifre) mora biti validan!";
+		else if(telefon.length() != 9 && telefon.length() != 10) errorMessage = "Telefon mora imati 9 ili 10 cifara!";
+		else
+		{
+			String pozivni = telefon.substring(0, 3);
+			if(telefon.length() == 9)
+			{
+				if(pozivni.equals(haloPozivni)) errorMessage = "Pozivni broj(3 cifre) mora biti validan!";
+				else if(!pozivni.matches(MOBITEL_REGEX) && !pozivni.matches(POZIVNI_BROJ_REGEX) && !pozivni.equals(mobisPozivni)) errorMessage = "Pozivni broj(3 cifre) mora biti validan!";
+			}
+			else if(telefon.length() == 10 && !pozivni.equals(haloPozivni)) errorMessage = "Pozivni broj(3 cifre) mora biti validan!";
+		}	
 		return errorMessage;
 	}
 	
@@ -114,10 +143,10 @@ public class Validator implements Serializable {
 	{
 		String errorMessage = "";
 		if(brojLK.equals("")) errorMessage = "Morate unijeti broj lične karte!";
+		else if(brojLK.length() != 9) errorMessage = "Lična karta mora imati 9 znakova!";
 		else if(!brojLK.substring(0, 2).matches(ONLY_NUMBERS_REGEX)) errorMessage = "Prva dva znaka moraju biti brojevi!";
 		else if(!brojLK.substring(2, 5).matches(ONLY_LETTERS_REGEX)) errorMessage = "3, 4, 5 znak moraju biti slova!";
 		else if(!brojLK.substring(5, 9).matches(ONLY_NUMBERS_REGEX)) errorMessage = "6, 7, 8, 9 znak moraju biti brojevi!";
-		else if(brojLK.length() != 9) errorMessage = "Lična karta mora imati 9 cifara!";
 		return errorMessage;
 	}
 	

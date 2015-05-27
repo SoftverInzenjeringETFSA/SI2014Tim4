@@ -141,9 +141,30 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 		
 		lblNewLabel_3 = new JLabel("Tip:");
 		contentPane.add(lblNewLabel_3, "cell 1 8,alignx right");
+		ItemListener radioButtonListener = new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e) {
+				JRadioButton b = (JRadioButton) e.getSource();
+				if(b == administratorRadioButton)
+				{
+					if(e.getStateChange() == ItemEvent.SELECTED)
+					{
+						korisnikRadioButton.setSelected(false);
+					}
+				}
+				else if(b == korisnikRadioButton)
+				{
+					if(e.getStateChange() == ItemEvent.SELECTED)
+					{
+						administratorRadioButton.setSelected(false);
+					}
+				}
+			}
+		};
 		
 		administratorRadioButton = new JRadioButton("Administrator");
 		contentPane.add(administratorRadioButton, "flowx,cell 2 8");
+		administratorRadioButton.addItemListener(radioButtonListener);
 		
 		lblNewLabel_2 = new JLabel("Lozinka:");
 		contentPane.add(lblNewLabel_2, "cell 1 9,alignx trailing");
@@ -160,6 +181,7 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 				String brojLK = brojlkTF.getText();
 				String telefon = telefonTF.getText();
 				String username = usernameTF.getText();
+				String oldUsername = ((Korisnik) korisnikComboBox.getSelectedItem()).getUsername();
 				String tip = administratorRadioButton.isSelected() ? "Administrator" : "Korisnik";
 				String password = new String(passwordPF.getPassword());
 				String validateIme = validator.validateOnlyLetters(ime, "Ime");
@@ -175,7 +197,8 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 				else if(!validateTelefon.equals("")) {showMessageBox(validateTelefon, "Greška kod unosa broja telefona korisnika"); return;}
 				else if(username.equals("")) { showMessageBox("Morate unijeti korisničko ime!", "Greška kod unosa korisničkog imena korisnika"); return; }
 				else if(password.equals("")) { showMessageBox("Morate unijeti lozinku!", "Greška kod unosa lozinke korisnika"); return; }
-				else if(kds.isUsernameUnique(username)) { showMessageBox("Korisničko ime mora biti jedinstveno!", "Greška kod unosa korisničkog imena korisnika"); return; }
+				else if(!username.equals(oldUsername) && kds.isUsernameUnique(username)) { showMessageBox("Korisničko ime mora biti jedinstveno!", "Greška kod unosa korisničkog imena korisnika"); return; }
+				else if(!administratorRadioButton.isSelected() && !korisnikRadioButton.isSelected()) { showMessageBox("Morate odabrati tip korisnika!", "Greška kod unosa tipa korisnika"); return;}
 				Korisnik selected = (Korisnik)korisnikComboBox.getSelectedItem();
 				Korisnik fk = new Korisnik(selected.getId(), tip, username, password, ime, prezime, brojLK, adresa, telefon, selected.getDatumZaposlenja());
 				kds.update(fk);
@@ -187,6 +210,11 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 		
 		korisnikRadioButton = new JRadioButton("Korisnik");
 		contentPane.add(korisnikRadioButton, "cell 2 8");
+		korisnikRadioButton.addItemListener(radioButtonListener);
+		Korisnik k = (Korisnik) korisnikComboBox.getSelectedItem();
+		setKorisnikProperties(k);
+		
+		
 	}
 	
 	
@@ -209,6 +237,11 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
 	}
 	
+	private void showMessageBoxSuccess(String message, String messageBoxTitle)
+	{
+		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 	private void clearControls()
 	{
 		   imeTF.setText("");
@@ -218,6 +251,29 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 		   passwordPF.setText("");
 		   brojlkTF.setText("");
 		   telefonTF.setText("");
+		   administratorRadioButton.setSelected(false);
+		   korisnikRadioButton.setSelected(false);
+	}
+	
+	private void setKorisnikProperties(Korisnik k)
+	{
+		   imeTF.setText(k.getIme());
+		   prezimeTF.setText(k.getPrezime());
+		   adresaTF.setText(k.getAdresa());
+		   brojlkTF.setText(k.getBrojLicneKarte());
+		   telefonTF.setText(k.getBrojTelefona());
+		   usernameTF.setText(k.getUsername());
+		   passwordPF.setText(k.getPassword());
+		   if(k.getTipKorisnika().equals("Administrator")) 
+		   { 
+			   administratorRadioButton.setSelected(true);
+			   korisnikRadioButton.setSelected(false);
+		   }
+		   else
+		   {
+			   korisnikRadioButton.setSelected(true);
+			   administratorRadioButton.setSelected(false);
+		   }
 	}
 	
 	class ItemChangeListener implements ItemListener, Serializable
@@ -236,18 +292,11 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 	    		   // selektovan je combobox, sada mijenjamo podatke
 	    		   Object selectedItem = event.getItem();
 	    		   Korisnik k = (Korisnik) selectedItem;
-	    		   imeTF.setText(k.getIme());
-	    		   prezimeTF.setText(k.getPrezime());
-	    		   adresaTF.setText(k.getAdresa());
-	    		   brojlkTF.setText(k.getBrojLicneKarte());
-	    		   telefonTF.setText(k.getBrojTelefona());
-	    		   usernameTF.setText(k.getUsername());
-	    		   passwordPF.setText(k.getPassword());
-	    		   if(k.getTipKorisnika().equals("Administrator")) administratorRadioButton.setSelected(true);
-	    		   else korisnikRadioButton.setSelected(true);
+	    		   setKorisnikProperties(k);
 	    	   }
 	       }
 	    }   
 	}
+	
 
 }

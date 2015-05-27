@@ -109,7 +109,7 @@ public class DodavanjePravnogKomitenta extends JDialog {
 				String pdvBroj = pdvBrojTF.getText();
 				String telefon = telefonTF.getText();
 				String email = emailTF.getText();
-				String validateNaziv = validator.validateOnlyLetters(naziv, "Naziv firme");
+				String validateNaziv = validator.validateNazivFirme(naziv);
 				String validateAdresa = validator.validateAdresa(adresa);
 				String validatePdv = validator.validatePDVBroj(pdvBroj);
 				String validateTelefon = validator.validateTelefon(telefon);
@@ -121,6 +121,7 @@ public class DodavanjePravnogKomitenta extends JDialog {
 				else if(!validateEmail.equals("")) { showMessageBox(validateEmail, "Greška kod unosa email adrese"); return;}
 				KomitentDataSource kds = new KomitentDataSource();
 				kds.insert(new PravniKomitent("Pravno lice", adresa, telefon, email, naziv, pdvBroj));
+				showMessageBoxSuccess("Uspješno ste unijeli komitenta!", "Uspjeh");
 				clearControls();
 			}
 		});
@@ -130,6 +131,11 @@ public class DodavanjePravnogKomitenta extends JDialog {
 	private void showMessageBox(String message, String messageBoxTitle)
 	{
 		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void showMessageBoxSuccess(String message, String messageBoxTitle)
+	{
+		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void clearControls()

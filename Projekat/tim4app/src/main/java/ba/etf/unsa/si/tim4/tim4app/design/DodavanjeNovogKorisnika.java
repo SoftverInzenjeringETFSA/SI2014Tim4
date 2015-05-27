@@ -24,6 +24,8 @@ import ba.etf.unsa.si.tim4.tim4app.validation.Validator;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -170,8 +172,30 @@ public class DodavanjeNovogKorisnika extends JDialog {
 				else if(datum.after(new Date())) { showMessageBox("Datum zapošljavanja ne može biti veći od trenutnog!", "Greška kod unosa datuma"); return; }
 				kds.insert(new Korisnik(tip, username, password, ime, prezime, brojLK, adresa, telefon, datum));
 				clearControls();
+				showMessageBoxSuccess("Uspjesno ste unijeli novog korisnika!", "Uspjeh");
 			}
 		});
+		
+		ItemListener radioButtonListener = new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e) {
+				JRadioButton b = (JRadioButton) e.getSource();
+				if(b == administratorRadioButton)
+				{
+					if(e.getStateChange() == ItemEvent.SELECTED)
+					{
+						korisnikRadioButton.setSelected(false);
+					}
+				}
+				else if(b == korisnikRadioButton)
+				{
+					if(e.getStateChange() == ItemEvent.SELECTED)
+					{
+						administratorRadioButton.setSelected(false);
+					}
+				}
+			}
+		};
 		
 		JLabel lblNewLabel = new JLabel("                              Tip korisnika:");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -180,15 +204,22 @@ public class DodavanjeNovogKorisnika extends JDialog {
 		administratorRadioButton = new JRadioButton("Administrator");
 		contentPane.add(administratorRadioButton, "flowx,cell 2 9");
 		contentPane.add(button, "cell 2 11,alignx right");
+		administratorRadioButton.addItemListener(radioButtonListener);
 		
 		korisnikRadioButton = new JRadioButton("Korisnik");
 		contentPane.add(korisnikRadioButton, "cell 2 9");
+		korisnikRadioButton.addItemListener(radioButtonListener);
 	}
 	
 	
 	private void showMessageBox(String message, String messageBoxTitle)
 	{
 		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.ERROR_MESSAGE);
+	}
+	
+	private void showMessageBoxSuccess(String message, String messageBoxTitle)
+	{
+		JOptionPane.showMessageDialog(null, message, messageBoxTitle, JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void clearControls()
@@ -200,5 +231,7 @@ public class DodavanjeNovogKorisnika extends JDialog {
 		usernameTF.setText("");
 		brojlkTF.setText("");
 		passwordPF.setText("");
+		administratorRadioButton.setSelected(false);
+		korisnikRadioButton.setSelected(false);
 	}
 }

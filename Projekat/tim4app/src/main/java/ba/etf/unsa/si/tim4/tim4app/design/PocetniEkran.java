@@ -282,29 +282,39 @@ public class PocetniEkran extends JFrame {
 		lblOdaberiteTipFakture = new JLabel("Odaberite tip fakture:");
 		lblOdaberiteTipFakture.setBounds(396, 15, 146, 14);
 		fakturePanel.add(lblOdaberiteTipFakture);
+		ItemListener prodajaListener = new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e) {
+				JRadioButton b = (JRadioButton) e.getSource();
+				if(e.getStateChange() == ItemEvent.SELECTED)
+				{
+					if(b.isSelected()) datePicker.setVisible(false);
+					else datePicker.setVisible(false);
+					iznajmiRadioButton.setSelected(false);
+				}
+			}
+		};
 		
+		ItemListener iznajmiListener = new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e) {
+				JRadioButton b = (JRadioButton) e.getSource();
+				if(e.getStateChange() == ItemEvent.SELECTED)
+				{
+					if(b.isSelected()) datePicker.setVisible(true);
+					else datePicker.setVisible(false);
+					prodajaRadioButton.setSelected(false);
+				}
+			}
+		};
 
 		prodajaRadioButton = new JRadioButton("Prodaja");
-		prodajaRadioButton.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				JRadioButton b = (JRadioButton)e.getSource();
-				if(b.isSelected()) datePicker.setVisible(false);
-				else datePicker.setVisible(false);
-				iznajmiRadioButton.setSelected(false);
-			}
-		});
+		prodajaRadioButton.addItemListener(prodajaListener);
 		prodajaRadioButton.setBounds(520, 11, 67, 23);
 		fakturePanel.add(prodajaRadioButton);
 		
 		iznajmiRadioButton = new JRadioButton("Iznajmljivanje");
-		iznajmiRadioButton.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				JRadioButton b = (JRadioButton) e.getSource();
-				if(b.isSelected()) datePicker.setVisible(true);
-				else datePicker.setVisible(false);
-				prodajaRadioButton.setSelected(false);
-			}
-		});
+		iznajmiRadioButton.addItemListener(iznajmiListener);
 		iznajmiRadioButton.setBounds(590, 11, 94, 23);
 		fakturePanel.add(iznajmiRadioButton);
 		
@@ -452,6 +462,7 @@ public class PocetniEkran extends JFrame {
 		btnKreirajFaktru = new JButton("Kreiraj fakturu");
 		btnKreirajFaktru.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!prodajaRadioButton.isSelected() && !iznajmiRadioButton.isSelected()) { showMessageBox("Morate izabrati tip fakture!", "Greška pri odabiru tipa fakture"); return;}
 				if(skladiste.isEmpty()) { showMessageBox("Niste izabrali nijedan rezervoar ili bocu!", "Greška"); return; }
 				LinkedList<Triplet<PlinskaBoca, Date, Double>> boceStavke = new LinkedList<Triplet<PlinskaBoca, Date, Double>>();
 				LinkedList<Triplet<PlinskiRezervoar, Date, Double>> rezervoariStavke = new LinkedList<Triplet<PlinskiRezervoar, Date, Double>>();
@@ -1137,22 +1148,42 @@ public class PocetniEkran extends JFrame {
 	private void addRowsToTableBoce()
 	{
 		DefaultTableModel model = (DefaultTableModel) faktureTable.getModel();
+		DefaultTableModel newModel = new DefaultTableModel();
+		LinkedList<Object> columnIds = new LinkedList<Object>();
+		for(int i = 0; i < model.getColumnCount(); i++)
+		{
+			columnIds.add(model.getColumnName(i));
+		}
+		Object[] columns = columnIds.toArray();
+		newModel.setColumnIdentifiers(columns);
 		int petice = skladiste.getPetLitarske();
 		int desetke = skladiste.getDesetLitarske();
 		int petnaeske = skladiste.getPetnaestLitarske();
-		if(petice != 0) model.addRow(new Object[]{"Plinska boca", "-", "5", "5", petice, petice * 10});
-		if(desetke != 0) model.addRow(new Object[]{"Plinska boca", "-", "10", "10", desetke, desetke * 20});
-		if(petnaeske != 0) model.addRow(new Object[]{"Plinska boca", "-", "10", "10", petnaeske, petnaeske * 30});
+		if(petice != 0) 
+		{ 
+			newModel.addRow(new Object[]{"Plinska boca", "-", "5", "5", petice, petice * 10}); 
+		}
+		if(desetke != 0) newModel.addRow(new Object[]{"Plinska boca", "-", "10", "10", desetke, desetke * 20});
+		if(petnaeske != 0) newModel.addRow(new Object[]{"Plinska boca", "-", "10", "10", petnaeske, petnaeske * 30});
+		LinkedList<PlinskiRezervoar> r = skladiste.getPlinskiRezervoari();
+		if(r.size() != 0) 
+		{
+			for(int i = 0; i < r.size(); i++)
+			{
+				PlinskiRezervoar p = r.get(i);
+				newModel.addRow(new Object[]{"Veliki plinski rezervoar", p.getSerijskiBroj(), p.getKapacitet(), p.getTezina(), "1", p.getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT});
+			}
+		}
+		faktureTable.setModel(newModel);
 	}
 	
 	private void addRowsToTableRezervoari()
 	{
 		DefaultTableModel model = (DefaultTableModel) faktureTable.getModel();
 		LinkedList<PlinskiRezervoar> rezervoari = skladiste.getPlinskiRezervoari();
-		for(int i = 0; i < rezervoari.size(); i++)
-		{
-			model.addRow(new Object[]{"Veliki plinski rezervoar", rezervoari.get(i).getSerijskiBroj(), rezervoari.get(i).getKapacitet(), rezervoari.get(i).getTezina(), "1", rezervoari.get(i).getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT});
-		}
+		PlinskiRezervoar p = rezervoari.getLast();
+		model.addRow(new Object[]{"Veliki plinski rezervoar", p.getSerijskiBroj(), p.getKapacitet(), p.getTezina(), "1", p.getKapacitet() * PlinskiRezervoar.RESERVOIR_PRICE_CONSTANT});
+		
 	}
 
 	private void clearTable()

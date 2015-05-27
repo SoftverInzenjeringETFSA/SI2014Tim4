@@ -140,7 +140,6 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 				Komitent k = (PravniKomitent)komitentComboBox.getSelectedItem();
 				kds.update(new PravniKomitent(k.getId(), "Pravno lice", adresa, telefon, email, naziv, pdvBroj));
 				fillCMB();
-				clearControls();
 			}
 		});
 		btnIzmijeni.setBounds(250, 217, 85, 23);
@@ -154,6 +153,7 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 		JLabel lblIzaberiteKomitenta = new JLabel("Izaberite komitenta:");
 		lblIzaberiteKomitenta.setBounds(67, 35, 104, 14);
 		contentPane.add(lblIzaberiteKomitenta);
+		setKomitentProperties((PravniKomitent)komitentComboBox.getSelectedItem());
 	}
 	
 	private void fillCMB()
@@ -166,7 +166,9 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 			   for(int i = 0; i < komitenti.size(); i++)
 			   {
 				   if(komitenti.get(i).getTipKomitenta().equals("Pravno lice"))
-				   komitentComboBox.addItem((PravniKomitent)komitenti.get(i)); 
+				   {
+					   komitentComboBox.addItem((PravniKomitent)komitenti.get(i)); 
+				   }
 			   }
 		   }
 	}
@@ -185,6 +187,15 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 		   pdvBrojTF.setText("");
 	}
 	
+	private void setKomitentProperties(PravniKomitent k)
+	{
+		   nazivTF.setText(k.getNazivFirme());
+		   pdvBrojTF.setText(k.getPDVbroj());
+		   adresaTF.setText(k.getAdresa());
+		   emailTF.setText(k.getEmail());
+		   telefonTF.setText(k.getBrojTelefona());
+	}
+	
 	class ItemChangeListener implements ItemListener, Serializable
 	{
 
@@ -201,11 +212,7 @@ public class IzmjenaPodatakaPravnogKomitenta extends JDialog {
 	    		   // selektovan je combobox, sada mijenjamo podatke
 	    		   Object selectedItem = event.getItem();
 	    		   PravniKomitent k = (PravniKomitent) selectedItem;
-	    		   nazivTF.setText(k.getNazivFirme());
-	    		   pdvBrojTF.setText(k.getPDVbroj());
-	    		   adresaTF.setText(k.getAdresa());
-	    		   emailTF.setText(k.getEmail());
-	    		   telefonTF.setText(k.getBrojTelefona());
+	    		   setKomitentProperties(k);
 	    	   }
 	       }
 	    }   
