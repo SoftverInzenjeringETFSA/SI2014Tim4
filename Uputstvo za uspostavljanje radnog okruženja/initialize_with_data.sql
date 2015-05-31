@@ -1,5 +1,7 @@
 CREATE DATABASE  IF NOT EXISTS `tim4` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_slovenian_ci */;
 USE `tim4`;
+create user 'EtfSI2014'@'localhost' identified by '2014SIEtf';
+GRANT ALL PRIVILEGES ON *.* TO 'EtfSI2014'@'localhost' IDENTIFIED BY '2014SIEtf' WITH GRANT OPTION;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
 -- Host: 127.0.0.1    Database: tim4
