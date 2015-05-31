@@ -878,6 +878,7 @@ public class PocetniEkran extends JFrame {
 		komitentiPanel.add(scroll);
 		
 		pretragaKomitenataTable = new JTable();
+		pretragaKomitenataTable.setEnabled(false);
 		pretragaKomitenataTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
