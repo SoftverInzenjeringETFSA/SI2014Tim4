@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class UnosPlinskogRezervoara extends JDialog {
 
@@ -98,6 +100,13 @@ public class UnosPlinskogRezervoara extends JDialog {
 		contentPane.add(lblNapunjenost, "cell 2 11,alignx right");
 		
 		punRadioButton = new JRadioButton("Pun");
+		punRadioButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				   prazanRadioButton.setSelected(false);
+			}
+		});
 		contentPane.add(punRadioButton, "flowx,cell 3 11");
 		
 		JLabel lblTip = new JLabel("Tip:");
@@ -107,12 +116,34 @@ public class UnosPlinskogRezervoara extends JDialog {
 		contentPane.add(lblL, "cell 6 1");
 		
 		uzemniRadioButton = new JRadioButton("Uzemni");
+		uzemniRadioButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				   nadzemniRadioButton.setSelected(false);
+			}
+		});
 		contentPane.add(uzemniRadioButton, "flowx,cell 3 13");
 		
 		prazanRadioButton = new JRadioButton("Prazan");
+		prazanRadioButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				   punRadioButton.setSelected(false);
+				
+			}
+		});
 		contentPane.add(prazanRadioButton, "cell 3 11");
 		
 		nadzemniRadioButton = new JRadioButton("Nadzemni");
+		nadzemniRadioButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				   uzemniRadioButton.setSelected(false);
+			}
+		});
 		contentPane.add(nadzemniRadioButton, "cell 3 13");
 		
 		UtilDateModel model = new UtilDateModel();
