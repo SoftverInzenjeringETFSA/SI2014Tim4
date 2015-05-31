@@ -12,8 +12,6 @@ import com.mysql.jdbc.PreparedStatement;
 
 public class DatabaseUtils {
 	
-	private static final String connectionString = "jdbc:mysql://localhost/tim4";
-	private static final String username = "EtfSI2014";
 	private Connection currentConnection;
 	
 	public DatabaseUtils(){ }
@@ -24,7 +22,10 @@ public class DatabaseUtils {
 			Class.forName("com.mysql.jdbc.Driver");
 			if( currentConnection == null || currentConnection.isClosed())
 			{
-				String password = (new PreferenceManager()).getDBPassword();
+				PreferenceManager pm = new PreferenceManager();
+				String password = pm.getDBPassword();
+				String username = pm.getDBUser();
+				String connectionString = pm.getDBConnectionString();
 				currentConnection = (Connection) DriverManager.getConnection(connectionString, username, password);
 			}
 			return currentConnection;

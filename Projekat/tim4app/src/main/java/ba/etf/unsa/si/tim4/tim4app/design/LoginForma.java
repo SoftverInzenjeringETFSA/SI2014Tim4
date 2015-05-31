@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 
 import ba.etf.unsa.si.tim4.tim4app.daldao.KorisnikDataSource;
+import ba.etf.unsa.si.tim4.tim4app.reports.PreferenceManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -116,6 +117,11 @@ public class LoginForma extends JFrame {
 		JLabel lblLozinka = new JLabel("Lozinka:");
 		lblLozinka.setBounds(91, 107, 77, 14);
 		panel.add(lblLozinka);
+		
+		PreferenceManager pm = new PreferenceManager();
+		pm.setDBPassword();
+		pm.setDBConnectionString();
+		pm.setDBUsername();
 	}
 	
 	private void showMessageBox(String message, String messageBoxTitle)

@@ -1046,7 +1046,9 @@ public class PocetniEkran extends JFrame {
 		
 		
 		PreferenceManager pm = new PreferenceManager();
-		pm.setDBPassword("2014SIEtf");
+		pm.setDBPassword();
+		pm.setDBConnectionString();
+		pm.setDBUsername();
 		
 		PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
 		int count = pds.getAllBazdarenjeSoon().size();
