@@ -296,6 +296,7 @@ private DatabaseUtils dbUtils;
 		}
 	}
 	
+	
 	public int isUniqueSerijskiBroj(String serijskiBroj)
 	{
 		String query = "SELECT count(*) FROM plinski_rezervoari WHERE serijski_broj=?";

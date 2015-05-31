@@ -164,6 +164,8 @@ public class IzmjenaPodatakaFizickogKomitenta extends JDialog {
 				String validateBrojLK = validator.validateBrojLicneKarte(brojLK);
 				String validateTelefon = validator.validateTelefon(telefon);
 				String validateEmail = validator.validateEmail(email);
+				String validateNovaLicnaKarta = validator.validateNovaLicnaKarta(brojLK);
+				if(validateNovaLicnaKarta.equals("")) validateBrojLK = "";
 				if(!validateIme.equals("")) {showMessageBox(validateIme, "Greška kod unosa imena"); return; }
 				else if(!validatePrezime.equals("")) {showMessageBox(validatePrezime, "Greška kod unosa prezimena"); return;}
 				else if(!validateAdresa.equals("")) { showMessageBox(validateAdresa, "Greška kod unosa adrese"); return;}

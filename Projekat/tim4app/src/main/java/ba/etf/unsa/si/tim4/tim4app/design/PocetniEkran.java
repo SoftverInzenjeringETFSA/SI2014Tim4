@@ -238,8 +238,13 @@ public class PocetniEkran extends JFrame {
 				int comboIndex = izborIzvjestajaComboBox.getSelectedIndex();
 				if(serijskiBrojTextField.isVisible() && !komitentIzvjestajComboBox.isVisible())
 				{
+					PlinskiRezervoarDataSource pds = new PlinskiRezervoarDataSource();
 					String validation = validator.validateSerijskiBroj(serijskiBrojTextField.getText());
 					if(validation != ""){ showMessageBox(validation, "Greška"); return; }
+					else if(pds.isUniqueSerijskiBroj(serijskiBrojTextField.getText()) != 1){
+						showMessageBox("Ne postoji rezervoar sa tim serijskim brojem!", "Greška");
+						return;
+					}
 					rm.printReport(comboIndex, serijskiBrojTextField.getText());
 				}
 				else if(!serijskiBrojTextField.isVisible() && komitentIzvjestajComboBox.isVisible())
@@ -822,7 +827,7 @@ public class PocetniEkran extends JFrame {
 						{
 							Komitent k = pr.get(i);
 							if(k.getTipKomitenta().equals("Pravno lice")) continue;
-							if(((FizickiKomitent)k).getIme().equals(terminPretrage)){
+							if(((FizickiKomitent)k).getIme().toLowerCase().equals(terminPretrage.toLowerCase())){
 								matching++;
 								FizickiKomitent fk = (FizickiKomitent) k;
 								komitentiModel.addRow(new Object[] {"-", "-", fk.getIme() + " " + fk.getPrezime(), fk.getBrojLicneKarte(), fk.getAdresa()});
@@ -838,7 +843,7 @@ public class PocetniEkran extends JFrame {
 						{
 							Komitent k = pr.get(i);
 							if(k.getTipKomitenta().equals("Pravno lice")) continue;
-							if(((FizickiKomitent)k).getPrezime().equals(terminPretrage)){
+							if(((FizickiKomitent)k).getPrezime().toLowerCase().equals(terminPretrage.toLowerCase())){
 								matching++;
 								FizickiKomitent fk = (FizickiKomitent) k;
 								komitentiModel.addRow(new Object[] {"-", "-", fk.getIme() + " " + fk.getPrezime(), fk.getBrojLicneKarte(), fk.getAdresa()});
@@ -854,7 +859,7 @@ public class PocetniEkran extends JFrame {
 						{
 							Komitent k = pr.get(i);
 							if(k.getTipKomitenta().equals("Fizicko lice")) continue;
-							if(((PravniKomitent)k).getNazivFirme().equals(terminPretrage)){
+							if(((PravniKomitent)k).getNazivFirme().toLowerCase().equals(terminPretrage.toLowerCase())){
 								matching++;
 								PravniKomitent fk = (PravniKomitent) k;
 								komitentiModel.addRow(new Object[] {fk.getNazivFirme(), fk.getPDVbroj(), "-", "-", fk.getAdresa()});
@@ -878,6 +883,7 @@ public class PocetniEkran extends JFrame {
 		komitentiPanel.add(scroll);
 		
 		pretragaKomitenataTable = new JTable();
+		pretragaKomitenataTable.setEnabled(false);
 		pretragaKomitenataTable.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
@@ -972,7 +978,7 @@ public class PocetniEkran extends JFrame {
 						for(int i = 0; i < pr.size(); i++)
 						{
 							Korisnik k = pr.get(i);
-							if((k.getIme().equals(terminPretrage))){
+							if((k.getIme().toLowerCase().equals(terminPretrage.toLowerCase()))){
 								matching++;
 								korisniciModel.addRow(new Object[] {k.getIme(), k.getPrezime(), k.getUsername(), k.getAdresa(), k.getBrojTelefona()});
 							}
@@ -986,7 +992,7 @@ public class PocetniEkran extends JFrame {
 						for(int i = 0; i < pr.size(); i++)
 						{
 							Korisnik k = pr.get(i);
-							if((k.getPrezime().equals(terminPretrage))){
+							if((k.getPrezime().toLowerCase().equals(terminPretrage.toLowerCase()))){
 								matching++;
 								korisniciModel.addRow(new Object[] {k.getIme(), k.getPrezime(), k.getUsername(), k.getAdresa(), k.getBrojTelefona()});
 							}
@@ -1000,7 +1006,7 @@ public class PocetniEkran extends JFrame {
 						for(int i = 0; i < pr.size(); i++)
 						{
 							Korisnik k = pr.get(i);
-							if((k.getUsername().equals(terminPretrage))){
+							if((k.getUsername().toLowerCase().equals(terminPretrage.toLowerCase()))){
 								matching++;
 								korisniciModel.addRow(new Object[] {k.getIme(), k.getPrezime(), k.getUsername(), k.getAdresa(), k.getBrojTelefona()});
 							}

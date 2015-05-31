@@ -189,6 +189,8 @@ public class IzmjenaPodatakaKorisnika extends JDialog {
 				String validateAdresa = validator.validateAdresa(adresa);
 				String validateBrojLK = validator.validateBrojLicneKarte(brojLK);
 				String validateTelefon = validator.validateTelefon(telefon);
+				String validateNovaLicnaKarta = validator.validateNovaLicnaKarta(brojLK);
+				if(validateNovaLicnaKarta.equals("")) validateBrojLK = "";
 				KorisnikDataSource kds = new KorisnikDataSource();
 				if(!validateIme.equals("")) {showMessageBox(validateIme, "Greška kod unosa imena korisnika"); return; }
 				else if(!validatePrezime.equals("")) {showMessageBox(validatePrezime, "Greška kod unosa prezimena korisnika"); return;}
