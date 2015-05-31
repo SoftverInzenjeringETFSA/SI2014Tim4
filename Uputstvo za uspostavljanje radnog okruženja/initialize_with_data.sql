@@ -1,12 +1,10 @@
-CREATE DATABASE  IF NOT EXISTS `tim4` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE  IF NOT EXISTS `tim4` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_slovenian_ci */;
 USE `tim4`;
-create user 'EtfSI2014'@'localhost' identified by '2014SIEtf';
-GRANT ALL PRIVILEGES ON *.* TO 'EtfSI2014'@'localhost' IDENTIFIED BY '2014SIEtf' WITH GRANT OPTION;
 -- MySQL dump 10.13  Distrib 5.6.13, for Win32 (x86)
 --
--- Host: localhost    Database: tim4
+-- Host: 127.0.0.1    Database: tim4
 -- ------------------------------------------------------
--- Server version	5.6.12-log
+-- Server version	5.6.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,12 +26,12 @@ DROP TABLE IF EXISTS `fakture_iznajmljivanje`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fakture_iznajmljivanje` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `broj_fakture` varchar(20) DEFAULT NULL,
+  `broj_fakture` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `komitent` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `komitent` (`komitent`),
   CONSTRAINT `fakture_iznajmljivanje_ibfk_1` FOREIGN KEY (`komitent`) REFERENCES `komitenti` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,12 +80,12 @@ DROP TABLE IF EXISTS `izvjestaji`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `izvjestaji` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tip_izvjestaja` varchar(100) DEFAULT NULL,
-  `broj_izvjestaja` varchar(10) DEFAULT NULL,
+  `tip_izvjestaja` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `broj_izvjestaja` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
   `datum_izvjestaja` date DEFAULT NULL,
-  `parametar_izvjestaja` varchar(30) DEFAULT NULL,
+  `parametar_izvjestaja` varchar(30) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +94,7 @@ CREATE TABLE `izvjestaji` (
 
 LOCK TABLES `izvjestaji` WRITE;
 /*!40000 ALTER TABLE `izvjestaji` DISABLE KEYS */;
-INSERT INTO `izvjestaji` VALUES (2,'Izvjestaj za pojedinacni plinski rezervoar','1-115','2015-05-18','123456'),(3,'Izvjestaj za pojedinacni plinski rezervoar','2-2015','2015-05-18','123456'),(4,'Izvjestaj za pojedinacni plinski rezervoar','3-2015','2015-05-18','123456'),(5,'Izvjestaj za pojedinacni plinski rezervoar','4-2015','2015-05-19','123456'),(6,'Izvjestaj za pojedinacni plinski rezervoar','5-2015','2015-05-19','123456'),(7,'Izvjestaj za pojedinacni plinski rezervoar','6-2015','2015-05-19','123476'),(8,'Izvjestaj za pojedinacni plinski rezervoar','7-2015','2015-05-19','123456'),(9,'Izvjestaj za pojedinacni plinski rezervoar','8-2015','2015-05-20','Tito Titic'),(10,'Izvjestaj za pojedinacni plinski rezervoar','9-2015','2015-05-20','Tito Titic'),(11,'Izvjestaj za pojedinacni plinski rezervoar','10-2015','2015-05-20','Firma d.o.o'),(12,'Izvjestaj za pojedinacni plinski rezervoar','11-2015','2015-05-20','123456'),(13,'Izvjestaj za pojedinacni plinski rezervoar','12-2015','2015-05-20','123456'),(14,'Izvjestaj za pojedinacni plinski rezervoar','13-2015','2015-05-21','Firma d.o.o'),(15,'Izvjestaj za pojedinacni plinski rezervoar','14-2015','2015-05-21','Tito Titic'),(16,'Izvjestaj za pojedinacni plinski rezervoar','15-2015','2015-05-23','123456'),(17,'Izvjestaj za pojedinacni plinski rezervoar','16-2015','2015-05-23','Titova Titica'),(18,'Izvjestaj za pojedinacni plinski rezervoar','17-2015','2015-05-23','123456'),(19,'Izvjestaj za pojedinacni plinski rezervoar','18-2015','2015-05-23','Titova Titica'),(20,'Izvjestaj za pojedinacni plinski rezervoar','19-2015','2015-05-23','Titova Titica'),(21,'Izvjestaj za pojedinacni plinski rezervoar','20-2015','2015-05-23','Titoxxxxx Konj'),(22,'Izvjestaj za pojedinacni plinski rezervoar','21-2015','2015-05-23','Titova Titica'),(23,'Izvjestaj za pojedinacni plinski rezervoar','22-2015','2015-05-23','123456'),(24,'Izvjestaj za pojedinacni plinski rezervoar','23-2015','2015-05-23','Titoxxxxx Konj'),(25,'Izvjestaj za pojedinacni plinski rezervoar','24-2015','2015-05-23','Neki Covjek'),(26,'Izvjestaj za pojedinacni plinski rezervoar','25-2015','2015-05-23','Firma d.o.o'),(27,'Izvjestaj za pojedinacni plinski rezervoar','26-2015','2015-05-23','Kompanija d.d');
+INSERT INTO `izvjestaji` VALUES (2,'Izvjestaj za pojedinacni plinski rezervoar','1-115','2015-05-18','123456'),(3,'Izvjestaj za pojedinacni plinski rezervoar','2-2015','2015-05-18','123456'),(4,'Izvjestaj za pojedinacni plinski rezervoar','3-2015','2015-05-18','123456'),(5,'Izvjestaj za pojedinacni plinski rezervoar','4-2015','2015-05-19','123456'),(6,'Izvjestaj za pojedinacni plinski rezervoar','5-2015','2015-05-19','123456'),(7,'Izvjestaj za pojedinacni plinski rezervoar','6-2015','2015-05-19','123476'),(8,'Izvjestaj za pojedinacni plinski rezervoar','7-2015','2015-05-19','123456'),(9,'Izvjestaj za pojedinacni plinski rezervoar','8-2015','2015-05-20','Tito Titic'),(10,'Izvjestaj za pojedinacni plinski rezervoar','9-2015','2015-05-20','Tito Titic'),(11,'Izvjestaj za pojedinacni plinski rezervoar','10-2015','2015-05-20','Firma d.o.o'),(12,'Izvjestaj za pojedinacni plinski rezervoar','11-2015','2015-05-20','123456'),(13,'Izvjestaj za pojedinacni plinski rezervoar','12-2015','2015-05-20','123456'),(14,'Izvjestaj za pojedinacni plinski rezervoar','13-2015','2015-05-21','Firma d.o.o'),(15,'Izvjestaj za pojedinacni plinski rezervoar','14-2015','2015-05-21','Tito Titic'),(16,'Izvjestaj za pojedinacni plinski rezervoar','15-2015','2015-05-23','123456'),(17,'Izvjestaj za pojedinacni plinski rezervoar','16-2015','2015-05-23','Titova Titica'),(18,'Izvjestaj za pojedinacni plinski rezervoar','17-2015','2015-05-23','123456'),(19,'Izvjestaj za pojedinacni plinski rezervoar','18-2015','2015-05-23','Titova Titica'),(20,'Izvjestaj za pojedinacni plinski rezervoar','19-2015','2015-05-23','Titova Titica'),(21,'Izvjestaj za pojedinacni plinski rezervoar','20-2015','2015-05-23','Titoxxxxx Konj'),(22,'Izvjestaj za pojedinacni plinski rezervoar','21-2015','2015-05-23','Titova Titica'),(23,'Izvjestaj za pojedinacni plinski rezervoar','22-2015','2015-05-23','123456'),(24,'Izvjestaj za pojedinacni plinski rezervoar','23-2015','2015-05-23','Titoxxxxx Konj'),(25,'Izvjestaj za pojedinacni plinski rezervoar','24-2015','2015-05-23','Neki Covjek'),(26,'Izvjestaj za pojedinacni plinski rezervoar','25-2015','2015-05-23','Firma d.o.o'),(27,'Izvjestaj za pojedinacni plinski rezervoar','26-2015','2015-05-23','Kompanija d.d'),(28,'Izvjestaj za pojedinacni plinski rezervoar','27-2015','2015-05-31','123456'),(29,'Izvjestaj za pojedinacni plinski rezervoar','28-2015','2015-05-31','666666');
 /*!40000 ALTER TABLE `izvjestaji` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -109,11 +107,11 @@ DROP TABLE IF EXISTS `izvjestaji_stanja_skladiste`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `izvjestaji_stanja_skladiste` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tip_izvjestaja` varchar(20) DEFAULT NULL,
-  `broj_izvjestaja` varchar(10) DEFAULT NULL,
+  `tip_izvjestaja` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `broj_izvjestaja` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
   `datum_izvjestaja` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +141,7 @@ CREATE TABLE `izvjestaji_stanja_stavke` (
   KEY `rezervoar` (`rezervoar`),
   CONSTRAINT `izvjestaji_stanja_stavke_ibfk_1` FOREIGN KEY (`izvjestaj`) REFERENCES `izvjestaji_stanja_skladiste` (`id`),
   CONSTRAINT `izvjestaji_stanja_stavke_ibfk_2` FOREIGN KEY (`rezervoar`) REFERENCES `plinski_rezervoari` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,18 +162,18 @@ DROP TABLE IF EXISTS `komitenti`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `komitenti` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tip_komitenta` varchar(20) DEFAULT NULL,
-  `adresa` varchar(100) DEFAULT NULL,
-  `broj_telefona` varchar(15) DEFAULT NULL,
-  `email` varchar(40) DEFAULT NULL,
-  `ime` varchar(50) DEFAULT NULL,
-  `prezime` varchar(50) DEFAULT NULL,
-  `JMB` varchar(13) DEFAULT NULL,
-  `broj_licne_karte` varchar(10) DEFAULT NULL,
-  `nazivFirme` varchar(100) DEFAULT NULL,
-  `pdvBroj` varchar(20) DEFAULT NULL,
+  `tip_komitenta` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `adresa` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `broj_telefona` varchar(15) CHARACTER SET latin1 DEFAULT NULL,
+  `email` varchar(40) CHARACTER SET latin1 DEFAULT NULL,
+  `ime` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `prezime` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `JMB` varchar(13) CHARACTER SET latin1 DEFAULT NULL,
+  `broj_licne_karte` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
+  `nazivFirme` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `pdvBroj` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -184,7 +182,7 @@ CREATE TABLE `komitenti` (
 
 LOCK TABLES `komitenti` WRITE;
 /*!40000 ALTER TABLE `komitenti` DISABLE KEYS */;
-INSERT INTO `komitenti` VALUES (15,'Fizicko lice','Adema Buce 22','062754896','covjek@covjek.ba','Neki','Covjek','1201994150003','22BTZ9856',NULL,NULL),(16,'Pravno lice','Adema Buce 22','062754896','titox@titox.ba',NULL,NULL,NULL,NULL,'Firma d.o.o','11256398541'),(17,'Pravno lice','Adema Cube 29','061256987','kompanija@kompanija.ba',NULL,NULL,NULL,NULL,'Kompanija d.d','11234455698714523');
+INSERT INTO `komitenti` VALUES (15,'Fizicko lice','Adema Bu?e 22','062754896','covjek@covjek.ba','Neki','Covjek','1201994150003','22BTZ9856',NULL,NULL),(16,'Pravno lice','Adema Bu?e 22','062754896','titox@titox.ba',NULL,NULL,NULL,NULL,'Firma d.o.o','11256398541'),(17,'Pravno lice','Adema Bu?e 22','061256987','kompanija@kompanija.ba',NULL,NULL,NULL,NULL,'Kompanija d.d','11234455698714523'),(18,'Fizicko lice','Sarajesvka 25','066255890','eldar@eldar.ba','Eldar','Granulo','2201993170006','1T0K00181',NULL,NULL),(19,'Fizicko lice','dasdas','062969535','eldar@eldar.ba','Mufi','mudsa','1112998908768','11btg2854',NULL,NULL);
 /*!40000 ALTER TABLE `komitenti` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,17 +195,17 @@ DROP TABLE IF EXISTS `korisnici`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `korisnici` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tip` varchar(30) DEFAULT NULL,
-  `username` varchar(100) DEFAULT NULL,
-  `lozinka` varchar(100) DEFAULT NULL,
-  `ime` varchar(50) DEFAULT NULL,
-  `prezime` varchar(50) DEFAULT NULL,
-  `broj_licne_karte` varchar(10) DEFAULT NULL,
-  `adresa` varchar(100) DEFAULT NULL,
-  `broj_telefona` varchar(15) DEFAULT NULL,
+  `tip` varchar(30) CHARACTER SET latin1 DEFAULT NULL,
+  `username` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `lozinka` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `ime` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `prezime` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `broj_licne_karte` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
+  `adresa` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `broj_telefona` varchar(15) CHARACTER SET latin1 DEFAULT NULL,
   `datum_zaposljavanja` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,17 +227,17 @@ DROP TABLE IF EXISTS `plinski_rezervoari`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plinski_rezervoari` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `serijski_broj` varchar(20) DEFAULT NULL,
+  `serijski_broj` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `kapacitet` int(11) NOT NULL,
   `tezina` int(11) NOT NULL,
   `napunjenost` int(11) NOT NULL,
-  `tip` varchar(15) DEFAULT NULL,
+  `tip` varchar(15) CHARACTER SET latin1 DEFAULT NULL,
   `datum_zadnjeg_bazdarenja` date DEFAULT NULL,
-  `lokacija` varchar(100) DEFAULT NULL,
-  `trenutni_status` varchar(100) DEFAULT NULL,
+  `lokacija` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
+  `trenutni_status` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `serijski_broj` (`serijski_broj`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,16 +259,16 @@ DROP TABLE IF EXISTS `promjene_na_rezervoarima`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `promjene_na_rezervoarima` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `serijski_broj` varchar(20) DEFAULT NULL,
+  `serijski_broj` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `datum_promjene` date DEFAULT NULL,
   `tip_promjene` int(11) DEFAULT NULL,
-  `opis_promjene` varchar(200) DEFAULT NULL,
+  `opis_promjene` varchar(200) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `serijski_broj` (`serijski_broj`),
   KEY `tip_promjene` (`tip_promjene`),
   CONSTRAINT `promjene_na_rezervoarima_ibfk_1` FOREIGN KEY (`serijski_broj`) REFERENCES `plinski_rezervoari` (`serijski_broj`),
   CONSTRAINT `promjene_na_rezervoarima_ibfk_2` FOREIGN KEY (`tip_promjene`) REFERENCES `sifarnik_promjena` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -293,10 +291,10 @@ DROP TABLE IF EXISTS `sifarnik_promjena`;
 CREATE TABLE `sifarnik_promjena` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sifra_promjene` int(11) DEFAULT NULL,
-  `naziv_promjene` varchar(100) DEFAULT NULL,
+  `naziv_promjene` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sifra_promjene` (`sifra_promjene`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,7 +320,7 @@ CREATE TABLE `skladiste_plinskih_boca` (
   `kolicina` int(11) NOT NULL,
   `cijena` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,9 +343,9 @@ DROP TABLE IF EXISTS `stavkefakture_iznajmljivanje`;
 CREATE TABLE `stavkefakture_iznajmljivanje` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `faktura` int(11) DEFAULT NULL,
-  `rezervoar` varchar(20) DEFAULT NULL,
+  `rezervoar` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `kolicina` int(11) DEFAULT NULL,
-  `tip_rezervoara` varchar(20) DEFAULT NULL,
+  `tip_rezervoara` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `iznajmljeno_do` date DEFAULT NULL,
   `cijena` double DEFAULT NULL,
   `kapacitetBoce` int(11) DEFAULT NULL,
@@ -355,7 +353,7 @@ CREATE TABLE `stavkefakture_iznajmljivanje` (
   KEY `faktura` (`faktura`),
   KEY `rezervoar` (`rezervoar`),
   CONSTRAINT `stavkefakture_iznajmljivanje_ibfk_1` FOREIGN KEY (`faktura`) REFERENCES `fakture_iznajmljivanje` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -378,16 +376,16 @@ DROP TABLE IF EXISTS `stavkefakture_prodaja`;
 CREATE TABLE `stavkefakture_prodaja` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `faktura` int(11) DEFAULT NULL,
-  `rezervoar` varchar(20) DEFAULT NULL,
+  `rezervoar` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
   `kolicina` int(11) DEFAULT NULL,
-  `tip_rezervoara` varchar(100) DEFAULT NULL,
+  `tip_rezervoara` varchar(100) CHARACTER SET latin1 DEFAULT NULL,
   `cijena` double DEFAULT NULL,
   `kapacitetBoce` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `faktura` (`faktura`),
   KEY `rezervoar` (`rezervoar`),
   CONSTRAINT `stavkefakture_prodaja_ibfk_1` FOREIGN KEY (`faktura`) REFERENCES `fakture_prodaja` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -409,4 +407,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-24 18:28:05
+-- Dump completed on 2015-05-31 17:59:48
