@@ -143,12 +143,12 @@ public class DodavanjeNovogKorisnika extends JDialog {
 		JButton button = new JButton("Dodaj");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String ime = imeTF.getText();
-				String prezime = prezimeTF.getText();
-				String adresa = adresaTF.getText();
-				String brojLK = brojlkTF.getText();
-				String telefon = telefonTF.getText();
-				String username = usernameTF.getText();
+				String ime = imeTF.getText().trim();
+				String prezime = prezimeTF.getText().trim();
+				String adresa = adresaTF.getText().trim();
+				String brojLK = brojlkTF.getText().trim();
+				String telefon = telefonTF.getText().trim();
+				String username = usernameTF.getText().trim();
 				String password = new String(passwordPF.getPassword());
 				Date datum = (Date) datePicker.getModel().getValue();
 				String tip = administratorRadioButton.isSelected() ? "Administrator" : "Korisnik";
