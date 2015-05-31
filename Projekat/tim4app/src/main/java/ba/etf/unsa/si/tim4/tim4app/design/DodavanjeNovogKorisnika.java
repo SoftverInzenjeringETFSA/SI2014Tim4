@@ -237,3 +237,4 @@ public class DodavanjeNovogKorisnika extends JDialog {
 		korisnikRadioButton.setSelected(false);
 	}
 }
+
